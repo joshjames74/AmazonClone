@@ -2,9 +2,9 @@ import AccountButton from "../views/components/navigation/AccountButton";
 import { ProductCardType } from "../views/components/product/types/ProductCardType";
 import { CurrencyCode, AddressType } from "../types";
 import Navigation from "../views/components/navigation";
-import { callAPI } from "../models";
-import axios from 'axios';
-import createAllTablesQuery from "../models/modelCreation/index";
+// import { callAPI } from "../models";
+// import axios from 'axios';
+// import createAllTablesQuery from "../models/modelCreation/index";
 
 export default function Home() {
   const props: ProductCardType = {
@@ -32,7 +32,7 @@ export default function Home() {
   //        })
   //        .catch((e) => console.log(e))
 
-  createAllTablesQuery();
+  // createAllTablesQuery();
 
   return (
     // <ProductCardWrapper {...{productList: propsArray}}>

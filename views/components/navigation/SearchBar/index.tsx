@@ -1,23 +1,50 @@
 import { ChevronDownIcon, SearchIcon } from '@chakra-ui/icons';
-import { HStack, InputGroup, Input, InputLeftAddon, InputRightAddon } from '@chakra-ui/react';
-import { SearchBarType } from './types';
+import { Box, Menu, MenuList, MenuItem, InputGroup, Input, InputLeftAddon, InputRightAddon, MenuButton } from '@chakra-ui/react';
+import { SearchBarType } from '../types/SearchBarType';
 
 export default function SearchBar(props: SearchBarType): JSX.Element {
     return (
-        <InputGroup w={'10%'}>
-            <InputLeftAddon 
-            children={
-                <HStack>
-                    {'All'}
-                    {/* <ChevronDownIcon /> */}
-                </HStack>
-            }
+        <InputGroup
+        maxW='150vh'
+        w='40%'
+        marginRight='3px'
+        >
+            <Menu>
+                <InputLeftAddon 
+                as={MenuButton}
+                maxW='20vh'
+                w='10%'
+                paddingX='3px'
+                fontSize='xs'
+                children={
+                    <Box
+                    display='flex'
+                    flexDirection='row'>
+                        <p>All</p>
+                        <ChevronDownIcon w='50%'/>
+                    </Box>
+                }
+                />
+                <MenuList>
+                    {props.categories.map((v: string, i) => {
+                        return <MenuItem>{v}</MenuItem>
+                    })}
+                </MenuList>
+            </Menu>
+            <Input
+            type='search'
+            placeholder='Search for anything...'
+            paddingX='5px'
+            textOverflow='ellipsis'
+            fontSize='xs'
+            bgColor='whiteAlpha.900'
+            borderRadius='0'
             />
-            <Input type='search' placeholder='Search for anything...' />
             <InputRightAddon
-            // children={
-            //     {/* <SearchIcon /> */}
-            // }
+            paddingX='3px'
+            children={
+                <SearchIcon />
+            }
             />
         </InputGroup>
     )

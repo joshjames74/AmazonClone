@@ -6,17 +6,22 @@ import LogoWrapper from "./LogoWrapper";
 import ReturnsOrdersButton from "./ReturnsOrdersButton";
 import SearchBar from "./SearchBar";
 import { Box } from '@chakra-ui/react';
-import { LogoWrapperType } from "./LogoWrapper/types";
-import { DeliveryButtonType } from "./DeliveryButton/types";
-import { SearchBarType } from "./SearchBar/types";
-import { LocationButtonType } from "./LocationButton/types";
-import { BasketButtonType } from "./BasketButton/types";
+import { LogoWrapperType } from "./types/LogoWrapperType";
+import { DeliveryButtonType } from "./types/DeliveryButtonType";
+import { SearchBarType } from "./types/SearchBarType";
+import { LocationButtonType } from "./types/LocationButtonType";
+import { BasketButtonType } from "./types/BasketButton";
 import { CurrencyCode } from "../../../types";
+import ProductCardWrapper from "../product/ProductCardWrapper";
+import { ProductCardType } from "../product/types/ProductCardType";
+import { ProductCardWrapperType } from "../product/types/ProductCardWrapperType";
+import { CardType } from "../product/enums/CardType";
+import { AccountButtonType } from "./types/AccountButton";
 
 export default function Navigation(): JSX.Element {
 
     const logoWrapperProps: LogoWrapperType = {
-        imageURL: ''
+        imageURL: 'https://www.logodesign.net/logo/eye-and-house-5806ld.png'
     }
 
     const deliveryButtonProps: DeliveryButtonType = {
@@ -38,16 +43,47 @@ export default function Navigation(): JSX.Element {
         itemCount: 0
     };
 
+    const productCardProps: ProductCardType = {
+        title: 'iPhone 8',
+        description: 'This is a phone',
+        price: 800,
+        imageURL: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pink-select-2021?wid=940&hei=1112&fmt=png-alpha&.v=1645572315935',
+        currencyCode: CurrencyCode.GBP,
+        reviewScore: 2.3,
+        reviewCount: 300,
+    }
+
+    const productWrapperProps: ProductCardWrapperType = {
+        productList: Array(20).fill(productCardProps),
+        cardType: CardType.wide
+    }
+
+    const accountButtonProps: AccountButtonType = {
+        isLoggedIn: false
+    }
+
 
     return (
-        <Box display='flex' flexDirection='row' w='100%' h='20px'>
+        <>
+        <Box
+        display='flex'
+        flexDirection='row'
+        w='100%'
+        h='50px'
+        borderWidth='3px'
+        borderColor='black'
+        p='1px'
+        bgColor={'#232f3e'}
+        >
             <LogoWrapper {...logoWrapperProps}/>
-            {/* <DeliveryButton {...deliveryButtonProps}/>
+            <DeliveryButton {...deliveryButtonProps}/>
             <SearchBar {...searchBarProps}/>
             <LocationButton {...locationButtonProps}/>
-            <AccountButton />
+            <AccountButton {...accountButtonProps}/>
             <ReturnsOrdersButton />
-            <BasketButton {...basketButtonProps}/> */}
+            <BasketButton {...basketButtonProps}/>
         </Box>
+        <ProductCardWrapper {...productWrapperProps}/>
+        </>
     )
 }

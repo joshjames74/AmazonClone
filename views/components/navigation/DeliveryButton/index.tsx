@@ -29,16 +29,26 @@ export default function DeliveryButton(props: DeliveryButtonType): JSX.Element {
 
     const loggedOutButton = () => {
         return (
-            <Box display='flex' flexDirection='column'>
+            <Box
+            display='flex'
+            flexDirection='column'
+            padding='5px'
+            fontSize='10px'>
                 <Box>Hello</Box>
-                <Box>Select your address</Box>
+                <b><InfoIcon /> Select your address</b>
             </Box>
         );
     };
 
     return (
-        <Box display='flex' flexDirection='row'>
-            {/* <InfoIcon maxW='10px'/> */}
+        <Box 
+        display='flex'
+        flexDirection='row'
+        textColor='whiteAlpha.900'
+        h='100%'
+        w='8%'
+        minW='20vh'
+        >
             {props.loggedIn ? loggedInButton() : loggedOutButton()}
         </Box>
     )

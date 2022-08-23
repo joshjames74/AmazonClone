@@ -1,9 +1,16 @@
-import { Button } from '@chakra-ui/react';
+import { Button, Box } from '@chakra-ui/react';
 
 export default function ReturnsOrdersButton(): JSX.Element {
     return (
-        <Button>
-            Returns and Orders
+        <Button
+        marginRight='3px'>
+            <Box
+            display='flex'
+            flexDirection='column'
+            fontSize='xs'>
+                <Box>Returns</Box>
+                <Box>& Orders</Box>
+            </Box>
         </Button>
     )
 }
