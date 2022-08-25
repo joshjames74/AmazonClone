@@ -1,8 +1,12 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Menu, MenuList, MenuButton, Button, MenuItem } from '@chakra-ui/react';
 import { AccountButtonType } from '../types/AccountButton';
+import { AuthContext } from '../../../contexts';
+import { useContext } from 'react';
 
 export default function AccountButton(props: AccountButtonType): JSX.Element {
+
+    const { isLoggedIn } = useContext(AuthContext);
 
     const loggedInButton = (): JSX.Element => {
         return (<Menu>
@@ -13,7 +17,7 @@ export default function AccountButton(props: AccountButtonType): JSX.Element {
             fontSize='xs'
             w='15%'
             maxW='20vh'
-            pX='2px'
+            paddingX='2px'
             marginRight='3px'>
                 My Account
             </MenuButton>
@@ -30,10 +34,10 @@ export default function AccountButton(props: AccountButtonType): JSX.Element {
     }
 
     const renderBody = (): JSX.Element => {
-        if (props.isLoggedIn) {
+        if (isLoggedIn) {
             return loggedInButton();
         };
-        if (!props.isLoggedIn) {
+        if (!isLoggedIn) {
             return loggedOutButton();
         }
         return <></>

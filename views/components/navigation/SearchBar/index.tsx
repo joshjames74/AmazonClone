@@ -27,7 +27,7 @@ export default function SearchBar(props: SearchBarType): JSX.Element {
                 />
                 <MenuList>
                     {props.categories.map((v: string, i) => {
-                        return <MenuItem>{v}</MenuItem>
+                        return <MenuItem key={i}>{v}</MenuItem>
                     })}
                 </MenuList>
             </Menu>

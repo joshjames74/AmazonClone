@@ -10,4 +10,5 @@ export type ProductCardType = {
     currencyCode: CurrencyCode;
     reviewScore: number;
     reviewCount: number;
+    isInBasket?: boolean;
 };

@@ -2,6 +2,10 @@ import AccountButton from "../views/components/navigation/AccountButton";
 import { ProductCardType } from "../views/components/product/types/ProductCardType";
 import { CurrencyCode, AddressType } from "../types";
 import Navigation from "../views/components/navigation";
+import { ThemeProvider } from "../views/contexts";
+import defaultTheme from "../themes/defaultTheme";
+import ProductCardWrapper from "../views/components/product/ProductCardWrapper";
+import { CardType } from "../views/components/product/enums/CardType";
 // import { callAPI } from "../models";
 // import axios from 'axios';
 // import createAllTablesQuery from "../models/modelCreation/index";
@@ -21,22 +25,15 @@ export default function Home() {
     name: 'Joshua',
     number: '33',
     county: 'Cardiff',
-    postcode: 'CF23 9BN'
+    postCode: 'CF23 9BN'
   }
 
   const propsArray: ProductCardType[] = [props, props, props];
 
-  // axios.get('/api/posts')
-  //        .then((response) => {
-  //           console.log(response)
-  //        })
-  //        .catch((e) => console.log(e))
-
-  // createAllTablesQuery();
-
   return (
-    // <ProductCardWrapper {...{productList: propsArray}}>
-    // </ProductCardWrapper>
-    <Navigation />
+    <>
+      <Navigation />
+      <ProductCardWrapper cardType={CardType.wide}/>
+    </>
   )
 }

@@ -1,8 +1,13 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Menu, MenuButton, MenuList, MenuItem, Button, Box } from '@chakra-ui/react';
 import { LocationButtonType } from '../types/LocationButtonType';
+import { UserContext } from '../../../contexts';
+import { useContext } from 'react';
 
 export default function LocationButton(props: LocationButtonType): JSX.Element {
+
+    const { userInfo } = useContext(UserContext);
+    const defaultCountry = 'US';
 
     return (
         <Menu>
@@ -18,16 +23,16 @@ export default function LocationButton(props: LocationButtonType): JSX.Element {
                 display='flex'
                 flexDirection='column'
                 alignItems='center'>
-                    {props.countryCode}
+                    {userInfo.countryCode ? userInfo.countryCode : defaultCountry}
                     <ChevronDownIcon />
                 </Box>
             </MenuButton>
             <MenuList>
                 <MenuItem>
-                    Change Location
+                    Change Location ({userInfo.countryCode})
                 </MenuItem>
                 <MenuItem>
-                    Change Currency
+                    Change Currency ({userInfo.currencyCode})
                 </MenuItem>
             </MenuList>
         </Menu>
