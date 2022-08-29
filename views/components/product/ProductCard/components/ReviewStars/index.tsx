@@ -10,7 +10,7 @@ export default function ReviewStars(props: ReviewStarsProps): JSX.Element {
             .map((_, i) => (
                 <StarIcon
                 key={i}
-                color={i < props.reviewScore ? props.onColor : props.offColor}
+                color={i < props.reviewScore ? 'teal' : 'black'}
                 h={props.height}
                 w={props.width}
                 />

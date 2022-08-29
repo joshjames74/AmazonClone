@@ -9,4 +9,5 @@ export type UserInfo = {
     addresses: AddressType[];
     countryCode: string;
     currencyCode: CurrencyCode;
+    imageURL?: string;
 }

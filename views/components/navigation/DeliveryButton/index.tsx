@@ -1,5 +1,5 @@
 import { InfoIcon } from '@chakra-ui/icons';
-import { Box, Button, propNames } from '@chakra-ui/react';
+import { Box, Button, ModalContent, propNames } from '@chakra-ui/react';
 import { ClassNames } from '@emotion/react';
 import { useState, useContext, useEffect } from 'react';
 import { createContext } from 'react';
@@ -7,6 +7,7 @@ import { AddressType } from '../../../../types';
 import SelectAddressModal from './modals/SelectAddressModal';
 import SetAddressModal from './modals/SetAddressModal';
 import { AuthContext, UserContext } from '../../../contexts';
+import { ModalContext } from '../../../contexts/ModalContext';
 
 type DeliveryButtonType = {
     name: string;
@@ -20,7 +21,7 @@ export default function DeliveryButton(props: DeliveryButtonType): JSX.Element {
     const { isLoggedIn } = useContext(AuthContext);
     const { currentAddress } = useContext(UserContext);
 
-    const [showSelectAddressModal, setShowSelectAddressModal] = useState<boolean>(false);
+    const { showSelectAddressModal, setShowSelectAddressModal } = useContext(ModalContext);
 
     const loggedInButton = () => {
         if (!currentAddress) {

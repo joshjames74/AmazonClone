@@ -1,14 +1,17 @@
-import AccountButton from "../views/components/navigation/AccountButton";
 import { ProductCardType } from "../views/components/product/types/ProductCardType";
 import { CurrencyCode, AddressType } from "../types";
 import Navigation from "../views/components/navigation";
-import { ThemeProvider } from "../views/contexts";
 import defaultTheme from "../themes/defaultTheme";
 import ProductCardWrapper from "../views/components/product/ProductCardWrapper";
 import { CardType } from "../views/components/product/enums/CardType";
-// import { callAPI } from "../models";
-// import axios from 'axios';
-// import createAllTablesQuery from "../models/modelCreation/index";
+import Footer from "../views/components/footer";
+import { Box } from '@chakra-ui/react';
+import NavigationSidebar from "../views/components/sidebar/NavigationSidebar";
+import { SettingsProvider } from "../views/contexts/SettingsContext";
+import { AuthProvider, UserProvider } from "../views/contexts";
+import { ModalProvider } from "../views/contexts/ModalContext";
+import { FilterProvider } from "../views/contexts/FilterContext";
+
 
 export default function Home() {
   const props: ProductCardType = {
@@ -30,10 +33,37 @@ export default function Home() {
 
   const propsArray: ProductCardType[] = [props, props, props];
 
+  const navigationSidebarProps = {
+    minPrice: 0,
+    maxPrice: 100,
+    priceStep: 1,
+    currencyCode: CurrencyCode.GBP,
+    categories: ['Home', 'Outdoor', 'Technology', 'Clothing']
+  }
+
+
   return (
     <>
-      <Navigation />
-      <ProductCardWrapper cardType={CardType.wide}/>
+      <SettingsProvider>
+        <AuthProvider>
+          <UserProvider>
+            <FilterProvider>
+              <ModalProvider>
+                <>
+                  <Navigation />
+                  <Box
+                  display='flex'
+                  flexDirection='row'>
+                    <NavigationSidebar {...navigationSidebarProps}/>
+                    <ProductCardWrapper cardType={CardType.wide}/>
+                  </Box>
+                  <Footer></Footer>
+                </>
+              </ModalProvider>
+            </FilterProvider>
+          </UserProvider>
+        </AuthProvider>
+      </SettingsProvider>
     </>
   )
 }

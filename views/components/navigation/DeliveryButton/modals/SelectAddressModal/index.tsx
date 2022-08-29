@@ -10,8 +10,6 @@ type SelectAddressModalType = {
 
 export default function SelectAddressModal(props: SelectAddressModalType): JSX.Element {
 
-    // const { isOpen, onClose, onOpen } = useDisclosure();
-
     const { userInfo, currentAddressIndex, setCurrentAddressIndex } = useContext(UserContext);
 
     const handleClick = (nextVal: string) => {

@@ -1,8 +1,13 @@
 import { ChevronDownIcon, SearchIcon } from '@chakra-ui/icons';
 import { Box, Menu, MenuList, MenuItem, InputGroup, Input, InputLeftAddon, InputRightAddon, MenuButton } from '@chakra-ui/react';
+import { useContext } from 'react';
+import { SettingsContext } from '../../../contexts/SettingsContext';
 import { SearchBarType } from '../types/SearchBarType';
 
 export default function SearchBar(props: SearchBarType): JSX.Element {
+
+    const { categories } = useContext(SettingsContext);
+
     return (
         <InputGroup
         maxW='150vh'
@@ -26,7 +31,7 @@ export default function SearchBar(props: SearchBarType): JSX.Element {
                 }
                 />
                 <MenuList>
-                    {props.categories.map((v: string, i) => {
+                    {categories.map((v: string, i) => {
                         return <MenuItem key={i}>{v}</MenuItem>
                     })}
                 </MenuList>

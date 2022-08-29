@@ -1,7 +1,7 @@
 export type ReviewStarsProps = {
     reviewScore: number,
-    onColor: string,
-    offColor: string,
+    onColor?: string,
+    offColor?: string,
     height?: string,
     width?: string,
 }

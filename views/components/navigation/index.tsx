@@ -77,8 +77,6 @@ export default function Navigation(): JSX.Element {
 
 
     return (
-        <AuthProvider>
-            <UserProvider>
                 <Box
                 display='flex'
                 flexDirection='row'
@@ -97,7 +95,5 @@ export default function Navigation(): JSX.Element {
                     <ReturnsOrdersButton />
                     <BasketButton {...basketButtonProps}/>
                 </Box>
-            </UserProvider>
-        </AuthProvider>
     )
 }
