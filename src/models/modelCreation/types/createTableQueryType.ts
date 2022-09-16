@@ -1,4 +1,4 @@
 export type CreateTableQueryType = {
-    createStatement: string;
-    table: string;
-}
+  createStatement: string;
+  table: string;
+};

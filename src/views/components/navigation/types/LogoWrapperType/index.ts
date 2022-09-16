@@ -1,4 +1,4 @@
 export type LogoWrapperType = {
-    imageURL: string;
-    imageAlt?: string;
+  imageURL: string;
+  imageAlt?: string;
 };

@@ -18,4 +18,4 @@
 //     getRepository() {
 //         return AppDataSource.getRepository(this.entity);
 //     }
-export {}
+export {};

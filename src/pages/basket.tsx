@@ -4,9 +4,6 @@ import { FilterProvider } from "../views/contexts/FilterContext";
 import { ModalProvider } from "../views/contexts/ModalContext";
 import { SettingsProvider } from "../views/contexts/SettingsContext";
 
-
 export default function Basket(): JSX.Element {
-    return (
-        <BasketPage />
-    )
+  return <BasketPage />;
 }

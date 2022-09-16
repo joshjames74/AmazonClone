@@ -6,8 +6,8 @@ import { sanitizeId } from "../sanitation/id";
 // import { Currency } from "../entities/Currency";
 
 function getRepository(): Repository<Product> {
-    return AppDataSource.getRepository(Product);
-};
+  return AppDataSource.getRepository(Product);
+}
 
 // async function productToProductInfo(product: Product): Promise<ProductInfo> {
 //     // add optional properties
@@ -28,13 +28,13 @@ function getRepository(): Repository<Product> {
 // }
 
 export async function getProductById(id: number): Promise<Product> {
-    const repository = getRepository();
-    id = sanitizeId(id);
-    const product = await repository.findOneBy({
-        product_id: id
-    });
-    return product;
-};
+  const repository = getRepository();
+  id = sanitizeId(id);
+  const product = await repository.findOneBy({
+    product_id: id,
+  });
+  return product;
+}
 
 // export async function getAllProducts(): Promise<Product[]> {
 //     const url = 'http://localhost:3000/product';
@@ -54,7 +54,6 @@ export async function getProductById(id: number): Promise<Product> {
 //     return productToProductInfo(product);
 // };
 
-
 // export async function getProductsInfoById(ids: number[]): Promise<ProductInfo[]> {
 //     const products = await getProductsById(ids);
 //     let productsInfo: ProductInfo[] = []
@@ -65,12 +64,11 @@ export async function getProductById(id: number): Promise<Product> {
 //     return productsInfo;
 // };
 
-
 export async function postProduct(product: Product): Promise<number> {
-    //product = sanitize(product);
-    const repository = getRepository();
-    await repository.save(product);
-    return product.product_id;
-};
+  //product = sanitize(product);
+  const repository = getRepository();
+  await repository.save(product);
+  return product.product_id;
+}
 
 export {};

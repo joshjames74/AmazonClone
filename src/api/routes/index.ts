@@ -1,20 +1,20 @@
 export const pattern = {
-    host: 'http:\/\/localhost:3000',
-    api: '\/api'
-}
+  host: "http://localhost:3000",
+  api: "/api",
+};
 
 export const url = {
-    host: 'http://localhost:3000',
-    api: '/api'
+  host: "http://localhost:3000",
+  api: "/api",
 };
 
 const api_pattern = pattern.host + pattern.api;
 const api_url = url.host + url.api;
-const product_url = api_url + '/product';
-const basket_url = api_url + '/basket';
-const order_url = api_url + '/order';
+const product_url = api_url + "/product";
+const basket_url = api_url + "/basket";
+const order_url = api_url + "/order";
 
-const id_match = '[0-9]+'
+const id_match = "[0-9]+";
 
 // const base_api = base_routes.host + base_routes.api;
 // const base_api_pattern = base_routes.host + base_routes.api;
@@ -89,82 +89,82 @@ const id_match = '[0-9]+'
 // To do: change api_routes so that every route has a
 // url and match
 
-const base_api = 'http://localhost:3000/api'
+const base_api = "http://localhost:3000/api";
 
 export const routes = {
-    product: {
-        post: base_api + '/product',
-        product: base_api + '/product/:id',
-        reviews: base_api + '/product/:id/reviews',
-        all: base_api + '/product'
-    },
-    user: {
-        user: base_api + '/user/:id',
-        currency: base_api + '/user/:id/currency',
-        basket: base_api + '/user/:id/basket',
-        orders: base_api + '/user/:id/orders',
-        add: base_api + '/user/add',
-        add_order: base_api + '/user/:id/order',
-        add_review: base_api + '/user/:id/review/add'
-    },
-    currency: {
-        currency: base_api + '/currency/:id',
-        all: base_api + '/currency'
-    }
-}
+  product: {
+    post: base_api + "/product",
+    product: base_api + "/product/:id",
+    reviews: base_api + "/product/:id/reviews",
+    all: base_api + "/product",
+  },
+  user: {
+    user: base_api + "/user/:id",
+    currency: base_api + "/user/:id/currency",
+    basket: base_api + "/user/:id/basket",
+    orders: base_api + "/user/:id/orders",
+    add: base_api + "/user/add",
+    add_order: base_api + "/user/:id/order",
+    add_review: base_api + "/user/:id/review/add",
+  },
+  currency: {
+    currency: base_api + "/currency/:id",
+    all: base_api + "/currency",
+  },
+};
 
 export const api_routes = {
-    // basket: {
-    //     // get_basket: base_basket,
-    //     // add_to_basket: `${base_basket}\/add\/${id_match}$`,
-    //     // delete_from_basket: `${base_basket}\/delete\/${id_match}$`
-    //     get_basket: {
-    //         url: product_url,
-    //         pattern: base_product
-    //     },
-    //     add
-    // },
-    // user: {
-    //     // get_user: base_user,
-    //     // currency: `${base_user}/currency$`,
-    //     // basket: `${base_user}/basket$`,
-    //     // order: `${base_user}/order$`,
-    //     // add_product: `${base_user}/product/add$`
-    // },
-    user: {
-        get_user: {
-            url: api_url + `/user/{user_id}`,
-            pattern: api_pattern + `\/product\/${id_match}`
-        },
-        orders: {
-            url: api_url + `/user/{user_id}/order`,
-            pattern: api_pattern + `\/user\/${id_match}\/order`
-        }
+  // basket: {
+  //     // get_basket: base_basket,
+  //     // add_to_basket: `${base_basket}\/add\/${id_match}$`,
+  //     // delete_from_basket: `${base_basket}\/delete\/${id_match}$`
+  //     get_basket: {
+  //         url: product_url,
+  //         pattern: base_product
+  //     },
+  //     add
+  // },
+  // user: {
+  //     // get_user: base_user,
+  //     // currency: `${base_user}/currency$`,
+  //     // basket: `${base_user}/basket$`,
+  //     // order: `${base_user}/order$`,
+  //     // add_product: `${base_user}/product/add$`
+  // },
+  user: {
+    get_user: {
+      url: api_url + `/user/{user_id}`,
+      pattern: api_pattern + `\/product\/${id_match}`,
     },
-    product: {
-        //get_product: `${base_product}`,
-        // get_product: 'http:\/\/localhost:3000\/api\/product\/[^\/]+',
-        // // get_product: '.+/gm',
-        // reviews: `${base_product}`
-        get_product: {
-            url: api_url + `/product/:id`,
-            pattern: api_pattern + `\/product\/${id_match}`
-        },
-        reviews: {
-            url: api_url + `/product/{product_id}/review`,
-            pattern: api_pattern + `\/product\/${id_match}\/review`
-        }
+    orders: {
+      url: api_url + `/user/{user_id}/order`,
+      pattern: api_pattern + `\/user\/${id_match}\/order`,
     },
-    order: {
-        get_order: {
-            url: api_url + `/order/{order_id}`,
-            pattern: api_pattern + `\/order\/${id_match}`
-        }
+  },
+  product: {
+    //get_product: `${base_product}`,
+    // get_product: 'http:\/\/localhost:3000\/api\/product\/[^\/]+',
+    // // get_product: '.+/gm',
+    // reviews: `${base_product}`
+    get_product: {
+      url: api_url + `/product/:id`,
+      pattern: api_pattern + `\/product\/${id_match}`,
     },
-    currency: {
-        get_currency: {
-            url: api_url + `/currency/{currency_id}`,
-            pattern: api_pattern + `\/currency\/${id_match}`
-        }
-    }
+    reviews: {
+      url: api_url + `/product/{product_id}/review`,
+      pattern: api_pattern + `\/product\/${id_match}\/review`,
+    },
+  },
+  order: {
+    get_order: {
+      url: api_url + `/order/{order_id}`,
+      pattern: api_pattern + `\/order\/${id_match}`,
+    },
+  },
+  currency: {
+    get_currency: {
+      url: api_url + `/currency/{currency_id}`,
+      pattern: api_pattern + `\/currency\/${id_match}`,
+    },
+  },
 };

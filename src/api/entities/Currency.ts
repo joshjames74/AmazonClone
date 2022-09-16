@@ -2,14 +2,14 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 class Currency {
-    @PrimaryGeneratedColumn()
-    currency_id: number
+  @PrimaryGeneratedColumn()
+  currency_id: number;
 
-    @Column()
-    code: string
+  @Column()
+  code: string;
 
-    @Column()
-    symbol: string
+  @Column()
+  symbol: string;
 }
 
-export { Currency }
+export { Currency };

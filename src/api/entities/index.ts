@@ -9,4 +9,15 @@ import { Product } from "./Product";
 import { Review } from "./Review";
 import { User } from "./User";
 
-export { Address, Basket, BasketItem, Country, Currency, Order, OrderItem, Product, Review, User };
+export {
+  Address,
+  Basket,
+  BasketItem,
+  Country,
+  Currency,
+  Order,
+  OrderItem,
+  Product,
+  Review,
+  User,
+};

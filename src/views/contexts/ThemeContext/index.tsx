@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export const ThemeContext = React.createContext<{
-    theme: Object;
+  theme: Object;
 }>({
-    theme: {}
+  theme: {},
 });
 
-export const ThemeProvider = (props: { children?: JSX.Element }): JSX.Element => {
+export const ThemeProvider = (props: {
+  children?: JSX.Element;
+}): JSX.Element => {
+  const [theme, setTheme] = useState<any>({});
+  const children: any = props;
 
-    const [theme, setTheme] = useState<any>({});
-    const children: any = props;
-
-    return (
-        <ThemeContext.Provider
-        value={theme}>
-            {children}
-        </ThemeContext.Provider>
-    )
-}
-
+  return (
+    <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
+  );
+};

@@ -1,4 +1,4 @@
 export enum CardType {
-    compact = 'COMPACT',
-    wide = 'WIDE'
+  compact = "COMPACT",
+  wide = "WIDE",
 }

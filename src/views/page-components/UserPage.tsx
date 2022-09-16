@@ -1,11 +1,8 @@
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 
 export default function UserPage(): JSX.Element {
+  const route = useRouter();
+  console.log(route);
 
-    const route = useRouter();
-    console.log(route);
-
-    return (
-        <p>Hello</p>
-    )
+  return <p>Hello</p>;
 }

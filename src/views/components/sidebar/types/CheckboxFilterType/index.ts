@@ -1,9 +1,9 @@
 export type OptionType = {
-    value: string;
-    isChecked: boolean;
+  value: string;
+  isChecked: boolean;
 };
 
 export type CheckboxFilterType = {
-    options: OptionType[];
-    onChange: (event: any) => void;
+  options: OptionType[];
+  onChange: (event: any) => void;
 };

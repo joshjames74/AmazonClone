@@ -1,3 +1,3 @@
 export type BasketButtonType = {
-    itemCount: number;
+  itemCount: number;
 };

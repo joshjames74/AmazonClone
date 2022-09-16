@@ -4,27 +4,25 @@ import { AppDataSource } from "../../data-source";
 import { Entity } from "../../types";
 
 export interface IRepo {
-    entity: EntityTarget<any>;
-    get: () => Repository<any>;
+  entity: EntityTarget<any>;
+  get: () => Repository<any>;
 }
 
 @Service()
 export default class RepositoryService implements IRepo {
+  readonly entity: EntityTarget<any>;
 
-    readonly entity: EntityTarget<any>;
+  constructor(entity: EntityTarget<any>) {
+    this.entity = entity;
+  }
 
-    constructor(entity: EntityTarget<any>) {
-        this.entity = entity;
-    };
+  // public async load(): Promise<void> {
+  //     await AppDataSource.initialize();
+  // }
 
-    // public async load(): Promise<void> {
-    //     await AppDataSource.initialize();
-    // }
-
-    public get(): Repository<any> {
-        return AppDataSource.getRepository(this.entity);
-    };
-
+  public get(): Repository<any> {
+    return AppDataSource.getRepository(this.entity);
+  }
 }
 
 // export interface IRepo {

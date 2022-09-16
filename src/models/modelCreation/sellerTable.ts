@@ -1,7 +1,10 @@
 import { CreateTableQueryType } from "./types/createTableQueryType";
 
-export default function createSellerTableQuery(props: CreateTableQueryType, userTable: string): string {
-    const query = `${props.createStatement} ${props.table} (
+export default function createSellerTableQuery(
+  props: CreateTableQueryType,
+  userTable: string
+): string {
+  const query = `${props.createStatement} ${props.table} (
         id SERIAL PRIMARY KEY,
         userId SERIAL,
         firstName VARCHAR(255),
@@ -11,5 +14,5 @@ export default function createSellerTableQuery(props: CreateTableQueryType, user
         FOREIGN KEY (userId) REFERENCES ${userTable}(id)
     )`;
 
-    return query;
-};
+  return query;
+}

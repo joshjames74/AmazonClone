@@ -5,28 +5,27 @@ import { api_routes, routes } from "../routes";
 import CurrencyService from "../services/CurrencyService";
 
 export type CurrenciesRequest = {
-    body: {
-        currencies: Currency[]
-    }
+  body: {
+    currencies: Currency[];
+  };
 };
 
 export class CurrencyRequest extends RequestHandler {
+  private currencyService: CurrencyService;
 
-    private currencyService: CurrencyService;
+  constructor(req: NextApiRequest, res: NextApiResponse) {
+    super(req, res);
+    this.currencyService = new CurrencyService();
+  }
 
-    constructor(req: NextApiRequest, res: NextApiResponse) {
-        super(req, res);
-        this.currencyService = new CurrencyService();
+  get() {
+    if (this.matches(routes.currency.all)) {
+      return this.getAllCurrencies();
     }
+  }
 
-    get() {
-        if (this.matches(routes.currency.all)) {
-            return this.getAllCurrencies();
-        };
-    }
-
-    async getAllCurrencies() {
-        const currencies = await this.currencyService.getAllCurrencies();
-        return this.sendResponseJSON({currencies: currencies}, 200);
-    }
+  async getAllCurrencies() {
+    const currencies = await this.currencyService.getAllCurrencies();
+    return this.sendResponseJSON({ currencies: currencies }, 200);
+  }
 }

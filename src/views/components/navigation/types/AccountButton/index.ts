@@ -1,4 +1,4 @@
 export type AccountButtonType = {
-    isLoggedIn: boolean;
-    accountURL?: string;
-}
+  isLoggedIn: boolean;
+  accountURL?: string;
+};

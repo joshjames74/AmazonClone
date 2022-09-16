@@ -1,30 +1,35 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, OneToMany, JoinColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+} from "typeorm";
 import { Product } from "./Product";
 import { User } from "./User";
 
 @Entity()
 export class Review {
-    @PrimaryGeneratedColumn()
-    review_id: number
+  @PrimaryGeneratedColumn()
+  review_id: number;
 
-    @ManyToOne(type => Product)
-    product_id: number
-    
-    @ManyToOne(type => User)@JoinColumn()
-    user_id: number
+  @ManyToOne((type) => Product, {eager: true})
+  product: Product;
 
-    @Column()
-    score: number
+  @ManyToOne((type) => User, {eager: true})
+  user: User;
 
-    @Column()
-    title: string
+  @Column()
+  score: number;
 
-    @Column()
-    content: string
+  @Column()
+  title: string;
 
-    @Column()
-    image_urls: string
+  @Column()
+  content: string;
 
-    @Column()
-    date: Date
+  @Column()
+  image_urls: string;
+
+  @Column()
+  date: Date;
 }

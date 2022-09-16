@@ -1,6 +1,6 @@
 export enum Title {
-    MR = 'Mr',
-    MRS = 'Mrs',
-    MISS = 'Miss',
-    MX = 'MX'
+  MR = "Mr",
+  MRS = "Mrs",
+  MISS = "Miss",
+  MX = "MX",
 }

@@ -1,5 +1,5 @@
 export type CountryCode = {
-    UK: 'UK',
-    USA: 'USA',
-    FRA: 'FRA'
-}
+  UK: "UK";
+  USA: "USA";
+  FRA: "FRA";
+};
