@@ -1,5 +1,11 @@
 import { Service } from "typedi";
-import { EntityManager, EntitySchema, EntityTarget, Repository } from "typeorm";
+import {
+  EntityManager,
+  EntitySchema,
+  EntityTarget,
+  Repository,
+  TreeRepository,
+} from "typeorm";
 import { AppDataSource } from "../../data-source";
 import { Entity } from "../../types";
 
@@ -22,6 +28,10 @@ export default class RepositoryService implements IRepo {
 
   public get(): Repository<any> {
     return AppDataSource.getRepository(this.entity);
+  }
+
+  public tree(): TreeRepository<any> {
+    return AppDataSource.getTreeRepository(this.entity);
   }
 }
 

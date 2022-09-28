@@ -4,40 +4,52 @@ import {
   Menu,
   MenuList,
   MenuItem,
+  Button,
   InputGroup,
   Input,
   InputLeftAddon,
   InputRightAddon,
   MenuButton,
+  Select,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SettingsContext } from "../../../contexts/SettingsContext";
 import { SearchBarType } from "../types/SearchBarType";
+import { Category } from "../../../../api/entities";
 
 export default function SearchBar(props: SearchBarType): JSX.Element {
-  const { categories } = useContext(SettingsContext);
+  const { parentCategories, loading } = useContext(SettingsContext);
+
+  const [category, setCategory] = useState<string>("All");
+
+  const renderCategories = (categories: Category[]): JSX.Element[] => {
+    return categories.map((v: Category, i) => {
+      return (
+        <option key={i} value={v.name}>
+          {v.name}
+        </option>
+      );
+    });
+  };
 
   return (
     <InputGroup maxW="150vh" w="40%" marginRight="3px">
-      <Menu>
-        <InputLeftAddon
-          as={MenuButton}
+      <InputLeftAddon w="40%">
+        {/* <InputLeftAddon
+          as={Button}
           maxW="20vh"
-          w="10%"
-          paddingX="3px"
+          w="20%"
           fontSize="xs"
-        >
-          <Box display="flex" flexDirection="row">
-            <p>All</p>
-            <ChevronDownIcon w="50%" />
-          </Box>
-        </InputLeftAddon>
-        <MenuList>
-          {categories.map((v: string, i) => {
-            return <MenuItem key={i}>{v}</MenuItem>;
-          })}
-        </MenuList>
-      </Menu>
+          display='flex'
+          flexDirection='row'
+          color='black'
+        > */}
+        <Select w="100%" h="100%" color="black">
+          <option>All</option>
+          {loading ? <></> : renderCategories(parentCategories)}
+        </Select>
+        {/* </InputLeftAddon> */}
+      </InputLeftAddon>
       <Input
         type="search"
         placeholder="Search for anything..."

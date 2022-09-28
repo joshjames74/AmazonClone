@@ -1,6 +1,6 @@
 import {
-  FormLabel,
   Input,
+  FormLabel,
   Box,
   InputGroup,
   InputLeftAddon,
@@ -43,8 +43,9 @@ export default function CurrencyInputBox(
 
   const renderCurrencies = (): JSX.Element[] => {
     return currencies.map((currency: Currency, index) => {
+      console.log(JSON.stringify(currency));
       return (
-        <option key={index} value={currency.currency_id}>
+        <option key={index} value={JSON.stringify(currency)}>
           {currency.code}
         </option>
       );
@@ -53,14 +54,20 @@ export default function CurrencyInputBox(
 
   return (
     <Box display="flex" flexDirection="row">
-      <InputGroup>
-        <InputLeftAddon>
-          <Select onChange={onChangeCurrency}>
-            {renderCurrencies()}
-            {/* <option>GBP</option> */}
-          </Select>
-        </InputLeftAddon>
-        <Input type="number" onChange={onChangePrice} />
+      <InputGroup w='100%'>
+        <FormLabel w='20%'>Price</FormLabel>
+        <Box 
+        display='flex'
+        w='80%'
+        flexDirection='row'>
+          <InputLeftAddon>
+            <Select onChange={onChangeCurrency}>
+              {renderCurrencies()}
+              {/* <option>GBP</option> */}
+            </Select>
+          </InputLeftAddon>
+          <Input type="number" placeholder='0' onChange={onChangePrice} />
+        </Box>
       </InputGroup>
     </Box>
   );

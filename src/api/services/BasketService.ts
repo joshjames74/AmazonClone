@@ -1,9 +1,11 @@
 import { Service } from "typedi";
-import { EntityTarget, In } from "typeorm";
+import { EntityTarget, In, Repository } from "typeorm";
 import BaseService from "./BaseService";
 import { Basket } from "../entities/Basket";
 import { BasketItemType } from "../helpers/basket";
 import { BasketItem } from "../entities/BasketItem";
+import { getUserById } from "../helpers/user";
+import { BasketView } from "../entities/BasketView";
 
 @Service()
 export default class BasketService extends BaseService {
@@ -14,28 +16,33 @@ export default class BasketService extends BaseService {
   public async getBasketByUserId(id: number): Promise<Basket> {
     id = this.sanitizeId(id);
     const basket = await this.repository.findOneBy({
-      user_id: id,
+      user: {
+        user_id: id
+      },
     });
     return basket;
   }
 
-  public async addToBasket(
-    user_id: number,
-    items: BasketItemType[]
-  ): Promise<void> {
-    const basket = await this.getBasketByUserId(user_id);
-    const date = new Date();
-    let basketItems: BasketItem[] = [];
-    for (const item of items) {
-      const basketItem = new BasketItem();
-      basketItem.basket_id = basket.basket_id;
-      basketItem.date_added = date;
-      basketItem.price = item.price;
-      basketItem.product_id = item.product_id;
-      basketItem.quantity = item.quantity;
-      basketItems.push(basketItem);
+  public async getBasketViewByUserId(id: number): Promise<BasketView[]> {
+    id = this.sanitizeId(id);
+    const basket = await this.repository.manager.findBy( 
+      BasketView, { basket: { user: {user_id: id}}}
+    );
+    return basket;
+  }
+
+  public async postBasket(
+    id: number,
+    repository: Repository<any> = this.repository
+  ): Promise<Basket> {
+    id = this.sanitizeId(id);
+    let basket = await this.getBasketByUserId(id);
+    if (basket.basket_id) {
+      return basket
     }
-    await this.repository.save(basketItems);
-    return;
+    const user = await getUserById(id);
+    basket = new Basket();
+    basket.user = user;
+    return await repository.save(basket);
   }
 }

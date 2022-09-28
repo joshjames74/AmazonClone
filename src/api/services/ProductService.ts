@@ -28,7 +28,6 @@ export default class ProductService extends BaseService {
 
   public async getAllProducts(): Promise<Product[]> {
     const products = await this.repository.find({});
-    console.log(products);
     return products;
   }
 

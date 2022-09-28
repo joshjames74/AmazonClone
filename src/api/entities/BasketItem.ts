@@ -1,9 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Product } from "./Product";
 import { Basket } from "./Basket";
 
@@ -12,17 +7,14 @@ export class BasketItem {
   @PrimaryGeneratedColumn()
   item_id: number;
 
-  @ManyToOne((type) => Basket, {eager: true})
+  @ManyToOne((type) => Basket, { eager: true, onDelete: "SET NULL" })
   basket: Basket;
 
-  @ManyToOne((type) => Product, {eager: true})
+  @ManyToOne((type) => Product, { eager: true, onDelete: "SET NULL" })
   product: Product;
 
   @Column()
   date_added: Date;
-
-  @Column()
-  price: number;
 
   @Column()
   quantity: number;

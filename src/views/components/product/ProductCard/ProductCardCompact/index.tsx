@@ -3,17 +3,17 @@ import { StarIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import ReviewStars from "../components/ReviewStars";
 import { ReviewStarsProps } from "../components/ReviewStars";
-import { ProductInfo } from "../../../../../types";
+import { Product } from "../../../../../api/entities";
 
-export default function ProductCardCompact(props: ProductInfo): JSX.Element {
+export default function ProductCardCompact(product: Product): JSX.Element {
   const reviewStarsProps: ReviewStarsProps = {
-    reviewScore: props.reviewScore,
+    reviewScore: product.review_score,
     onColor: "teal",
     offColor: "black",
   };
 
   return (
-    <Link href={props.url ? props.url : ""}>
+    <Link href={product.url ? product.url : ""}>
       <Box
         overflow="hidden"
         borderWidth="3px"
@@ -29,20 +29,18 @@ export default function ProductCardCompact(props: ProductInfo): JSX.Element {
       >
         <Image
           h="50%"
-          src={props.imageURL ? props.imageURL : "#"}
-          alt={props.imageAlt ? props.imageAlt : ""}
+          src={product.image_url ? product.image_url : "#"}
+          alt={product.image_alt ? product.image_alt : ""}
         ></Image>
         <Box h="50%">
           <Box display="flex" flexDirection="column">
             <Box textColor="blue" fontSize="xs" h="20%">
-              <a href={props.url ? props.url : "/"}>{props.title}</a>
+              <a href={product.url ? product.url : "/"}>{product.title}</a>
             </Box>
-            <Box h="20%">
-              {props.currencyCode} {props.price}
-            </Box>
+            <Box h="20%">{`${product.currency} ${product.price}`}</Box>
             <Box display="flex" flexDirection="column" h="25%" w="100%">
               <ReviewStars {...reviewStarsProps} />
-              <Box>{`${props.reviewCount} reviews`}</Box>
+              <Box>{`${product.review_count} reviews`}</Box>
             </Box>
           </Box>
         </Box>

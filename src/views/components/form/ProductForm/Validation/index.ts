@@ -23,7 +23,7 @@ export function validateTitle(title: string, maxLength: number = 100): boolean {
   if (!title) {
     return true;
   }
-  if (title.length > maxLength) {
+  if (title.length > maxLength || title.length === 0) {
     return false;
   }
   return true;
@@ -36,18 +36,24 @@ export function validateDescription(
   if (!description) {
     return true;
   }
-  if (description.length > maxLength) {
+  if (description.length > maxLength || description.length === 0) {
     return false;
   }
   return true;
 }
 
 export function validateImage(image: string): boolean {
-  console.log(image);
   if (!image || image.length === 0) {
     return true;
   }
   if (image.length > 1) {
+    return false;
+  }
+  return true;
+}
+
+export function validateCategories(categories: string[]): boolean {
+  if (categories.length > 5) {
     return false;
   }
   return true;

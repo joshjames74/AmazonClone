@@ -14,6 +14,8 @@ import {
 } from "../views/contexts";
 import { ModalProvider } from "../views/contexts/ModalContext";
 import { FilterProvider } from "../views/contexts/FilterContext";
+import { useContext } from "react";
+import { ProductListContext } from "../views/contexts";
 
 export default function Home() {
   const props: ProductInfo = {

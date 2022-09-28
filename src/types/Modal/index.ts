@@ -1,3 +1,3 @@
-import { User } from "../../entity/User";
+import { User } from "../../api/entities";
 
 export type Modal = User;

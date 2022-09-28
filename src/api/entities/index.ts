@@ -3,9 +3,12 @@ import { Basket } from "./Basket";
 import { BasketItem } from "./BasketItem";
 import { Country } from "./Country";
 import { Currency } from "./Currency";
+import { Category } from "./Category";
 import { Order } from "./Order";
 import { OrderItem } from "./OrderItem";
 import { Product } from "./Product";
+import { ProductCategory } from "./ProductCategory";
+import { ProductType } from "./ProductType";
 import { Review } from "./Review";
 import { User } from "./User";
 
@@ -15,9 +18,12 @@ export {
   BasketItem,
   Country,
   Currency,
+  Category,
   Order,
   OrderItem,
   Product,
+  ProductCategory,
+  ProductType,
   Review,
   User,
 };

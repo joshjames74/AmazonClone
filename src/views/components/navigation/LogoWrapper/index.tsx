@@ -1,9 +1,17 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Link, Image } from "@chakra-ui/react";
+import { routes } from "../../../../api/routes";
 import { LogoWrapperType } from "../types/LogoWrapperType";
 
 export default function LogoWrapper(props: LogoWrapperType): JSX.Element {
   return (
-    <Box overflow={"hidden"} maxW="12vh" w="20%" h="100%">
+    <Box
+      as={Link}
+      href={routes.base}
+      overflow={"hidden"}
+      maxW="12vh"
+      w="20%"
+      h="100%"
+    >
       <Image
         src={props.imageURL ? props.imageURL : ""}
         alt={props.imageAlt ? props.imageAlt : ""}

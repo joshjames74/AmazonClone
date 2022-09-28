@@ -27,14 +27,17 @@ export default class ReviewService extends BaseService {
 
   public async getReviewByProductId(id: number): Promise<Review[]> {
     id = this.sanitizeId(id);
-    const reviews = await this.repository.findBy({
-      product_id: id,
+    const reviews = await this.repository.find({
+      where: {
+        product: {
+          product_id: id,
+        },
+      },
     });
     return reviews;
   }
 
   public async postReview(review: Review): Promise<Review> {
-    console.log(review);
     const request = await this.repository.save(review);
     return request;
   }
@@ -42,4 +45,9 @@ export default class ReviewService extends BaseService {
   //     await this.repository.save(user);
   //     return user.user_id;
   // }
+
+  public async deleteReview(id: number): Promise<any> {
+    id = this.sanitizeId(id);
+    return await this.repository.delete({ review_id: id });
+  }
 }

@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { EntityTarget, In, Repository } from "typeorm";
+import { EntityTarget, In, Repository, TreeRepository } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import Repo from "./RepositoryService";
 import "reflect-metadata";
@@ -9,6 +9,7 @@ import { Entity } from "../../types";
 export interface IBaseService {
   entity: EntityTarget<any>;
   repository: Repository<any>;
+  treeRepository: TreeRepository<any>;
   // init: any;
 }
 
@@ -16,10 +17,12 @@ export interface IBaseService {
 export default class BaseService implements IBaseService {
   entity: EntityTarget<any>;
   repository: Repository<any>;
+  treeRepository: TreeRepository<any>;
 
   constructor(entity: EntityTarget<any>) {
     this.entity = entity;
     this.repository = new RepositoryService(this.entity).get();
+    this.treeRepository = new RepositoryService(this.entity).tree();
     // this.repository = new RepositoryService(this.entity).get();
     // console.log(this.repository);
   }

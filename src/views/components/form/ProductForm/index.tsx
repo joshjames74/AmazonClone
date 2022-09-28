@@ -1,6 +1,5 @@
-import { FormControl, Box, Button } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
-import { CurrencyCode, UserType } from "../../../../types";
 import { AuthContext } from "../../../contexts";
 import InputBox from "../InputBox";
 import ImageInputBox from "../ImageInputBox";
@@ -9,56 +8,57 @@ import {
   validateTitle,
   validateDescription,
   validateImage,
+  validateCategories,
 } from "./Validation";
-import { ProductInfo } from "../../../../types";
-import { addProduct } from "../../../../api/helpers/requests/product";
+import { postProduct } from "../../../../api/helpers/requests/product";
 import CurrencyInputBox from "../CurrencyInputBox";
-import { createConnection } from "../../../../data-source";
-import { Product } from "../../../../api/entities/index";
-import { SettingsContext } from "../../../contexts/SettingsContext";
+import { Product, Currency } from "../../../../api/entities/index";
 import CategoryInputBox from "../CategoryInputBox";
+import { SettingsContext } from "../../../contexts/SettingsContext";
 
 export default function ProductForm(): JSX.Element {
-  const { userId } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   // if (userType !== UserType.admin && userType !== UserType.seller) {
   //     return null;
   // }
 
+  const defaultCurrency: Currency = {
+    currency_id: 1,
+    code: "GBP",
+    symbol: "£",
+  };
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
-  const [images, setImages] = useState<string>();
-  const [currencyId, setCurrencyId] = useState<number>();
+  const [images, setImages] = useState<string>('https://webneel.com/daily/sites/default/files/images/daily/08-2018/1-nature-photography-spring-season-mumtazshamsee.jpg');
+  const [currency, setCurrency] = useState<Currency>(defaultCurrency);
+  const [selectCategories, setSelectCategories] = useState<string[]>([]);
   const [canSubmit, setCanSubmit] = useState<boolean>(true);
 
   useEffect(() => {
     setCanSubmit(
+      // split into single function in validation files
       validateTitle(title) &&
-        validatePrice(price) &&
-        validateDescription(description)
+      validatePrice(price) &&
+      validateDescription(description) &&
+      validateCategories(selectCategories)
     );
-  }, [title, description, price, images, currencyId]);
+  }, [title, description, price, images, selectCategories]);
 
   const handleSubmit = () => {
-    const product: ProductInfo = {
-      productId: null,
-      title: title,
-      description: description,
-      price: price,
-      imageURL: images,
-      reviewScore: 0,
-      reviewCount: 0,
-      currencyCode: CurrencyCode.GBP,
-    };
-    addProduct(product, userId, currencyId).then((res) => {
-      if (res) {
-        console.log("success");
-      }
-      if (!res) {
-        console.log("failure");
-      }
-    });
+    const product = new Product();
+    product.title = title;
+    product.description = description;
+    product.price = price;
+    product.image_url = images;
+    product.image_alt = "";
+    product.review_score = 0;
+    product.review_count = 0;
+    product.currency = currency;
+    product.seller = user;
+    postProduct(product).then((res) => console.log(res));
   };
 
   return (
@@ -73,6 +73,7 @@ export default function ProductForm(): JSX.Element {
       <InputBox
         label="Title"
         type="text"
+        value={title}
         placeholder="Enter title..."
         onChange={(event) => setTitle(event.target.value)}
         isInvalid={!validateTitle(title)}
@@ -81,6 +82,7 @@ export default function ProductForm(): JSX.Element {
       <InputBox
         label="Description"
         type="text"
+        value={description}
         placeholder="Enter description..."
         onChange={(event) => setDescription(event.target.value)}
         isInvalid={!validateDescription(description)}
@@ -88,14 +90,13 @@ export default function ProductForm(): JSX.Element {
 
       <CurrencyInputBox
         onChangePrice={(event) => setPrice(event.target.value)}
-        onChangeCurrency={(event) => setCurrencyId(event.target.value)}
+        onChangeCurrency={(event) =>
+          setCurrency(JSON.parse(event.target.value))
+        }
       />
 
-      <ImageInputBox
-        placeholder="Images"
-        onChange={(event) => setImages(event.target.value)}
-        isInvalid={!validateImage(images)}
-        multiple={false}
+      <CategoryInputBox
+        onChange={(values) => setSelectCategories(values)}
       />
 
       <Box

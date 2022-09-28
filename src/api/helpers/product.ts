@@ -30,10 +30,10 @@ function getRepository(): Repository<Product> {
 export async function getProductById(id: number): Promise<Product> {
   const repository = getRepository();
   id = sanitizeId(id);
-  const product = await repository.findOneBy({
+  const request: any = await repository.findOneBy({
     product_id: id,
   });
-  return product;
+  return request.product;
 }
 
 // export async function getAllProducts(): Promise<Product[]> {

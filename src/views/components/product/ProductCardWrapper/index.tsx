@@ -4,7 +4,7 @@ import ProductCardWide from "../ProductCard/ProductCardWide";
 import { CardType } from "../enums/CardType";
 import { ProductListContext } from "../../../contexts";
 import { useContext } from "react";
-import { ProductInfo } from "../../../../types";
+import { Product } from "../../../../api/entities";
 
 export type ProductCardWrapperProps = {
   cardType: CardType;
@@ -14,16 +14,20 @@ export default function ProductCardWrapper(
   props: ProductCardWrapperProps
 ): JSX.Element {
   const { productList } = useContext(ProductListContext);
-  console.log(productList);
+  const productCount = 10;
 
   if (!productList || productList.length === 0) {
     return <></>;
   }
 
+  const products = productList.filter((_, i) => {
+    return i < productCount;
+  });
+
   const compactCardWrapper = (): JSX.Element => {
     return (
       <SimpleGrid w="100%" minChildWidth="100px" spacing="5px">
-        {productList.map((v: ProductInfo, i) => {
+        {products.map((v, i) => {
           return <ProductCardCompact key={i} {...v} />;
         })}
       </SimpleGrid>
@@ -33,7 +37,7 @@ export default function ProductCardWrapper(
   const wideCardWrapper = (): JSX.Element => {
     return (
       <Box display="flex" flexDirection="column">
-        {productList.map((v: ProductInfo, i) => {
+        {products.map((v, i) => {
           return <ProductCardWide key={i} {...v} />;
         })}
       </Box>
@@ -51,7 +55,7 @@ export default function ProductCardWrapper(
   };
 
   return (
-    <Box w="60%" border="1px solid black" margin="10px">
+    <Box w="60%" margin="10px">
       {renderBody(props.cardType)}
     </Box>
   );

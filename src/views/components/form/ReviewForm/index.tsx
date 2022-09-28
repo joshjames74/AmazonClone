@@ -7,11 +7,11 @@ import { validateTitle, validateContent, validateRating } from "./Validation";
 import RatingInputBox from "../RatingInputBox";
 import { ReviewType } from "../../../../types/Review";
 import { addReview } from "../../../../api/helpers/requests/review";
+import { Review } from "../../../../api/entities";
 
 export default function ReviewForm(): JSX.Element {
-  const { userId } = useContext(AuthContext);
-  const { productInfo, onUpdateReview } = useContext(ProductContext);
-  console.log(productInfo);
+  const { user } = useContext(AuthContext);
+  const { product, onUpdateReview } = useContext(ProductContext);
 
   // not necessary
   // if (userType !== UserType.admin && userType !== UserType.seller) {
@@ -24,27 +24,32 @@ export default function ReviewForm(): JSX.Element {
   const [canSubmit, setCanSubmit] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log(`Title: ${title}`);
-    console.log(`Conent: ${content}`);
-    console.log(`Rating: ${rating}`);
     setCanSubmit(
       validateTitle(title) && validateContent(content) && validateRating(rating)
     );
   }, [title, content, rating]);
 
+  const resetFields = () => {
+    setTitle("");
+    setContent("");
+    setRating(0);
+  };
+
   const handleSubmit = () => {
-    const review: ReviewType = {
-      userInfo: null,
-      title: title,
-      content: content,
-      score: rating,
-      date: new Date(),
-      images: [""],
-    };
-    addReview(review, productInfo.productId, userId).then((response) => {
-      console.log(response);
+    // Create new review
+    const review: Review = new Review();
+    review.user = user;
+    review.product = product;
+    review.score = rating;
+    review.title = title;
+    review.content = content;
+    review.image_urls = "";
+    review.date = new Date();
+
+    addReview(review).then((response) => {
+      onUpdateReview();
+      resetFields();
     });
-    onUpdateReview();
   };
 
   return (
@@ -59,6 +64,7 @@ export default function ReviewForm(): JSX.Element {
         label="Title"
         type="text"
         placeholder="Enter title..."
+        value={title}
         onChange={(event) => setTitle(event.target.value)}
         isInvalid={!validateTitle(title)}
       />
@@ -66,6 +72,7 @@ export default function ReviewForm(): JSX.Element {
       <InputBox
         label="Content"
         type="text"
+        value={content}
         placeholder="Enter content..."
         onChange={(event) => setContent(event.target.value)}
         isInvalid={!validateContent(content)}
@@ -73,6 +80,7 @@ export default function ReviewForm(): JSX.Element {
 
       <RatingInputBox
         label="Rating"
+        value={rating}
         placeholder="0"
         onChange={(event) => setRating(event.target.value)}
         isInvalid={!validateRating(rating)}
@@ -84,7 +92,7 @@ export default function ReviewForm(): JSX.Element {
         justifyContent="space-between"
         marginTop="3px"
       >
-        <Button>Cancel</Button>
+        <Button onClick={() => resetFields()}>Cancel</Button>
         <Button disabled={!canSubmit} type="submit" onClick={handleSubmit}>
           Add
         </Button>

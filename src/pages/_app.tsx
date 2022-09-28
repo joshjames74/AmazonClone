@@ -6,22 +6,24 @@ import { SettingsProvider } from "../views/contexts/SettingsContext";
 import { AuthProvider, UserProvider } from "../views/contexts";
 import { FilterProvider } from "../views/contexts/FilterContext";
 import { ModalProvider } from "../views/contexts/ModalContext";
-import { createConnection } from "../data-source";
+import { ThemeProvider } from "../views/contexts/ThemeContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <SettingsProvider>
-        <AuthProvider>
-          <UserProvider>
-            <FilterProvider>
-              <ModalProvider>
-                <Component {...pageProps} />
-              </ModalProvider>
-            </FilterProvider>
-          </UserProvider>
-        </AuthProvider>
-      </SettingsProvider>
+      <ThemeProvider>
+        <SettingsProvider>
+          <AuthProvider>
+            <UserProvider>
+              <FilterProvider>
+                <ModalProvider>
+                  <Component {...pageProps} />
+                </ModalProvider>
+              </FilterProvider>
+            </UserProvider>
+          </AuthProvider>
+        </SettingsProvider>
+      </ThemeProvider>
     </ChakraProvider>
   );
 }

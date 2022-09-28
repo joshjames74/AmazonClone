@@ -12,6 +12,6 @@ export class Basket {
   @PrimaryGeneratedColumn()
   basket_id: number;
 
-  @ManyToOne((type) => User, {eager: true})
+  @ManyToOne((type) => User, { eager: true, onDelete: "SET NULL" })
   user: User;
 }

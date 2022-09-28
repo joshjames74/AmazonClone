@@ -4,6 +4,7 @@ export interface IRatingInputBoxProps {
   label: string;
   placeholder: string;
   onChange: (event: any) => void;
+  value: number;
   isInvalid?: boolean;
   isRequired?: boolean;
 }
@@ -22,6 +23,7 @@ export default function RatingInputBox(
         isRequired={props.isRequired}
         h="100%"
         w="80%"
+        value={props.value}
         placeholder={props.placeholder}
         onChange={props.onChange}
         errorBorderColor="red.300"

@@ -7,7 +7,6 @@ import { AddressType } from "../../../../types";
 import SelectAddressModal from "./modals/SelectAddressModal";
 import SetAddressModal from "./modals/SetAddressModal";
 import { AuthContext, UserContext } from "../../../contexts";
-import { ModalContext } from "../../../contexts/ModalContext";
 
 type DeliveryButtonType = {
   name: string;
@@ -18,10 +17,10 @@ type DeliveryButtonType = {
 
 export default function DeliveryButton(props: DeliveryButtonType): JSX.Element {
   const { isLoggedIn } = useContext(AuthContext);
-  const { currentAddress } = useContext(UserContext);
+  const { currentAddress, loading } = useContext(UserContext);
 
-  const { showSelectAddressModal, setShowSelectAddressModal } =
-    useContext(ModalContext);
+  const [showSelectAddressModal, setShowSelectAddressModal] =
+    useState<boolean>(false);
 
   const loggedInButton = () => {
     if (!currentAddress) {
@@ -38,7 +37,7 @@ export default function DeliveryButton(props: DeliveryButtonType): JSX.Element {
         onClick={() => setShowSelectAddressModal(!showSelectAddressModal)}
       >
         <Box textAlign="left">Deliver to {currentAddress.name}</Box>
-        <Box textAlign="left">{currentAddress.postCode}</Box>
+        <Box textAlign="left">{currentAddress.postcode}</Box>
       </Button>
     );
   };
@@ -60,21 +59,17 @@ export default function DeliveryButton(props: DeliveryButtonType): JSX.Element {
     );
   };
 
-  const onClose = () => {
-    setShowSelectAddressModal(false);
-  };
-
   const selectAddressModalProps = {
     isOpen: showSelectAddressModal,
-    onClose: onClose,
+    onClose: () => setShowSelectAddressModal(false),
   };
 
   const renderAddressModal = (): JSX.Element => {
-    if (isLoggedIn) {
+    if (!isLoggedIn && currentAddress) {
       return <SelectAddressModal {...selectAddressModalProps} />;
     }
-    if (!isLoggedIn) {
-      return <SetAddressModal />;
+    if (isLoggedIn) {
+      return <SetAddressModal {...selectAddressModalProps} />;
     }
     return <></>;
   };
@@ -90,7 +85,7 @@ export default function DeliveryButton(props: DeliveryButtonType): JSX.Element {
       minW="20vh"
     >
       {isLoggedIn ? loggedInButton() : loggedOutButton()}
-      {renderAddressModal()}
+      {loading ? <></> : renderAddressModal()}
     </Box>
   );
 }

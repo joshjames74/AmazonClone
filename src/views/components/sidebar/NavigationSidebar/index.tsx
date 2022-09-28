@@ -1,11 +1,13 @@
 import RangeFilter from "../components/RangeFilter";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { RangeFilterType } from "../types/RangeFilterType";
 import { CurrencyCode } from "../../../../types";
 import CheckboxFilter from "../components/CheckboxFilter";
 import { CheckboxFilterType } from "../types/CheckboxFilterType";
 import { SettingsContext } from "../../../contexts/SettingsContext";
+import { Category } from "../../../../api/entities";
+import { ProductListContext } from "../../../contexts";
 
 type NavigationSidebarType = {
   minPrice: number;
@@ -18,17 +20,23 @@ type NavigationSidebarType = {
 export default function NavigationSidebar(
   props: NavigationSidebarType
 ): JSX.Element {
-  const { categories } = useContext(SettingsContext);
+  const { parentCategories } = useContext(SettingsContext);
+  const { productList } = useContext(ProductListContext);
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    props.minPrice,
-    props.maxPrice,
-  ]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
+
+  useEffect(() => {
+    if (productList) {
+      const maxPrice = Math.max(...productList.map(product => product.price))
+      setPriceRange([0, maxPrice]);
+    }
+  }, []);
+  
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const options = categories.map((v: string, i) => {
+  const options = parentCategories.map((v: Category, i) => {
     return {
-      value: v,
+      value: v.name,
       isChecked: false,
     };
   });
@@ -58,10 +66,10 @@ export default function NavigationSidebar(
   };
 
   const rangeFilterProps: RangeFilterType = {
-    min: props.minPrice,
-    max: props.maxPrice,
+    min: priceRange[0],
+    max: priceRange[1],
     step: props.priceStep,
-    title: "Select Price",
+    title: "Price",
     onChange: setPriceRange,
     unit: props.currencyCode?.toString(),
   };
@@ -72,27 +80,53 @@ export default function NavigationSidebar(
   }, [selectedCategories, priceRange]);
 
   return (
-    <Box display="flex" flexDirection="column" w="200px">
-      <Box textAlign="center" border="2px solid black" padding="3px">
+    <Box 
+    display="flex"
+    flexDirection="column"
+    padding='3px'
+    border='2px solid black'
+    borderRadius='4px'
+    margin='3px'
+    w="200px">
+      <Box
+      textAlign="center"
+      padding="3px"
+      border='1px solid gray'
+      borderRadius='2px'
+      marginY='1px'
+      >
         Filters
       </Box>
       <Box
         display="flex"
         flexDirection="column"
-        border="2px solid black"
         padding="3px"
+        border='1px solid gray'
+        borderRadius='2px'
+        marginY='1px'
       >
         <RangeFilter {...rangeFilterProps} />
-        <Box display="flex" flexDirection="row" justifyContent="space-evenly">
+        <Box 
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-evenly">
           <Box>{props.currencyCode}</Box>
           <Box>
             {priceRange[0]} - {priceRange[1]}
           </Box>
         </Box>
       </Box>
-      <Box border="2px solid black" padding="3px">
+      <Box
+      border='1px solid gray'
+      borderRadius='2px'
+      marginY='1px'
+      padding="3px">
         <CheckboxFilter {...checkboxFilterProps} />
       </Box>
+      <Button
+      border='2px solid black'>
+        Submit
+      </Button>
     </Box>
   );
 }

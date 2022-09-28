@@ -5,6 +5,9 @@ import { api_routes, routes } from "../../api/routes";
 import { createConnection } from "../../data-source";
 import { convertToRegex } from "../../api/utils/formatting";
 import { CurrencyRequest } from "../../api/request/CurrencyRequest";
+import { CategoryRequest } from "../../api/request/CategoryRequest";
+import { CountryRequest } from "../../api/request/CountryRequest";
+import { setAddresses } from "../../api/helpers/init/setAddresses";
 
 type Route = {
   url: string;
@@ -32,7 +35,6 @@ export default async function handler(
   const path = url.origin + url.pathname;
 
   if (isInRoutes(routes.user, path)) {
-    console.log(`Successfully matches`);
     const request = new UserRequest(req, res);
     return request.handler();
   }
@@ -44,6 +46,16 @@ export default async function handler(
 
   if (isInRoutes(routes.currency, path)) {
     const request = new CurrencyRequest(req, res);
+    return request.handler();
+  }
+
+  if (isInRoutes(routes.category, path)) {
+    const request = new CategoryRequest(req, res);
+    return request.handler();
+  }
+
+  if (isInRoutes(routes.country, path)) {
+    const request = new CountryRequest(req, res);
     return request.handler();
   }
 

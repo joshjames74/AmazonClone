@@ -1,9 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Product } from "./Product";
 import { User } from "./User";
 
@@ -12,10 +7,10 @@ export class Review {
   @PrimaryGeneratedColumn()
   review_id: number;
 
-  @ManyToOne((type) => Product, {eager: true})
+  @ManyToOne((type) => Product, { eager: true, onDelete: "SET NULL" })
   product: Product;
 
-  @ManyToOne((type) => User, {eager: true})
+  @ManyToOne((type) => User, { eager: true, onDelete: "SET NULL" })
   user: User;
 
   @Column()

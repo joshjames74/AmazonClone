@@ -1,12 +1,23 @@
 import "reflect-metadata";
 
 import { DataSource } from "typeorm";
-import { Product } from "./api/entities/Product";
-import { Address } from "./api/entities/Address";
-import { Currency } from "./api/entities/Currency";
-import { Country } from "./api/entities/Country";
-import { Review } from "./api/entities/Review";
-import { User } from "./api/entities/User";
+import {
+  Product,
+  Address,
+  Currency,
+  Country,
+  Review,
+  User,
+  Category,
+  Order,
+  OrderItem,
+  ProductCategory,
+  ProductType,
+  Basket,
+  BasketItem,
+} from "./api/entities";
+import { BasketView } from "./api/entities/BasketView";
+import { OrderView } from "./api/entities/OrderView";
 
 export { Product, Address, Currency, Country, Review, User };
 
@@ -19,7 +30,23 @@ const AppDataSource = new DataSource({
   database: "amazon-clone",
   synchronize: true,
   logging: false,
-  entities: [Product, User, Country, Currency, Review, Address],
+  entities: [
+    Product,
+    User,
+    Country,
+    Currency,
+    Review,
+    Address,
+    Category,
+    ProductCategory,
+    ProductType,
+    Order,
+    OrderItem,
+    Basket,
+    BasketItem,
+    BasketView,
+    //OrderView
+  ],
   // entities: [
   //     "src/**/*/entities/*{.js,.ts}"
   // ],
@@ -37,11 +64,5 @@ async function createConnection() {
       .catch((error) => console.log(error));
   }
 }
-
-//  AppDataSource.initialize()
-// .then(() => {
-//     // here you can start to work with your database
-// })
-// .catch((error) => console.log(error))
 
 export { AppDataSource, createConnection };

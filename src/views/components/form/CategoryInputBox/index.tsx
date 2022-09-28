@@ -1,30 +1,18 @@
-import {
-  FormLabel,
-  Input,
-  Box,
-  InputGroup,
-  InputLeftAddon,
-  Select,
-  Checkbox,
-} from "@chakra-ui/react";
-import { Currency } from "../../../../api/entities/Currency";
-import { useEffect, useState } from "react";
-import { getAllCurrencies } from "../../../../api/helpers/requests/currency";
+import { Box, FormLabel, Checkbox } from "@chakra-ui/react";
+import { useEffect, useState, useContext } from "react";
+import { SettingsContext } from "../../../contexts/SettingsContext";
+import { Category } from "../../../../api/entities";
 
 export interface ICategoryInputBox {
-  // label: string,
-  // type: string,
-  // placeholder: string,
-  categories: string[];
+  categories?: string[];
   onChange: (categories: string[]) => void;
-  // isInvalid?: boolean,
-  // isRequired?: boolean
 }
 
 export default function CategoryInputBox(
   props: ICategoryInputBox
 ): JSX.Element {
-  const { categories, onChange } = props;
+  const { onChange } = props;
+  const { parentCategories, loading } = useContext(SettingsContext);
   const [checkedCategories, setCheckedCategories] = useState<string[]>([]);
 
   const updateCategories = (isChecked: boolean, value: string) => {
@@ -40,26 +28,40 @@ export default function CategoryInputBox(
     onChange(checkedCategories);
   }, [checkedCategories]);
 
-  const renderCategories = (): JSX.Element[] => {
-    return categories.map((category: string, index) => {
+  const renderCategories = (categories: Category[]): JSX.Element[] => {
+    return categories.map((category: Category, index) => {
       return (
-        <Checkbox
-          isChecked={checkedCategories.includes(category)}
-          key={index}
-          value={category}
-          onChange={() =>
-            updateCategories(checkedCategories.includes(category), category)
-          }
-        >
-          {category}
-        </Checkbox>
+        <div key={index}>
+          <Checkbox
+            isChecked={checkedCategories.includes(category.name)}
+            key={index}
+            value={category.name}
+            onChange={() =>
+              updateCategories(
+                checkedCategories.includes(category.name),
+                category.name
+              )
+            }
+          >
+            {category.name}
+          </Checkbox>
+          {category.children ? renderCategories(category.children) : <></>}
+        </div>
       );
     });
   };
 
   return (
-    <Box display="flex" flexDirection="column">
-      {renderCategories()}
+    <Box 
+    display="flex"
+    flexDirection="row"
+    >
+      <FormLabel w='20%'>Categories</FormLabel>
+      <Box
+      display='flex'
+      flexDirection='column'>
+        {loading ? <></> : renderCategories(parentCategories)}
+      </Box>
     </Box>
   );
 }

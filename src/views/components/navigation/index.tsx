@@ -18,7 +18,6 @@ import ProductCardWrapper, {
 import { ProductInfo } from "../../../types";
 import { CardType } from "../product/enums/CardType";
 import { AccountButtonType } from "./types/AccountButton";
-import { AuthProvider, UserProvider } from "../../contexts";
 
 export default function Navigation(): JSX.Element {
   const logoWrapperProps: LogoWrapperType = {
@@ -27,7 +26,7 @@ export default function Navigation(): JSX.Element {
 
   const deliveryButtonProps: DeliveryButtonType = {
     name: "Joshua",
-    loggedIn: false,
+    loggedIn: true,
     countryCode: CurrencyCode.GBP,
     addresses: [
       {

@@ -92,6 +92,7 @@ const id_match = "[0-9]+";
 const base_api = "http://localhost:3000/api";
 
 export const routes = {
+  base: "http://localhost:3000",
   product: {
     post: base_api + "/product",
     product: base_api + "/product/:id",
@@ -102,14 +103,26 @@ export const routes = {
     user: base_api + "/user/:id",
     currency: base_api + "/user/:id/currency",
     basket: base_api + "/user/:id/basket",
-    orders: base_api + "/user/:id/orders",
+    get_full_basket: base_api + '/user/:id/fullbasket',
+    add_to_basket: base_api + "/user/:id/basket/add",
+    get_order: base_api + "/user/:id/order/:id",
+    get_all_orders: base_api + "/user/:id/orders",
     add: base_api + "/user/add",
     add_order: base_api + "/user/:id/order",
     add_review: base_api + "/user/:id/review/add",
+    delete_review: base_api + "/user/:id/review/delete",
+    addresses: base_api + "/user/:id/addresses",
   },
   currency: {
     currency: base_api + "/currency/:id",
     all: base_api + "/currency",
+  },
+  category: {
+    all: base_api + "/categories",
+    allParents: base_api + "/categories/parents",
+  },
+  country: {
+    all: base_api + "/countries",
   },
 };
 

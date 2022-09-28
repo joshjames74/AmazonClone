@@ -14,21 +14,19 @@ export class Product {
   @PrimaryGeneratedColumn()
   product_id: number;
 
-  @ManyToOne((type) => User, { eager: true })
-  user: User;
+  @ManyToOne((type) => User, { eager: true, onDelete: "SET NULL" })
+  seller: User;
 
-  @Column({length: 100})
+  @Column({ length: 100 })
   title: string;
 
-  @Column({
-    length: 100,
-  })
+  @Column({ nullable: true })
   url: string;
 
   @Column("text")
   description: string;
 
-  @Column({length: 100})
+  @Column({ default: 'https://webneel.com/daily/sites/default/files/images/daily/08-2018/1-nature-photography-spring-season-mumtazshamsee.jpg' })
   image_url: string;
 
   @Column({
@@ -39,7 +37,7 @@ export class Product {
   @Column("double precision")
   price: number;
 
-  @ManyToOne((type) => Currency, { eager: true })
+  @ManyToOne((type) => Currency, { eager: true, onDelete: "SET NULL" })
   currency: Currency;
 
   @Column("double precision", {

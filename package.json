@@ -7,24 +7,26 @@
       "build": "next build",
       "start": "ts-node src/index.ts",
       "lint": "next lint",
-      "typeorm": "typeorm-ts-node-commonjs"
+      "typeorm": "typeorm-ts-node-commonjs",
+      "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
    },
    "dependencies": {
       "@chakra-ui/icons": "2.0.8",
       "@chakra-ui/react": "2.2.8",
       "@emotion/react": "^11.10.0",
       "@emotion/styled": "^11.10.0",
+      "aws-sdk": "^2.1223.0",
       "dns": "file:./mock/dns",
       "format": "^0.2.2",
       "formik": "^2.2.9",
       "framer-motion": "^7.2.0",
       "next": "^12.2.5",
       "pg": "^8.4.0",
-      "prettier": "^2.7.1",
       "react": "18.2.0",
       "react-dom": "18.2.0",
       "reflect-metadata": "^0.1.13",
-      "typeorm": "^0.3.9"
+      "typeorm": "^0.3.9",
+      "uuid": "^9.0.0"
    },
    "devDependencies": {
       "@types/node": "^16.11.10",
@@ -37,6 +39,7 @@
       "eslint-config-next": "12.2.5",
       "fs": "0.0.1-security",
       "net": "^1.0.2",
+      "prettier": "^2.7.1",
       "sass": "^1.54.5",
       "ts-node": "10.7.0",
       "typedi": "^0.10.0",

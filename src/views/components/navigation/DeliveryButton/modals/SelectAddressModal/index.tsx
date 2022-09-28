@@ -1,4 +1,4 @@
-import { AddressType, UserType } from "../../../../../../types";
+import { Address } from "../../../../../../api/entities";
 import {
   Radio,
   ModalFooter,
@@ -10,10 +10,9 @@ import {
   ModalCloseButton,
   ModalOverlay,
   ModalHeader,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useState, useContext } from "react";
-import { AuthContext, UserContext } from "../../../../../contexts";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../../../../../contexts";
 
 type SelectAddressModalType = {
   isOpen: boolean;
@@ -23,7 +22,7 @@ type SelectAddressModalType = {
 export default function SelectAddressModal(
   props: SelectAddressModalType
 ): JSX.Element {
-  const { userInfo, currentAddressIndex, setCurrentAddressIndex } =
+  const { addresses, currentAddressIndex, setCurrentAddressIndex, loading } =
     useContext(UserContext);
 
   const handleClick = (nextVal: string) => {
@@ -36,23 +35,27 @@ export default function SelectAddressModal(
 
     const key: number = parseInt(nextVal);
 
-    if (!userInfo?.addresses || !setCurrentAddressIndex) {
+    if (!addresses || !setCurrentAddressIndex) {
       return;
     }
-    if (key < 0 || key > userInfo.addresses.length) {
+    if (key < 0 || key > addresses.length) {
       return;
     }
 
     setCurrentAddressIndex(key);
   };
 
-  const renderCheckBox = (address: AddressType, key: number): JSX.Element => {
+  useEffect(() => {
+    console.log(addresses);
+  }, []);
+
+  const renderCheckBox = (address: Address, key: number): JSX.Element => {
     return (
       <Radio value={key} key={key}>
         <Box display="flex" flexDirection="row">
           <Box>
             <b>{address.name}: </b>
-            {address.county}, {address.postCode}
+            {address.county}, {address.postcode}
           </Box>
         </Box>
       </Radio>
@@ -60,13 +63,18 @@ export default function SelectAddressModal(
   };
 
   const renderAddresses = (): JSX.Element => {
-    if (!userInfo?.addresses) {
+    if (!addresses) {
       return <></>;
     }
 
     return (
-      <RadioGroup value={currentAddressIndex} onChange={handleClick}>
-        {userInfo.addresses.map((v: AddressType, i) => {
+      <RadioGroup
+        value={currentAddressIndex}
+        onChange={handleClick}
+        display="flex"
+        flexDirection="column"
+      >
+        {addresses.map((v: Address, i) => {
           return renderCheckBox(v, i);
         })}
       </RadioGroup>

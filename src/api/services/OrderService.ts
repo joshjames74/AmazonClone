@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { Order } from "../entities/Order";
 import { In } from "typeorm";
 import BaseService from "./BaseService";
+import { OrderView } from "../entities/OrderView";
 
 @Service()
 export default class OrderService extends BaseService {
@@ -9,9 +10,9 @@ export default class OrderService extends BaseService {
     super(Order);
   }
 
-  public async getOrderById(id: number): Promise<Order> {
+  public async getOrderById(id: number): Promise<OrderView> {
     id = this.sanitizeId(id);
-    const order = await this.repository.findOneBy({
+    const order = await this.repository.manager.findOneBy(OrderView, {
       order_id: id,
     });
     return order;

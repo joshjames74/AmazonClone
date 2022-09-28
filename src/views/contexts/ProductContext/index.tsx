@@ -1,81 +1,47 @@
-import React, { useState } from "react";
-import { CurrencyCode } from "../../../types";
-import { ProductInfo } from "../../../types/ProductInfo";
-import { ReviewType } from "../../../types/Review";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { getReviewListByProductId } from "../../../api/helpers/requests/review";
-import { getProductInfoById } from "../../../api/helpers/requests/product";
+import { Product, Review } from "../../../api/entities";
+import { getReviewsByProductId } from "../../../api/helpers/requests/review";
+import { getProductById } from "../../../api/helpers/requests/product";
+import { AuthContext } from "..";
 
 export const ProductContext = React.createContext<{
-  productInfo: ProductInfo;
-  reviewList: ReviewType[];
-  isInBasket: boolean;
-  setIsInBasket?: (value: boolean) => void;
+  product: Product;
+  reviews: Review[];
   onUpdateReview: () => void;
 }>({
-  productInfo: {
-    productId: 1,
-    title: "Sample product",
-    description: "Description",
-    imageURL:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pink-select-2021?wid=940&hei=1112&fmt=png-alpha&.v=1645572315935",
-    price: 120,
-    currencyCode: CurrencyCode.GBP,
-    reviewScore: 4.3,
-    reviewCount: 90000,
-  },
-  reviewList: [
-    {
-      userInfo: {
-        userId: 1,
-        userName: "joshuajames",
-        firstName: "joshua",
-        countryCode: "UK",
-        currencyCode: CurrencyCode.GBP,
-        addresses: [
-          {
-            name: "Joshua",
-            number: "33",
-            postCode: "CF23 9BN",
-            county: "Cardiff",
-          },
-        ],
-      },
-      score: 3.2,
-      title: "Best product ever",
-      content: "This is a good product...",
-      date: new Date(2010, 30, 4),
-      images: [""],
-    },
-  ],
-  isInBasket: false,
+  product: new Product(),
+  reviews: [new Review()],
   onUpdateReview: null,
 });
 
 export const ProductProvider = (props: {
   children?: JSX.Element;
 }): JSX.Element => {
+  const { user } = useContext(AuthContext);
   const { children } = props;
   const router = useRouter();
   const { id } = router.query;
 
-  console.log(id);
-
-  const [productInfo, setProductInfo] = useState<ProductInfo>({
-    productId: 0,
+  const [product, setProduct] = useState<Product>({
+    product_id: 1,
+    seller: user,
     title: "",
-    price: 0,
-    currencyCode: CurrencyCode.GBP,
-    description: "",
-    reviewCount: 0,
-    reviewScore: 0,
-    imageAlt: "",
-    imageURL: "",
     url: "",
+    description: "",
+    image_url: "",
+    image_alt: "",
+    price: 0,
+    currency: {
+      currency_id: 1,
+      code: "GBP",
+      symbol: "$",
+    },
+    review_score: 0,
+    review_count: 0,
   });
-  const [reviewList, setReviewList] = useState<ReviewType[]>([]);
-  const [isInBasket, setIsInBasket] = useState<boolean>(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const idToNumber = (id: string[] | string): number => {
     if (id instanceof Array) {
@@ -90,11 +56,11 @@ export const ProductProvider = (props: {
       return;
     }
     const idNumeric = idToNumber(id);
-    getReviewListByProductId(idNumeric).then((reviews: ReviewType[]) => {
+    getReviewsByProductId(idNumeric).then((reviews: Review[]) => {
       if (!reviews) {
         return;
       }
-      setReviewList(reviews);
+      setReviews(reviews);
     });
   };
 
@@ -103,12 +69,11 @@ export const ProductProvider = (props: {
       return;
     }
     const idNumeric = idToNumber(id);
-    getProductInfoById(idNumeric).then((product: ProductInfo) => {
+    getProductById(idNumeric).then((product: Product) => {
       if (!product) {
         return;
       }
-      console.log(product);
-      setProductInfo(product);
+      setProduct(product);
     });
   };
 
@@ -137,10 +102,8 @@ export const ProductProvider = (props: {
   return (
     <ProductContext.Provider
       value={{
-        productInfo: productInfo,
-        isInBasket: isInBasket,
-        reviewList: reviewList,
-        setIsInBasket: setIsInBasket,
+        product: product,
+        reviews: reviews,
         onUpdateReview: getReviews,
       }}
     >

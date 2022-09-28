@@ -3,6 +3,7 @@ import { FormLabel, Input, Box } from "@chakra-ui/react";
 export interface IInputBoxProps {
   label: string;
   type: string;
+  value: string;
   placeholder: string;
   onChange: (event: any) => void;
   isInvalid?: boolean;
@@ -16,6 +17,7 @@ export default function ImageBox(props: IInputBoxProps): JSX.Element {
         {props.label}
       </FormLabel>
       <Input
+        value={props.value}
         isRequired={props.isRequired}
         h="100%"
         w="80%"

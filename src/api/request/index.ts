@@ -4,6 +4,8 @@ import { createConnection } from "../../data-source";
 import { ServiceType } from "../../types/Service";
 import { IBaseService } from "../services/BaseService";
 import { convertToRegex } from "../utils/formatting";
+import { AppDataSource } from "../../data-source";
+import { QueryRunner } from "typeorm";
 
 export interface IRequestHandler {
   req: NextApiRequest;
@@ -30,6 +32,12 @@ export default class RequestHandler implements IRequestHandler {
     return new URL(this.base + this.req.url);
   }
 
+  public async createTransaction(): Promise<QueryRunner> {
+    const dataSource = AppDataSource.createQueryRunner();
+    await dataSource.startTransaction();
+    return dataSource;
+  }
+
   public matches(pattern: string): boolean {
     pattern = convertToRegex(pattern);
     if (this.fullPath.match(pattern)) {
@@ -53,6 +61,8 @@ export default class RequestHandler implements IRequestHandler {
         return this.post();
       case "PUT":
         return this.put();
+      case "DELETE":
+        return this.delete();
       default:
         return;
     }
@@ -99,4 +109,6 @@ export default class RequestHandler implements IRequestHandler {
   public post() {}
 
   public put() {}
+
+  public delete() {}
 }
