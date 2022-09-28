@@ -11,7 +11,7 @@ import { LocationButtonType } from "../types/LocationButtonType";
 import { UserContext } from "../../../contexts";
 import { useContext } from "react";
 
-export default function LocationButton(props: LocationButtonType): JSX.Element {
+export default function LocationButton(): JSX.Element {
   const { user, loading } = useContext(UserContext);
   const defaultCountry = "US";
 

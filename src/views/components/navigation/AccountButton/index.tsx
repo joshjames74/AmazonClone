@@ -4,7 +4,7 @@ import { AccountButtonType } from "../types/AccountButton";
 import { AuthContext } from "../../../contexts";
 import { useContext } from "react";
 
-export default function AccountButton(props: AccountButtonType): JSX.Element {
+export default function AccountButton(): JSX.Element {
   const { isLoggedIn } = useContext(AuthContext);
 
   const loggedInButton = (): JSX.Element => {
@@ -12,7 +12,7 @@ export default function AccountButton(props: AccountButtonType): JSX.Element {
       <Menu>
         <MenuButton
           as={Button}
-          href={props.accountURL ? props.accountURL : ""}
+          href={"/"}
           rightIcon={<ChevronDownIcon />}
           fontSize="xs"
           w="15%"

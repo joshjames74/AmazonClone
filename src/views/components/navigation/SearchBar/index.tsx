@@ -1,15 +1,9 @@
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Menu,
-  MenuList,
-  MenuItem,
-  Button,
   InputGroup,
   Input,
   InputLeftAddon,
   InputRightAddon,
-  MenuButton,
   Select,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
@@ -17,7 +11,7 @@ import { SettingsContext } from "../../../contexts/SettingsContext";
 import { SearchBarType } from "../types/SearchBarType";
 import { Category } from "../../../../api/entities";
 
-export default function SearchBar(props: SearchBarType): JSX.Element {
+export default function SearchBar(): JSX.Element {
   const { parentCategories, loading } = useContext(SettingsContext);
 
   const [category, setCategory] = useState<string>("All");

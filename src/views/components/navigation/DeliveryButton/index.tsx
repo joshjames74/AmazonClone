@@ -8,14 +8,7 @@ import SelectAddressModal from "./modals/SelectAddressModal";
 import SetAddressModal from "./modals/SetAddressModal";
 import { AuthContext, UserContext } from "../../../contexts";
 
-type DeliveryButtonType = {
-  name: string;
-  loggedIn: boolean;
-  addresses?: AddressType[];
-  countryCode: string;
-};
-
-export default function DeliveryButton(props: DeliveryButtonType): JSX.Element {
+export default function DeliveryButton(): JSX.Element {
   const { isLoggedIn } = useContext(AuthContext);
   const { currentAddress, loading } = useContext(UserContext);
 

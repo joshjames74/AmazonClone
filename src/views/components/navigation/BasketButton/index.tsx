@@ -5,8 +5,8 @@ import { useContext } from "react";
 import Link from 'next/link';
 import { SettingsContext } from "../../../contexts/SettingsContext";
 
-export default function BasketButton(props: BasketButtonType): JSX.Element {
-  const { basket, user, loading } = useContext(UserContext);
+export default function BasketButton(): JSX.Element {
+  const { basket, user } = useContext(UserContext);
   const { base_url } = useContext(SettingsContext);
 
   return (

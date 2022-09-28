@@ -47,12 +47,6 @@ const AppDataSource = new DataSource({
     BasketView,
     //OrderView
   ],
-  // entities: [
-  //     "src/**/*/entities/*{.js,.ts}"
-  // ],
-  // entities: [
-  //     "src/api/entities/*.ts"
-  // ],
   migrations: [],
   subscribers: [],
 });
