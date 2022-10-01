@@ -31,6 +31,6 @@ export class Address {
   @Column()
   county: string;
 
-  @ManyToOne((type) => Country, {onDelete: "SET NULL"})
+  @ManyToOne((type) => Country, { onDelete: "SET NULL" })
   country: Country;
 }

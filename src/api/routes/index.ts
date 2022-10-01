@@ -103,9 +103,11 @@ export const routes = {
     user: base_api + "/user/:id",
     currency: base_api + "/user/:id/currency",
     basket: base_api + "/user/:id/basket",
-    get_full_basket: base_api + '/user/:id/fullbasket',
+    get_full_basket: base_api + "/user/:id/fullbasket",
     add_to_basket: base_api + "/user/:id/basket/add",
+    delete_basket_item: base_api + "/user/:id/basket/delete/item/:id",
     get_order: base_api + "/user/:id/order/:id",
+    all_orders: base_api + "/user/:id/orders",
     get_all_orders: base_api + "/user/:id/orders",
     add: base_api + "/user/add",
     add_order: base_api + "/user/:id/order",
@@ -115,6 +117,7 @@ export const routes = {
   },
   currency: {
     currency: base_api + "/currency/:id",
+    convert_currency: base_api + "/currency/convert",
     all: base_api + "/currency",
   },
   category: {

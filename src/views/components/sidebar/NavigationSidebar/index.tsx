@@ -27,11 +27,11 @@ export default function NavigationSidebar(
 
   useEffect(() => {
     if (productList) {
-      const maxPrice = Math.max(...productList.map(product => product.price))
+      const maxPrice = Math.max(...productList.map((product) => product.price));
       setPriceRange([0, maxPrice]);
     }
   }, []);
-  
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const options = parentCategories.map((v: Category, i) => {
@@ -80,20 +80,21 @@ export default function NavigationSidebar(
   }, [selectedCategories, priceRange]);
 
   return (
-    <Box 
-    display="flex"
-    flexDirection="column"
-    padding='3px'
-    border='2px solid black'
-    borderRadius='4px'
-    margin='3px'
-    w="200px">
-      <Box
-      textAlign="center"
+    <Box
+      display="flex"
+      flexDirection="column"
       padding="3px"
-      border='1px solid gray'
-      borderRadius='2px'
-      marginY='1px'
+      border="2px solid black"
+      borderRadius="4px"
+      margin="3px"
+      w="200px"
+    >
+      <Box
+        textAlign="center"
+        padding="3px"
+        border="1px solid gray"
+        borderRadius="2px"
+        marginY="1px"
       >
         Filters
       </Box>
@@ -101,15 +102,12 @@ export default function NavigationSidebar(
         display="flex"
         flexDirection="column"
         padding="3px"
-        border='1px solid gray'
-        borderRadius='2px'
-        marginY='1px'
+        border="1px solid gray"
+        borderRadius="2px"
+        marginY="1px"
       >
         <RangeFilter {...rangeFilterProps} />
-        <Box 
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-evenly">
+        <Box display="flex" flexDirection="row" justifyContent="space-evenly">
           <Box>{props.currencyCode}</Box>
           <Box>
             {priceRange[0]} - {priceRange[1]}
@@ -117,16 +115,14 @@ export default function NavigationSidebar(
         </Box>
       </Box>
       <Box
-      border='1px solid gray'
-      borderRadius='2px'
-      marginY='1px'
-      padding="3px">
+        border="1px solid gray"
+        borderRadius="2px"
+        marginY="1px"
+        padding="3px"
+      >
         <CheckboxFilter {...checkboxFilterProps} />
       </Box>
-      <Button
-      border='2px solid black'>
-        Submit
-      </Button>
+      <Button border="2px solid black">Submit</Button>
     </Box>
   );
 }

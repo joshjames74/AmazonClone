@@ -3,13 +3,19 @@ import { useRouter } from "next/router";
 import { idToNumber } from "../../../api/utils/queryTransformer";
 import {
   getAddressesByUserId,
-  getBasketByUserId,
   getBasketViewByUserId,
   getUserById,
 } from "../../../api/helpers/requests/user";
-import { User, Address, Product, BasketItem } from "../../../api/entities";
-import { BasketView } from "../../../api/entities/BasketView";
-import Basket from "../../../pages/basket";
+import {
+  User,
+  Address,
+  Product,
+  BasketItem,
+  OrderItem,
+  Order,
+} from "../../../api/entities";
+import { OrderView } from "../../../api/entities/OrderView";
+import { getOrderViewByUserId } from "../../../api/helpers/requests/order";
 
 export const UserContext = React.createContext<{
   user: User;
@@ -21,7 +27,9 @@ export const UserContext = React.createContext<{
   basketCount: number;
   basket: BasketItem[];
   addToBasket: (value: Product[]) => void;
+  orders: OrderView[];
   loading: boolean;
+  reload: () => void;
 }>({
   user: new User(),
   addresses: [new Address()],
@@ -32,7 +40,9 @@ export const UserContext = React.createContext<{
   basketCount: 0,
   basket: [new BasketItem()],
   addToBasket: null,
+  orders: null,
   loading: true,
+  reload: null,
 });
 
 export const UserProvider = (props: { children?: JSX.Element }) => {
@@ -50,12 +60,9 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
   const [basket, setBasket] = useState<BasketItem[]>([] as BasketItem[]);
   const [basketCount, setBasketCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [orders, setOrders] = useState<OrderView[]>();
 
-  // useEffect(() => {
-  //     setCurrentAddress(userInfo.addresses[currentAddressIndex])
-  // }, [currentAddressIndex])
-
-  useEffect(() => {
+  const fetchData = () => {
     if (!id) {
       return;
     }
@@ -65,19 +72,28 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
     getAddressesByUserId(idNumeric).then((value: Address[]) => {
       setAddresses(value);
     });
-    getBasketViewByUserId(idNumeric).then((value: BasketItem[]) => setBasket(value));
+    getBasketViewByUserId(idNumeric).then((value: BasketItem[]) =>
+      setBasket(value)
+    );
+    // getOrderViewByUserId(idNumeric).then((value: OrderView[]) => {
+    //   console.log("orders")
+    //   console.log(value);
+    //   setOrders(value)
+    // });
     setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
     // getBasketByUserId(idNumeric).then((value: Product[]) => setBasket(value));
   }, [id]);
 
   useEffect(() => {
-    setBasketCount(1);
-    console.log(basket);
+    if (!basket.length) {
+      return;
+    }
+    setBasketCount(basket.length);
   }, [basket]);
-
-  useEffect(() => {
-    console.log(addresses);
-  }, [addresses]);
 
   useEffect(() => {
     if (!addresses?.length || addresses.length <= currentAddressIndex) {
@@ -107,6 +123,8 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
         basketCount: basketCount,
         basket: basket,
         addToBasket: addToBasket,
+        orders: orders,
+        reload: fetchData,
       }}
     >
       {children}

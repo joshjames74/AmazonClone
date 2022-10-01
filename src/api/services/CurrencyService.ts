@@ -37,4 +37,20 @@ export default class CurrencyService extends BaseService {
     await this.repository.save(currency);
     return currency.currency_id;
   }
+
+  public async convertCurrency(
+    currency: Currency,
+    value: number,
+    newCurrency: Currency
+  ): Promise<number> {
+    const getCurrency = await this.repository.findOneBy({
+      currency_id: currency.currency_id,
+    });
+    const gbpValue = getCurrency.gbp_exchange_rate * value;
+    const getNewCurrency = await this.repository.findOneBy({
+      currency_id: newCurrency.currency_id,
+    });
+    const newCurrencyValue = gbpValue * getNewCurrency.gbp_exchange_rate;
+    return parseFloat(newCurrencyValue.toFixed(2));
+  }
 }

@@ -31,30 +31,21 @@ export default function ReviewListWrapper(): JSX.Element {
 
   const renderReviewsBox = () => {
     return (
-      <Box
-        display="flex"
-        flexDirection="column"
-        w="100%"
-        maxH="50vh"
-        overflowY="scroll"
-      >
+      <Box display="flex" flexDirection="column" w="100%">
         {reviews.length ? renderReviews() : emptyReview()}
       </Box>
     );
   };
 
   return (
-    <Box 
-    display="flex"
-    flexDirection="row"
-    w="100%">
+    <Box display="flex" flexDirection="row" padding="3px" w="120vh">
       <RatingsOverview />
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        padding="3px"
-        w="60vh"
+        paddingX="3px"
+        w="100%"
       >
         <ReviewForm />
         {renderReviewsBox()}

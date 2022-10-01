@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { BasketButtonType } from "../types/BasketButton";
 import { UserContext } from "../../../contexts";
 import { useContext } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import { SettingsContext } from "../../../contexts/SettingsContext";
 
 export default function BasketButton(): JSX.Element {
@@ -10,12 +10,12 @@ export default function BasketButton(): JSX.Element {
   const { base_url } = useContext(SettingsContext);
 
   return (
-    <Link href={user?.user_id ? `${base_url}/user/${user?.user_id}/basket` : '/'}>
-      <Button
-      fontSize="xs"
-      >
+    <Link
+      href={user?.user_id ? `${base_url}/user/${user?.user_id}/basket` : "/"}
+    >
+      <Button fontSize="xs">
         Basket {`(${basket.length ? basket.length : 0})`}
       </Button>
-      </Link>
+    </Link>
   );
 }

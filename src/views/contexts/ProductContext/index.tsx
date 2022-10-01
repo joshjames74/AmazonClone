@@ -5,15 +5,18 @@ import { Product, Review } from "../../../api/entities";
 import { getReviewsByProductId } from "../../../api/helpers/requests/review";
 import { getProductById } from "../../../api/helpers/requests/product";
 import { AuthContext } from "..";
+import { convertCurrency } from "../../../api/helpers/requests/currency";
 
 export const ProductContext = React.createContext<{
   product: Product;
   reviews: Review[];
   onUpdateReview: () => void;
+  convertedPrice: number;
 }>({
   product: new Product(),
   reviews: [new Review()],
   onUpdateReview: null,
+  convertedPrice: null,
 });
 
 export const ProductProvider = (props: {
@@ -37,11 +40,13 @@ export const ProductProvider = (props: {
       currency_id: 1,
       code: "GBP",
       symbol: "$",
+      gbp_exchange_rate: 1,
     },
     review_score: 0,
     review_count: 0,
   });
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [convertedPrice, setConvertedPrice] = useState<number>();
 
   const idToNumber = (id: string[] | string): number => {
     if (id instanceof Array) {
@@ -77,9 +82,19 @@ export const ProductProvider = (props: {
     });
   };
 
+  const getConvertedPrice = () => {
+    if (!product || !user?.currency?.currency_id) {
+      return;
+    }
+    convertCurrency(product.currency, product.price, user.currency).then(
+      (res) => setConvertedPrice(res)
+    );
+  };
+
   useEffect(() => {
     getProduct();
     getReviews();
+    getConvertedPrice();
     // if (!id) {
     //     return;
     // }
@@ -99,12 +114,17 @@ export const ProductProvider = (props: {
     // })
   }, [id]);
 
+  useEffect(() => {
+    getConvertedPrice();
+  }, [product]);
+
   return (
     <ProductContext.Provider
       value={{
         product: product,
         reviews: reviews,
         onUpdateReview: getReviews,
+        convertedPrice: convertedPrice,
       }}
     >
       {children}

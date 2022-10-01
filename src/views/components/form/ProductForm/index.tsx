@@ -32,7 +32,9 @@ export default function ProductForm(): JSX.Element {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
-  const [images, setImages] = useState<string>('https://webneel.com/daily/sites/default/files/images/daily/08-2018/1-nature-photography-spring-season-mumtazshamsee.jpg');
+  const [images, setImages] = useState<string>(
+    "https://webneel.com/daily/sites/default/files/images/daily/08-2018/1-nature-photography-spring-season-mumtazshamsee.jpg"
+  );
   const [currency, setCurrency] = useState<Currency>(defaultCurrency);
   const [selectCategories, setSelectCategories] = useState<string[]>([]);
   const [canSubmit, setCanSubmit] = useState<boolean>(true);
@@ -41,9 +43,9 @@ export default function ProductForm(): JSX.Element {
     setCanSubmit(
       // split into single function in validation files
       validateTitle(title) &&
-      validatePrice(price) &&
-      validateDescription(description) &&
-      validateCategories(selectCategories)
+        validatePrice(price) &&
+        validateDescription(description) &&
+        validateCategories(selectCategories)
     );
   }, [title, description, price, images, selectCategories]);
 
@@ -95,9 +97,7 @@ export default function ProductForm(): JSX.Element {
         }
       />
 
-      <CategoryInputBox
-        onChange={(values) => setSelectCategories(values)}
-      />
+      <CategoryInputBox onChange={(values) => setSelectCategories(values)} />
 
       <Box
         display="flex"

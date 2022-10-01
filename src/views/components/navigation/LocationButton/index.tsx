@@ -7,7 +7,6 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
-import { LocationButtonType } from "../types/LocationButtonType";
 import { UserContext } from "../../../contexts";
 import { useContext } from "react";
 

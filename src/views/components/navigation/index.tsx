@@ -7,11 +7,11 @@ import ReturnsButton from "./OrdersButton";
 import SearchBar from "./SearchBar";
 import { Box } from "@chakra-ui/react";
 import { LogoWrapperType } from "./types/LogoWrapperType";
+import { useContext } from "react";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 export default function Navigation(): JSX.Element {
-  const logoWrapperProps: LogoWrapperType = {
-    imageURL: "https://www.logodesign.net/logo/eye-and-house-5806ld.png",
-  };
+  const { logoUrl } = useContext(SettingsContext);
 
   return (
     <Box
@@ -24,7 +24,7 @@ export default function Navigation(): JSX.Element {
       p="1px"
       bgColor={"#232f3e"}
     >
-      <LogoWrapper {...logoWrapperProps} />
+      <LogoWrapper imageUrl={logoUrl} />
       <DeliveryButton />
       <SearchBar />
       <LocationButton />

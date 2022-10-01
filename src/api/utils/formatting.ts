@@ -15,7 +15,7 @@ export function convertToRegex(
   value: string,
   complete: boolean = true
 ): string {
-  value = value.replace(":id", "[0-9]+");
+  value = value.replace(/:id/g, "[0-9]+");
   value = escapeSlashes(value);
   if (complete) {
     value = "^" + value + "$";

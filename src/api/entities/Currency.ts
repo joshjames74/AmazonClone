@@ -10,6 +10,9 @@ class Currency {
 
   @Column()
   symbol: string;
+
+  @Column("double precision", { nullable: true })
+  gbp_exchange_rate: number;
 }
 
 export { Currency };

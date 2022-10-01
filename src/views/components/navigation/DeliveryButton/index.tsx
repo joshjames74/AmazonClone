@@ -58,10 +58,10 @@ export default function DeliveryButton(): JSX.Element {
   };
 
   const renderAddressModal = (): JSX.Element => {
-    if (!isLoggedIn && currentAddress) {
+    if (isLoggedIn && currentAddress) {
       return <SelectAddressModal {...selectAddressModalProps} />;
     }
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       return <SetAddressModal {...selectAddressModalProps} />;
     }
     return <></>;

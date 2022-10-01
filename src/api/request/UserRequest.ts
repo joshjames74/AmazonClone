@@ -7,8 +7,9 @@ import CurrencyService from "../services/CurrencyService";
 import OrderService from "../services/OrderService";
 import ReviewService from "../services/ReviewService";
 import UserService from "../services/UserService";
-import { Review, User, Product } from "../entities";
+import { Review, User, Product, Order, OrderItem } from "../entities";
 import AddressService from "../services/AddressService";
+import OrderItemService from "../services/OrderItemService";
 
 export class UserRequest extends RequestHandler {
   private userService: UserService;
@@ -18,6 +19,7 @@ export class UserRequest extends RequestHandler {
   private currencyService: CurrencyService;
   private reviewService: ReviewService;
   private addressService: AddressService;
+  private orderItemService: OrderItemService;
 
   constructor(req: NextApiRequest, res: NextApiResponse) {
     super(req, res);
@@ -28,6 +30,7 @@ export class UserRequest extends RequestHandler {
     this.currencyService = new CurrencyService();
     this.reviewService = new ReviewService();
     this.addressService = new AddressService();
+    this.orderItemService = new OrderItemService();
   }
 
   get() {
@@ -62,6 +65,9 @@ export class UserRequest extends RequestHandler {
     if (this.matches(routes.user.add_to_basket)) {
       return this.postBasketItem();
     }
+    if (this.matches(routes.user.add_order)) {
+      return this.postOrder();
+    }
   }
 
   put() {
@@ -74,6 +80,9 @@ export class UserRequest extends RequestHandler {
     if (this.matches(routes.user.delete_review)) {
       return this.deleteReview();
     }
+    if (this.matches(routes.user.delete_basket_item)) {
+      return this.deleteBasketItem();
+    }
   }
 
   // Get functions
@@ -84,9 +93,15 @@ export class UserRequest extends RequestHandler {
     return this.sendResponseJSON({ user: user }, 200);
   }
 
+  // async getOrders(): Promise<void> {
+  //   const id = this.getIdFromPath("user");
+  //   const orders = await this.orderService.getOrdersByUserId(id);
+  //   return this.sendResponseJSON({ orders: orders }, 200);
+  // }
+
   async getOrders(): Promise<void> {
     const id = this.getIdFromPath("user");
-    const orders = await this.orderService.getOrdersByUserId(id);
+    const orders = await this.orderService.getOrderViewByUserId(id);
     return this.sendResponseJSON({ orders: orders }, 200);
   }
 
@@ -99,7 +114,9 @@ export class UserRequest extends RequestHandler {
   async getFullBasket(): Promise<void> {
     const id = this.getIdFromPath("user");
     const basket = await this.basketService.getBasketByUserId(id);
-    const basketItems = await this.basketItemService.getBasketItemByBasketIds(basket.basket_id);
+    const basketItems = await this.basketItemService.getBasketItemByBasketIds(
+      basket.basket_id
+    );
     return this.sendResponseJSON({ basket: basketItems }, 200);
   }
 
@@ -117,16 +134,6 @@ export class UserRequest extends RequestHandler {
 
   // Post functions
 
-  // async postUser(): Promise<void> {
-  //   const { user } = this.req.body;
-  //   // sanitize user
-  //   const newUser = await this.userService.postUser(user);
-  //   if (!newUser) {
-  //     return this.sendResponseJSON({}, 404);
-  //   }
-  //   return this.sendResponseJSON({ user: newUser }, 201);
-  // }
-
   async postUser(): Promise<void> {
     const { user } = this.req.body;
     const dataSource = await this.createTransaction();
@@ -141,6 +148,7 @@ export class UserRequest extends RequestHandler {
       // create new basket for user
       await this.basketService.postBasket(
         userResponse.user_id,
+        user,
         basketRepository
       );
     } catch (err) {
@@ -157,16 +165,6 @@ export class UserRequest extends RequestHandler {
     }
   }
 
-  async postOrder(): Promise<void> {
-    const { order } = this.req.body;
-    // sanitize order
-    const newOrder = await this.orderService.postOrder(order);
-    if (!newOrder) {
-      return this.sendResponseJSON({}, 404);
-    }
-    return this.sendResponseJSON({ order: newOrder }, 201);
-  }
-
   async postReview(): Promise<void> {
     const id = this.getIdFromPath("user");
     const { review } = this.req.body;
@@ -178,13 +176,32 @@ export class UserRequest extends RequestHandler {
     const id = this.getIdFromPath("user");
     console.log(id);
     let basket = await this.basketService.getBasketByUserId(id);
-    // if (!basket?.basket_id) {
-    //   basket = await this.basketService.postBasket(id);
-    // }
     const { basketItem } = this.req.body;
-    const request = await this.basketItemService.postBasketItem(basket, basketItem);
-    return this.sendResponseJSON({ basket: request}, 201);
-  } 
+    const request = await this.basketItemService.postBasketItem(
+      basket,
+      basketItem
+    );
+    return this.sendResponseJSON({ basket: request }, 201);
+  }
+
+  async postOrder(): Promise<void> {
+    const { order, orderItems } = this.req.body;
+    const queryRunner = await this.createTransaction();
+
+    try {
+      const orderObj = await this.orderService.postOrder(order);
+      await queryRunner.commitTransaction();
+      const newOrderItems = orderItems.map((orderItem: OrderItem) => {
+        orderItem.order = orderObj;
+        return orderItem;
+      });
+      await this.orderItemService.postOrderItems(newOrderItems);
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+    }
+    await queryRunner.release();
+    return this.sendResponseJSON({}, 201);
+  }
 
   // Put functions
 
@@ -204,5 +221,11 @@ export class UserRequest extends RequestHandler {
     const { review } = this.req.body;
     await this.reviewService.deleteReview(review.review_id);
     return this.sendResponseJSON({}, 204);
+  }
+
+  async deleteBasketItem(): Promise<any> {
+    const itemId = this.getIdFromPath("item");
+    await this.basketItemService.deleteBasketItem(itemId);
+    return this.sendResponseJSON({}, 202);
   }
 }

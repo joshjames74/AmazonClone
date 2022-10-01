@@ -9,21 +9,14 @@ export default function ProductPage(): JSX.Element {
   return (
     <Box>
       <Navigation />
-      <Box 
-      w="100%"
-      display='flex'
-      flexDirection='column'>
-        <Box display="flex" flexDirection="row" maxW="120vh">
-          <Box w="70%">
-            <ProductCardFull />
-          </Box>
-          <Box w="30%">
-            <BasketCard />
-          </Box>
+      <Box w="100%" display="flex" flexDirection="column" padding="3px">
+        <Box display="flex" flexDirection="row" h="30vh" w="100%" maxW="120vh">
+          <ProductCardFull />
+          <BasketCard />
         </Box>
         <ReviewListWrapper />
       </Box>
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 }

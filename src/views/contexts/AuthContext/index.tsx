@@ -1,7 +1,8 @@
-import React, { ContextType, useState } from "react";
+import React, { ContextType, useEffect, useState } from "react";
 import { UserType } from "../../../types/Auth";
 import { createContext } from "react";
 import { User, Country, Currency } from "../../../api/entities";
+import { getUserById } from "../../../api/helpers/requests/user";
 
 export const AuthContext = React.createContext<{
   user: User;
@@ -18,6 +19,15 @@ export const AuthProvider = (props: { children?: JSX.Element }) => {
   const { children }: any = props;
 
   const [loading, setLoading] = useState<boolean>(true);
+  // const [user, setUser] = useState<User>({
+  //   user_id: 1,
+  //   first_name: "Joshua",
+  //   user_name: "joshuajames",
+  //   title: "Mr",
+  //   country: new Country(),
+  //   currency: {currency_id: 3, code: 'AUD', symbol: '$', gbp_exchange_rate: 1.69},
+  //   image_url: "",
+  // });
   const [user, setUser] = useState<User>({
     user_id: 1,
     first_name: "Joshua",
@@ -29,6 +39,11 @@ export const AuthProvider = (props: { children?: JSX.Element }) => {
   });
   const [userType, setUserType] = useState<UserType>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+
+  useEffect(() => {
+    getUserById(1).then((res) => setUser(res));
+    console.log(user);
+  }, []);
 
   return (
     <AuthContext.Provider

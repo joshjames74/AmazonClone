@@ -18,3 +18,20 @@ export async function getAllCurrencies() {
   });
   return request;
 }
+
+export async function convertCurrency(
+  currency: Currency,
+  value: number,
+  newCurrency: Currency
+): Promise<number> {
+  const url = routes.currency.convert_currency;
+  const request = await axios(url, {
+    method: "GET",
+    params: {
+      currency: currency,
+      value: value,
+      newCurrency: newCurrency,
+    },
+  });
+  return request.data.value;
+}

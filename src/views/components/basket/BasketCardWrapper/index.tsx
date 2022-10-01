@@ -1,74 +1,116 @@
 import { UserContext } from "../../../contexts";
 import ProductCardWide from "../../product/ProductCard/ProductCardWide";
 import { Box, Button } from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 import { BasketItem, Product } from "../../../../api/entities";
 import { useContext } from "react";
+import { deleteBasketItem } from "../../../../api/helpers/requests/basket";
+import Basket from "../../../../pages/user/[id]/basket";
+import Link from "next/link";
+import { useRouter } from "next/router";
 // import { BasketView } from "../../../../api/entities/BasketView";
 
 export default function BasketCardWrapper(): JSX.Element {
-  const { basket, loading } = useContext(UserContext);
+  const { user, basket, loading, reload } = useContext(UserContext);
 
-  const renderBasketProducts = () => {
-    if (!basket.length) {
-      return (
-        <Box
-          display="flex"
-          justifyContent="center"
-          padding="10px"
-          border="1px solid black"
-          borderRadius="8px"
-        >
-          No items in basket
-        </Box>
-      );
-    }
+  const router = useRouter();
+
+  const handleClick = (id: number) => {
+    deleteBasketItem(user.user_id, id).then(() => reload());
+  };
+
+  const handleCheckout = () => {
+    router.push(`${router.asPath}/checkout`);
+  };
+
+  const renderBasketProducts = (basket: BasketItem[]): JSX.Element[] => {
     return basket.map((v: BasketItem, i: number) => {
       return (
-        <Box
-        display='flex'
-        flexDirection='row'
-        marginBottom='3px'
-        w='100%'>
-          <ProductCardWide key={i} {...v.product} />
-          <Box
-          padding='3px'
-          border='2px solid black'
-          borderRadius='10px'
-          display='flex'
-          flexDirection='column'
-          w='30%'>
-            <p>Quantity: {v.quantity}</p>
-            <Button>Delete</Button>
+        <Box key={i}>
+          <Box display="flex" flexDirection="row" marginBottom="3px" w="100%">
+            <ProductCardWide key={i} {...v.product} />
+            <Box
+              padding="3px"
+              border="2px solid black"
+              borderRadius="10px"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-evenly"
+              w="30%"
+            >
+              <Box
+                borderRadius="5px"
+                padding="5px"
+                textAlign="center"
+                backgroundColor="gray.100"
+                fontWeight="500"
+              >
+                Quantity: {v.quantity}
+              </Box>
+              <Button
+                onClick={() => handleClick(v.item_id)}
+                backgroundColor="red.100"
+              >
+                Delete
+              </Button>
+            </Box>
           </Box>
         </Box>
-      )
+      );
     });
   };
 
-  return (
-    <>
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Box 
-        w="100vh"
+  const renderEmptyBasket = () => {
+    return (
+      <Box
         display="flex"
-        flexDirection="column"
-        >
-          <Box 
-          display='flex'
-          justifyContent='center'
-          alignItems='center'
-          fontSize="xl"
-          background='gray.100'
-          h='10vh'
-          margin='3px'>
-            My Basket 
-          </Box>
-          {/* {basket.map((v: Product, i: number) => {
-            return <ProductCardWide key={i} {...v} />;
-          })} */}
-          {!loading ? renderBasketProducts() : <></>}
-        </Box>
+        justifyContent="center"
+        padding="10px"
+        border="1px solid black"
+        borderRadius="8px"
+      >
+        No items in basket
       </Box>
-    </>
+    );
+  };
+
+  return (
+    <Box display="flex" flexDirection="column" alignItems="left" padding="3px">
+      <Box w="100vh" display="flex" flexDirection="column">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          fontSize="xl"
+          background="gray.100"
+          h="10vh"
+          margin="3px"
+        >
+          My Basket
+        </Box>
+        {!loading && !!basket.length ? (
+          <>{renderBasketProducts(basket)}</>
+        ) : (
+          renderEmptyBasket()
+        )}
+        {!!basket.length && (
+          <>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+              w="100%"
+            >
+              <Box>Total</Box>
+              {/* <Box>{typeof basket.reduce((partialSum, v) => (partialSum + (v.quantity * v.product.price)), 0)}</Box> */}
+            </Box>
+            <Button w="100%" onClick={handleCheckout}>
+              Checkout
+              <ChevronRightIcon />
+            </Button>
+          </>
+        )}
+      </Box>
+    </Box>
   );
 }

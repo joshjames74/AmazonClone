@@ -13,7 +13,7 @@ export class OrderItem {
   @ManyToOne((type) => Product, { eager: true, onDelete: "SET NULL" })
   product: Product;
 
-  @Column()
+  @Column("double precision")
   price: number;
 
   @Column()

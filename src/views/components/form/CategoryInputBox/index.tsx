@@ -52,14 +52,9 @@ export default function CategoryInputBox(
   };
 
   return (
-    <Box 
-    display="flex"
-    flexDirection="row"
-    >
-      <FormLabel w='20%'>Categories</FormLabel>
-      <Box
-      display='flex'
-      flexDirection='column'>
+    <Box display="flex" flexDirection="row">
+      <FormLabel w="20%">Categories</FormLabel>
+      <Box display="flex" flexDirection="column">
         {loading ? <></> : renderCategories(parentCategories)}
       </Box>
     </Box>

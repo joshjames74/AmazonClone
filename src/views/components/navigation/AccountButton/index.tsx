@@ -1,6 +1,5 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Menu, MenuList, MenuButton, Button, MenuItem } from "@chakra-ui/react";
-import { AccountButtonType } from "../types/AccountButton";
 import { AuthContext } from "../../../contexts";
 import { useContext } from "react";
 
@@ -42,7 +41,6 @@ export default function AccountButton(): JSX.Element {
     if (!isLoggedIn) {
       return loggedOutButton();
     }
-    return <></>;
   };
 
   return renderBody();

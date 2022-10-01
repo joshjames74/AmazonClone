@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { SettingsContext } from "../../../contexts/SettingsContext";
-import { SearchBarType } from "../types/SearchBarType";
 import { Category } from "../../../../api/entities";
 
 export default function SearchBar(): JSX.Element {

@@ -13,7 +13,7 @@ export default function LogoWrapper(props: LogoWrapperType): JSX.Element {
       h="100%"
     >
       <Image
-        src={props.imageURL ? props.imageURL : ""}
+        src={props.imageUrl ? props.imageUrl : ""}
         alt={props.imageAlt ? props.imageAlt : ""}
       />
     </Box>

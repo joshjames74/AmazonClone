@@ -34,6 +34,8 @@ export default async function handler(
   const url = new URL(route);
   const path = url.origin + url.pathname;
 
+  console.log(path);
+
   if (isInRoutes(routes.user, path)) {
     const request = new UserRequest(req, res);
     return request.handler();

@@ -139,13 +139,8 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
               display="flex"
               flexDirection="row"
             >
-              <Box 
-              borderRight="1px solid black"
-              w="0"
-              marginRight="10px" />
-              <Box
-              display="flex"
-              flexDirection="column">
+              <Box borderRight="1px solid black" w="0" marginRight="10px" />
+              <Box display="flex" flexDirection="column">
                 {renderCheckboxGroup(v.children)}
               </Box>
             </Box>
@@ -158,13 +153,8 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
   };
 
   return (
-    <Box
-    display="flex"
-    flexDirection="column"
-    w="100%">
-      <Box
-      textAlign='center'
-      w='100%'>
+    <Box display="flex" flexDirection="column" w="100%">
+      <Box textAlign="center" w="100%">
         Categories
       </Box>
       {loading ? <></> : renderCheckboxGroup(categories)}

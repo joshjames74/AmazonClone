@@ -54,19 +54,16 @@ export default function CurrencyInputBox(
 
   return (
     <Box display="flex" flexDirection="row">
-      <InputGroup w='100%'>
-        <FormLabel w='20%'>Price</FormLabel>
-        <Box 
-        display='flex'
-        w='80%'
-        flexDirection='row'>
+      <InputGroup w="100%">
+        <FormLabel w="20%">Price</FormLabel>
+        <Box display="flex" w="80%" flexDirection="row">
           <InputLeftAddon>
             <Select onChange={onChangeCurrency}>
               {renderCurrencies()}
               {/* <option>GBP</option> */}
             </Select>
           </InputLeftAddon>
-          <Input type="number" placeholder='0' onChange={onChangePrice} />
+          <Input type="number" placeholder="0" onChange={onChangePrice} />
         </Box>
       </InputGroup>
     </Box>

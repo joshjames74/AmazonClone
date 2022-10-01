@@ -1,4 +1,4 @@
-import { Box, filter } from "@chakra-ui/react";
+import { Box, filter, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 import { ProductContext } from "../../../contexts";
 import ReviewStars from "../../product/ProductCard/components/ReviewStars";
@@ -18,13 +18,22 @@ export default function RatingsOverview(): JSX.Element {
         flexDirection="row"
         key={key}
         bgColor="gray.300"
-        h="100%"
+        h="4vh"
         w="100%"
+        padding="2px"
       >
-        <Box w="30%">{score} stars</Box>
-        <Box w={`${percentage ? percentage : 0}%`} bgColor="yellow.300" />
-        <Box w={`${percentage ? 100 - percentage : 100}%`} />
-        <Box w="30%">{percentage ? percentage : 0} %</Box>
+        <Box w="30%">
+          <ReviewStars reviewScore={score} />{" "}
+        </Box>
+        <Box
+          w={`${percentage ? percentage : 0}%`}
+          bgColor="yellow.300"
+          borderRadius="3px"
+        />
+        <Box w={`${percentage ? 100 - percentage : 100}%`} borderRadius="3px" />
+        <Text w="30%" textAlign="right">
+          {percentage ? percentage : 0}%
+        </Text>
       </Box>
     );
   };
@@ -55,16 +64,18 @@ export default function RatingsOverview(): JSX.Element {
       maxW="50vh"
       bgColor="gray.200"
       padding="3px"
+      border="2px solid black"
+      borderRadius="10px"
     >
       <Box display="flex" flexDirection="column" w="100%">
-        <Box>
-          <b>Customer Reviews</b>
-        </Box>
+        <Text fontWeight="500">Customer Reviews</Text>
         <Box display="flex" flexDirection="row" w="100%">
           <ReviewStars reviewScore={product.review_score} />
-          <Box marginLeft="5px">{product.review_score} out of 5</Box>
+          <Text marginLeft="5px" fontWeight="350">
+            {product.review_score} out of 5
+          </Text>
         </Box>
-        <Box>{product.review_count} global ratings</Box>
+        <Text fontWeight="400">{product.review_count} global ratings</Text>
       </Box>
       <Box h="30%">{renderGraphs()}</Box>
     </Box>

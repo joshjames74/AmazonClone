@@ -45,7 +45,7 @@ const AppDataSource = new DataSource({
     Basket,
     BasketItem,
     BasketView,
-    //OrderView
+    OrderView,
   ],
   migrations: [],
   subscribers: [],

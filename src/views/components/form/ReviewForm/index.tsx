@@ -53,13 +53,7 @@ export default function ReviewForm(): JSX.Element {
   };
 
   return (
-    <Box
-      w="100%"
-      border="1px solid black"
-      margin="5px"
-      padding="5px"
-      borderRadius="3px"
-    >
+    <Box w="100%" border="2px solid black" padding="5px" borderRadius="10px">
       <InputBox
         label="Title"
         type="text"

@@ -26,7 +26,10 @@ export class Product {
   @Column("text")
   description: string;
 
-  @Column({ default: 'https://webneel.com/daily/sites/default/files/images/daily/08-2018/1-nature-photography-spring-season-mumtazshamsee.jpg' })
+  @Column({
+    default:
+      "https://webneel.com/daily/sites/default/files/images/daily/08-2018/1-nature-photography-spring-season-mumtazshamsee.jpg",
+  })
   image_url: string;
 
   @Column({

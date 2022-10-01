@@ -1,4 +1,4 @@
-import { VStack, Box, Image, Button } from "@chakra-ui/react";
+import { VStack, Box, Image, Button, Text } from "@chakra-ui/react";
 import { ReviewType } from "../../../../types/Review";
 import { UserInfo } from "../../../../types/UserInfo";
 import { Review } from "../../../../api/entities";
@@ -75,19 +75,17 @@ export default function ReviewCard(review: Review): JSX.Element {
             bgColor="blue.500"
             marginRight="3px"
           />
-          <Box>{review.user.user_name}</Box>
+          <Text fontWeight="500">{review.user.user_name}</Text>
         </Box>
         {renderDeleteButton()}
       </Box>
       <Box display="flex" flexDirection="row" w="100%" paddingX="5px">
         <ReviewStars {...reviewStarsProps} />
-        <Box>
-          <b>{review.title}</b>
-        </Box>
+        <Text fontWeight="400">{review.title}</Text>
       </Box>
-      <Box w="100%" padding="3px">
+      <Text fontWeight="350" w="100%" paddingX="5px">
         {review.content}
-      </Box>
+      </Text>
     </VStack>
   );
 }

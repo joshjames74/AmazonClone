@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export interface ITheme {
   theme: {
-      colors: {
+    colors: {
       primaryAccent: string;
       secondaryAccent: string;
       primaryText: string;
@@ -10,10 +10,10 @@ export interface ITheme {
       product: {
         background: string;
         border: string;
-      }
-    }
-  }
-};
+      };
+    };
+  };
+}
 
 export const ThemeContext = React.createContext<ITheme>(null);
 
@@ -23,18 +23,18 @@ export const ThemeProvider = (props: {
   const theme: ITheme = {
     theme: {
       colors: {
-        primaryAccent: 'teal.500',
-        secondaryAccent: 'yellow.100',
-        primaryText: 'black',
-        secondaryText: 'blue',
+        primaryAccent: "teal.500",
+        secondaryAccent: "yellow.100",
+        primaryText: "black",
+        secondaryText: "blue",
         product: {
-          background: 'white',
-          border: 'teal'
-        }
-      }
-    }
-  }
-  const {children}: any = props;
+          background: "white",
+          border: "teal",
+        },
+      },
+    },
+  };
+  const { children }: any = props;
 
   return (
     <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
