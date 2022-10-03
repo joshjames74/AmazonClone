@@ -11,12 +11,12 @@ export async function getCurrencyById(id: number): Promise<Currency> {
   return request.data;
 }
 
-export async function getAllCurrencies() {
+export async function getAllCurrencies(): Promise<Currency[]> {
   const url = routes.currency.all;
   const request = await axios(url, {
     method: "GET",
   });
-  return request;
+  return request.data.currencies;
 }
 
 export async function convertCurrency(

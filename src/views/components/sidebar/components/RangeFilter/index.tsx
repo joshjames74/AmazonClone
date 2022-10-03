@@ -8,18 +8,23 @@ import {
 } from "@chakra-ui/react";
 
 export default function RangeFilter(props: RangeFilterType): JSX.Element {
+  console.log(props);
   return (
     <Box w="100%" h="100%" display="flex" flexDirection="column">
       <Box w="100%" textAlign="center">
         {props.title}
       </Box>
       <RangeSlider
-        min={props.min}
-        max={props.max}
-        step={props.step}
-        defaultValue={[props.min, props.max]}
-        onChangeEnd={props.onChange}
+        min={Number(props.min)}
+        max={Number(props.max)}
+        //max={5}
+        step={1}
+        defaultValue={[Number(props.min), Number(props.max)]}
+        // onChangeEnd={props.onChange}
       >
+        <RangeSliderTrack>
+          <RangeSliderFilledTrack />
+        </RangeSliderTrack>
         <RangeSliderTrack>
           <RangeSliderFilledTrack />
         </RangeSliderTrack>

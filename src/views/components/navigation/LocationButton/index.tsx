@@ -8,14 +8,22 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { UserContext } from "../../../contexts";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import ChangeCurrencyModal from "./modals/ChangeCurrencyModal";
+import ChangeCountryModal from "./modals/ChangeCountryModal";
 
 export default function LocationButton(): JSX.Element {
   const { user, loading } = useContext(UserContext);
   const defaultCountry = "US";
 
+  const [showCurrencyModal, setShowCurrencyModal] = useState<boolean>(false);
+  const [showCountryModal, setShowCountryModal] = useState<boolean>(false);
+
+  const handleClick = () => {
+    
+  }
+
   return (
-    loading && (
       <Menu>
         <MenuButton
           as={Button}
@@ -31,10 +39,23 @@ export default function LocationButton(): JSX.Element {
           </Box>
         </MenuButton>
         <MenuList>
-          <MenuItem>Change Location ({user?.country?.code})</MenuItem>
-          <MenuItem>Change Currency ({user?.currency?.code})</MenuItem>
+          <MenuItem
+          as={Button}
+          onClick={() => setShowCountryModal(!showCountryModal)}>
+            Change Location ({user?.country?.code})
+          </MenuItem>
+          <ChangeCountryModal 
+          isOpen={showCountryModal}
+          onClose={() => setShowCountryModal(false)}/>
+          <MenuItem
+          as={Button}
+          onClick={() => setShowCurrencyModal(!showCurrencyModal)}>
+            Change Currency ({user?.currency?.code})
+          </MenuItem>
+          <ChangeCurrencyModal 
+          isOpen={showCurrencyModal}
+          onClose={() => setShowCurrencyModal(false)}/>
         </MenuList>
       </Menu>
-    )
   );
 }

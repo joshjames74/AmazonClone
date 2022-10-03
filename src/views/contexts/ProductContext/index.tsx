@@ -118,12 +118,17 @@ export const ProductProvider = (props: {
     getConvertedPrice();
   }, [product]);
 
+  const onUpdateReview = () => {
+    getReviews();
+    getProduct();
+  }
+
   return (
     <ProductContext.Provider
       value={{
         product: product,
         reviews: reviews,
-        onUpdateReview: getReviews,
+        onUpdateReview: onUpdateReview,
         convertedPrice: convertedPrice,
       }}
     >

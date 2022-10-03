@@ -1,7 +1,7 @@
 import { routes } from "../../routes";
 import { insertIdIntoUrl } from "../../utils/formatting";
 import axios from "axios";
-import { User, Product, Address, BasketItem } from "../../entities";
+import { User, Product, Address, BasketItem, Currency, Country } from "../../entities";
 import { BasketView } from "../../entities/BasketView";
 
 export async function getUserById(id: number): Promise<User> {
@@ -34,6 +34,27 @@ export async function getAddressesByUserId(id: number): Promise<Address[]> {
     method: "GET",
   });
   return request.data.addresses;
+}
+
+export async function putUserCurrency(id: number, currency: Currency): Promise<any> {
+  const fieldQuery = {currency: currency};
+  return await putUser(id, fieldQuery);
+}
+
+export async function putUserCountry(id: number, country: Country): Promise<any> {
+  const fieldQuery = {country: country};
+  return await putUser(id, fieldQuery);
+}
+
+export async function putUser(id: number, fieldQuery: any): Promise<any> {
+  const url = insertIdIntoUrl(routes.user.user, "user", id);
+  const request = await axios(url, {
+    method: "PUT",
+    data: {
+      fieldQuery: fieldQuery
+    }
+  });
+  return request;
 }
 
 export async function postUser(user: User): Promise<User | void> {

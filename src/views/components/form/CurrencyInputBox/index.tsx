@@ -30,10 +30,10 @@ export default function CurrencyInputBox(
 
   const getCurrencies = () => {
     getAllCurrencies().then((response: any) => {
-      if (!response.data.currencies) {
+      if (!response) {
         return;
       }
-      setCurrencies(response.data.currencies);
+      setCurrencies(response);
     });
   };
 

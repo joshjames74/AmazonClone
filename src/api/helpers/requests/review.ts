@@ -57,6 +57,7 @@ export async function deleteReview(review: Review): Promise<any> {
 export async function addReview(review: Review): Promise<any> {
   //const reviewEntity = toReviewEntity(review, product_id, user_id);
   const request = await postReview(review);
+  console.log(request);
   return request;
 }
 

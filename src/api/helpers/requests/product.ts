@@ -1,7 +1,7 @@
 import { routes } from "../../routes";
 import { insertIdIntoUrl } from "../../utils/formatting";
 import axios from "axios";
-import { Product } from "../../entities";
+import { Category, Product } from "../../entities";
 
 export async function getProductById(id: number): Promise<Product> {
   const url = insertIdIntoUrl(routes.product.product, "product", id);
@@ -16,6 +16,18 @@ export async function getAllProducts() {
   const request = await axios(url, {
     method: "GET",
   });
+  return request.data.products;
+}
+
+export async function getProductBySearch(query: string, categories: Category[]): Promise<Product[]> {
+  const url = routes.product.search;
+  const request = await axios(url, {
+    method: "GET",
+    params: {
+      query: query,
+      categories: categories
+    }
+  })
   return request.data.products;
 }
 

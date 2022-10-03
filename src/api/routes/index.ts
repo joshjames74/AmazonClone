@@ -98,6 +98,7 @@ export const routes = {
     product: base_api + "/product/:id",
     reviews: base_api + "/product/:id/reviews",
     all: base_api + "/product",
+    search: base_api + "/product/search",
   },
   user: {
     user: base_api + "/user/:id",
@@ -106,6 +107,7 @@ export const routes = {
     get_full_basket: base_api + "/user/:id/fullbasket",
     add_to_basket: base_api + "/user/:id/basket/add",
     delete_basket_item: base_api + "/user/:id/basket/delete/item/:id",
+    empty_basket: base_api + "/user/:id/basket",
     get_order: base_api + "/user/:id/order/:id",
     all_orders: base_api + "/user/:id/orders",
     get_all_orders: base_api + "/user/:id/orders",

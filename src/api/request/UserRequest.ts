@@ -10,6 +10,7 @@ import UserService from "../services/UserService";
 import { Review, User, Product, Order, OrderItem } from "../entities";
 import AddressService from "../services/AddressService";
 import OrderItemService from "../services/OrderItemService";
+import ProductService from "../services/ProductService";
 
 export class UserRequest extends RequestHandler {
   private userService: UserService;
@@ -20,6 +21,7 @@ export class UserRequest extends RequestHandler {
   private reviewService: ReviewService;
   private addressService: AddressService;
   private orderItemService: OrderItemService;
+  private productService: ProductService;
 
   constructor(req: NextApiRequest, res: NextApiResponse) {
     super(req, res);
@@ -31,6 +33,7 @@ export class UserRequest extends RequestHandler {
     this.reviewService = new ReviewService();
     this.addressService = new AddressService();
     this.orderItemService = new OrderItemService();
+    this.productService = new ProductService();
   }
 
   get() {
@@ -83,6 +86,9 @@ export class UserRequest extends RequestHandler {
     if (this.matches(routes.user.delete_basket_item)) {
       return this.deleteBasketItem();
     }
+    if (this.matches(routes.user.empty_basket)) {
+      return this.emptyBasket();
+    }
   }
 
   // Get functions
@@ -99,10 +105,23 @@ export class UserRequest extends RequestHandler {
   //   return this.sendResponseJSON({ orders: orders }, 200);
   // }
 
+  // async getOrders(): Promise<void> {
+  //   const id = this.getIdFromPath("user");
+  //   const orders = await this.orderService.getOrderViewByUserId(id);
+  //   return this.sendResponseJSON({ orders: orders }, 200);
+  // }
+
   async getOrders(): Promise<void> {
     const id = this.getIdFromPath("user");
-    const orders = await this.orderService.getOrderViewByUserId(id);
-    return this.sendResponseJSON({ orders: orders }, 200);
+    const orders = await this.orderService.getOrdersByUserId(id);
+    console.log(typeof orders);
+    let orderViews = []
+    for (const order of orders) {
+      const orderView = {order: order, orderItems: null}
+      orderView.orderItems = await this.orderItemService.getOrderItemById(order.order_id);
+      orderViews.push(orderView);
+    }
+    return this.sendResponseJSON({ order: orderViews }, 200);
   }
 
   async getBasket(): Promise<void> {
@@ -169,6 +188,7 @@ export class UserRequest extends RequestHandler {
     const id = this.getIdFromPath("user");
     const { review } = this.req.body;
     const request = await this.reviewService.postReview(review);
+    const updateReview = await this.productService.putProductReviewById(review.product.product_id, request.score);
     return this.sendResponseJSON({ review: request }, 201);
   }
 
@@ -218,7 +238,9 @@ export class UserRequest extends RequestHandler {
   // Delete methods
 
   async deleteReview(): Promise<any> {
+    const id = this.getIdFromPath("user");
     const { review } = this.req.body;
+    const updateReview = await this.productService.putProductReviewById(review.product.product_id, review.score, true);
     await this.reviewService.deleteReview(review.review_id);
     return this.sendResponseJSON({}, 204);
   }
@@ -226,6 +248,13 @@ export class UserRequest extends RequestHandler {
   async deleteBasketItem(): Promise<any> {
     const itemId = this.getIdFromPath("item");
     await this.basketItemService.deleteBasketItem(itemId);
+    return this.sendResponseJSON({}, 202);
+  }
+
+  async emptyBasket(): Promise<any> {
+    const id = this.getIdFromPath("user");
+    const basket = await this.basketService.getBasketByUserId(id);
+    await this.basketItemService.deleteBasketItemByBasketId(basket.basket_id);
     return this.sendResponseJSON({}, 202);
   }
 }

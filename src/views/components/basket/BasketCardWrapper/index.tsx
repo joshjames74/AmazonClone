@@ -76,7 +76,7 @@ export default function BasketCardWrapper(): JSX.Element {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="left" padding="3px">
-      <Box w="100vh" display="flex" flexDirection="column">
+      <Box w="120vh" display="flex" flexDirection="column">
         <Box
           display="flex"
           justifyContent="center"
@@ -101,8 +101,6 @@ export default function BasketCardWrapper(): JSX.Element {
               justifyContent="space-between"
               w="100%"
             >
-              <Box>Total</Box>
-              {/* <Box>{typeof basket.reduce((partialSum, v) => (partialSum + (v.quantity * v.product.price)), 0)}</Box> */}
             </Box>
             <Button w="100%" onClick={handleCheckout}>
               Checkout

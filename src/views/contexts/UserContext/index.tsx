@@ -27,7 +27,7 @@ export const UserContext = React.createContext<{
   basketCount: number;
   basket: BasketItem[];
   addToBasket: (value: Product[]) => void;
-  orders: OrderView[];
+  orders: {order: Order, orderItems: OrderItem[]}[];
   loading: boolean;
   reload: () => void;
 }>({
@@ -60,7 +60,7 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
   const [basket, setBasket] = useState<BasketItem[]>([] as BasketItem[]);
   const [basketCount, setBasketCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [orders, setOrders] = useState<OrderView[]>();
+  const [orders, setOrders] = useState<{order: Order, orderItems: OrderItem[]}[]>();
 
   const fetchData = () => {
     if (!id) {
@@ -75,12 +75,10 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
     getBasketViewByUserId(idNumeric).then((value: BasketItem[]) =>
       setBasket(value)
     );
-    // getOrderViewByUserId(idNumeric).then((value: OrderView[]) => {
-    //   console.log("orders")
-    //   console.log(value);
-    //   setOrders(value)
-    // });
-    setLoading(false);
+    getOrderViewByUserId(idNumeric).then((value) => {
+      setOrders(value)
+    });
+    setLoading(false);  
   };
 
   useEffect(() => {

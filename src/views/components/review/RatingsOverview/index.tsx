@@ -72,7 +72,7 @@ export default function RatingsOverview(): JSX.Element {
         <Box display="flex" flexDirection="row" w="100%">
           <ReviewStars reviewScore={product.review_score} />
           <Text marginLeft="5px" fontWeight="350">
-            {product.review_score} out of 5
+            {Math.round(Number(product.review_score))} out of 5
           </Text>
         </Box>
         <Text fontWeight="400">{product.review_count} global ratings</Text>

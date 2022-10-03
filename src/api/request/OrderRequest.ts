@@ -17,9 +17,10 @@ export class OrderRequest extends RequestHandler {
   }
 
   get() {
-    if (this.matches(routes.user.all_orders)) {
-      return this.getUserOrdersViews();
-    }
+    // if (this.matches(routes.user.all_orders)) {
+    //   // return this.getUserOrdersViews();
+    //   return this.getUserOrders();
+    // }
   }
 
   post() {
@@ -44,9 +45,15 @@ export class OrderRequest extends RequestHandler {
   }
 
   async getOrder(): Promise<void> {
-    const id = this.getIdFromPath("order");
-    const order = await this.orderService.getOrderById(id);
-    return this.sendResponseJSON({ order: order }, 200);
+    const id = this.getIdFromPath("user");
+    const orders = await this.orderService.getOrdersByUserId(id);
+    let orderViews = []
+    for (const order of orders) {
+      const orderView = {order: order, orderItems: null}
+      orderView.orderItems = await this.orderItemService.getOrderItemById(order.order_id);
+      orderViews.push(orderView);
+    }
+    return this.sendResponseJSON({ order: orderViews }, 200);
   }
 
   async postOrder(): Promise<void> {

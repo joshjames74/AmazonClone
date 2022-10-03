@@ -10,7 +10,7 @@ export default function ProductPage(): JSX.Element {
     <Box>
       <Navigation />
       <Box w="100%" display="flex" flexDirection="column" padding="3px">
-        <Box display="flex" flexDirection="row" h="30vh" w="100%" maxW="120vh">
+        <Box display="flex" flexDirection="row" h="40vh" w="100%" maxW="120vh">
           <ProductCardFull />
           <BasketCard />
         </Box>

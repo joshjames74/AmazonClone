@@ -6,7 +6,7 @@ import { SettingsContext } from "../../../../contexts/SettingsContext";
 import { CheckboxFilterType, OptionType } from "../../types/CheckboxFilterType";
 
 export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
-  const { categories, loading } = useContext(SettingsContext);
+  const { parentCategories, loading } = useContext(SettingsContext);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [showChildren, setShowChildren] = useState<number[]>([]);
 
@@ -23,7 +23,7 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
 
   const getCategoriesFlat = (): Category[] => {
     let categoriesList: Category[] = [];
-    for (const category of categories) {
+    for (const category of parentCategories) {
       categoriesList.push(category);
       categoriesList.push(...getChildrenCategories(category));
     }
@@ -103,6 +103,10 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
     }
   };
 
+  useEffect(() => {
+    props.onChange(selectedCategories);
+  }, [selectedCategories])
+
   const renderCheckbox = (category: Category): JSX.Element => {
     return (
       <Checkbox
@@ -152,12 +156,14 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
     });
   };
 
+  console.log(parentCategories);
+
   return (
     <Box display="flex" flexDirection="column" w="100%">
       <Box textAlign="center" w="100%">
         Categories
       </Box>
-      {loading ? <></> : renderCheckboxGroup(categories)}
+      {loading ? <></> : renderCheckboxGroup(parentCategories)}
     </Box>
   );
 }

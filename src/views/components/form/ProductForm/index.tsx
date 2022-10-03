@@ -15,9 +15,12 @@ import CurrencyInputBox from "../CurrencyInputBox";
 import { Product, Currency } from "../../../../api/entities/index";
 import CategoryInputBox from "../CategoryInputBox";
 import { SettingsContext } from "../../../contexts/SettingsContext";
+import { NextResponse } from 'next/server';
+import { useRouter } from 'next/router';
 
 export default function ProductForm(): JSX.Element {
   const { user } = useContext(AuthContext);
+  const router = useRouter();
 
   // if (userType !== UserType.admin && userType !== UserType.seller) {
   //     return null;
@@ -42,7 +45,7 @@ export default function ProductForm(): JSX.Element {
   useEffect(() => {
     setCanSubmit(
       // split into single function in validation files
-      validateTitle(title) &&
+        validateTitle(title) &&
         validatePrice(price) &&
         validateDescription(description) &&
         validateCategories(selectCategories)
@@ -60,7 +63,12 @@ export default function ProductForm(): JSX.Element {
     product.review_count = 0;
     product.currency = currency;
     product.seller = user;
-    postProduct(product).then((res) => console.log(res));
+    postProduct(product).then((res) => {
+      if (res?.data?.product) {
+        const url = `/product/${res.data.product.product_id}`;
+        router.replace(url);
+      }
+    });
   };
 
   return (

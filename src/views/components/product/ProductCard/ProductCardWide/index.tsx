@@ -39,12 +39,12 @@ export default function ProductCardWide(product: Product): JSX.Element {
         borderRadius="lg"
         border={`2px solid ${theme.colors.product.border}`}
         fontSize="14px"
-        w="80vh"
+        w="100vh"
       >
         <Image
           src={product.image_url ? product.image_url : ""}
           alt={product.image_alt ? product.image_alt : ""}
-          h="100%"
+          w='20vh'
         />
         <Box display="flex" flexDirection="column" h="100%" paddingX="3px">
           <Box h="25%" fontWeight="500">

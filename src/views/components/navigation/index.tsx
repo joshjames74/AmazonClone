@@ -9,6 +9,7 @@ import { Box } from "@chakra-ui/react";
 import { LogoWrapperType } from "./types/LogoWrapperType";
 import { useContext } from "react";
 import { SettingsContext } from "../../contexts/SettingsContext";
+import AddProductButton from "./AddProductButton";
 
 export default function Navigation(): JSX.Element {
   const { logoUrl } = useContext(SettingsContext);
@@ -27,6 +28,7 @@ export default function Navigation(): JSX.Element {
       <LogoWrapper imageUrl={logoUrl} />
       <DeliveryButton />
       <SearchBar />
+      <AddProductButton />
       <LocationButton />
       <AccountButton />
       <ReturnsButton />

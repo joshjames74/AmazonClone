@@ -26,6 +26,9 @@ export class ProductRequest extends RequestHandler {
     if (this.matches(routes.product.reviews)) {
       return this.getReviews();
     }
+    if (this.matches(routes.product.search)) {
+      return this.getProductBySearch();
+    }
   }
 
   post() {
@@ -57,6 +60,12 @@ export class ProductRequest extends RequestHandler {
     const id = this.getIdFromPath("product");
     const reviews = await this.reviewService.getReviewByProductId(id);
     return this.sendResponseJSON({ reviews: reviews }, 200);
+  }
+
+  async getProductBySearch(): Promise<void> {
+    const { query, categories } = this.req.query;
+    const products = await this.productService.getProductBySearch(query, categories);
+    return this.sendResponseJSON({ products: products }, 200);
   }
 
   // Post methods
