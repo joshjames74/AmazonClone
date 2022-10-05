@@ -22,10 +22,6 @@ export default class RepositoryService implements IRepo {
     this.entity = entity;
   }
 
-  // public async load(): Promise<void> {
-  //     await AppDataSource.initialize();
-  // }
-
   public get(): Repository<any> {
     return AppDataSource.getRepository(this.entity);
   }
@@ -34,27 +30,3 @@ export default class RepositoryService implements IRepo {
     return AppDataSource.getTreeRepository(this.entity);
   }
 }
-
-// export interface IRepo {
-//     entity: Entity;
-//     get: () => Repository<any>;
-// }
-
-// @Service()
-// export default class RepositoryService implements IRepo {
-
-//     readonly entity: Entity;
-
-//     constructor(entity: Entity) {
-//         this.entity = entity;
-//     };
-
-//     // public async load(): Promise<void> {
-//     //     await AppDataSource.initialize();
-//     // }
-
-//     public get(): Repository<any> {
-//         return AppDataSource.getRepository(this.entity);
-//     };
-
-// }

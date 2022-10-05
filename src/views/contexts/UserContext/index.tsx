@@ -83,7 +83,6 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
 
   useEffect(() => {
     fetchData();
-    // getBasketByUserId(idNumeric).then((value: Product[]) => setBasket(value));
   }, [id]);
 
   useEffect(() => {

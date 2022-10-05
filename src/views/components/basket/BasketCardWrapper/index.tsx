@@ -8,7 +8,6 @@ import { deleteBasketItem } from "../../../../api/helpers/requests/basket";
 import Basket from "../../../../pages/user/[id]/basket";
 import Link from "next/link";
 import { useRouter } from "next/router";
-// import { BasketView } from "../../../../api/entities/BasketView";
 
 export default function BasketCardWrapper(): JSX.Element {
   const { user, basket, loading, reload } = useContext(UserContext);

@@ -10,7 +10,6 @@ export interface IBaseService {
   entity: EntityTarget<any>;
   repository: Repository<any>;
   treeRepository: TreeRepository<any>;
-  // init: any;
 }
 
 @Service()
@@ -23,18 +22,7 @@ export default class BaseService implements IBaseService {
     this.entity = entity;
     this.repository = new RepositoryService(this.entity).get();
     this.treeRepository = new RepositoryService(this.entity).tree();
-    // this.repository = new RepositoryService(this.entity).get();
-    // console.log(this.repository);
   }
-
-  // async init(): Promise<any> {
-  //     this.repository = await new RepositoryService(this.entity).get();
-  // }
-
-  // public async start() {
-  //     let repository = new RepositoryService(this.entity);
-  //     this.repository = await repository.get();
-  // }
 
   public async getOneByParameter(column: string, value: any) {
     return await this.repository.findOneBy({

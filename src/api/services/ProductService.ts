@@ -3,21 +3,13 @@ import { EntityTarget, In, IsNull, Like, UpdateResult } from "typeorm";
 import BaseService from "./BaseService";
 import { Product } from "../entities/Product";
 import { Entity } from "../../types";
-import { Category, ProductCategory } from "../entities";
+import { Category } from "../entities";
 
 @Service()
 export default class ProductService extends BaseService {
   constructor() {
     super(Product);
   }
-
-  // public async getProductById(id: number): Promise<Product> {
-  //     id = this.sanitizeId(id);
-  //     const product = await this.repository.findOneBy({
-  //         product_id: id
-  //     });
-  //     return product;
-  // }
 
   public async getProductById(id: number): Promise<Product> {
     return await this.getById(id, "product_id");
@@ -41,14 +33,6 @@ export default class ProductService extends BaseService {
       .execute();
     return product;
   }
-
-  // public async getProductsByIds(ids: number[]): Promise<Product[]> {
-  //     ids = ids.map((id) => this.sanitizeId(id));
-  //     const products = await this.repository.findBy({
-  //         product_id: In(ids)
-  //     });
-  //     return products;
-  // }
 
   public async putProductById(
     id: number,
@@ -93,11 +77,6 @@ export default class ProductService extends BaseService {
   public async postProduct(product: Entity): Promise<Entity> {
     return this.postEntity(product);
   }
-
-  // public async postProduct(product: Product): Promise<Product> {
-  //     await this.repository.save(product);
-  //     return product;
-  // }
 
   public async deleteProductById(id: number): Promise<any> {
     id = this.sanitizeId(id);

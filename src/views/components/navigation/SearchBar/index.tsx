@@ -47,15 +47,6 @@ export default function SearchBar(): JSX.Element {
   return (
     <InputGroup maxW="150vh" w="40%" marginRight="3px">
       <InputLeftAddon w="40%">
-        {/* <InputLeftAddon
-          as={Button}
-          maxW="20vh"
-          w="20%"
-          fontSize="xs"
-          display='flex'
-          flexDirection='row'
-          color='black'
-        > */}
         <Select
         w="100%"
         h="100%"
@@ -64,7 +55,6 @@ export default function SearchBar(): JSX.Element {
           <option>All</option>
           {loading ? <></> : renderCategories(parentCategories)}
         </Select>
-        {/* </InputLeftAddon> */}
       </InputLeftAddon>
       <Input
         type="search"
@@ -77,7 +67,6 @@ export default function SearchBar(): JSX.Element {
         onChange={event => handleChange(event)}
       />
       <InputRightAddon 
-      // as={Button}
       paddingX="3px">
         <Link href={{
           pathname: '/',

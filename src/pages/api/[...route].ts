@@ -61,9 +61,5 @@ export default async function handler(
     return request.handler();
   }
 
-  // if (isInRoutes(api_routes.basket, path)) {
-  //     return
-  // }
-
   return res.status(200).send({ body: "blank" });
 }

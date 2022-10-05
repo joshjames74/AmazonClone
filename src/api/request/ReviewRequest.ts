@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import RequestHandler from ".";
-// import { isInRoutes } from "../../pages/api/[route]";
 import { api_routes, routes } from "../routes";
 import ReviewService from "../services/ReviewService";
 import { Review } from "../entities";
@@ -17,12 +16,6 @@ export class ReviewRequest extends RequestHandler {
     super(req, res);
     this.reviewService = new ReviewService();
     this.productService = new ProductService();
-  }
-
-  get() {
-    // if (this.matches(api_routes.product.reviews)) {
-    //     return this.getReviews();
-    // }
   }
 
   post() {
@@ -42,7 +35,6 @@ export class ReviewRequest extends RequestHandler {
     const { review } = this.req.body;
     const request = await this.reviewService.postReview(review);
     const updateReview = await this.productService.putProductReviewById(review.product.product_id, review.review_score);
-    console.log(updateReview);
     return request;
   }
 }

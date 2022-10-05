@@ -44,18 +44,4 @@ export default class Router {
     this.routes.push(route);
     return this;
   }
-
-  // getResponse(route: Route) {
-  //     const controller = eval(`new ${route.controller}(${})`);
-  //     const cont = new route.controller();
-  //     return eval(`${controller}.${route.func}`);
-  // }
-
-  // request(req: NextApiRequest, res: NextApiResponse) {
-  //     const url = this.getUrl(req.url);
-  //     const route = this.routes.find((route: Route) => {
-  //         return route.url = url.href;
-  //     });
-  //     return this.getResponse(route);
-  // }
 }

@@ -26,10 +26,6 @@ export default function BasketCard(): JSX.Element {
     addToBasket(user.user_id, basketItem).then(() => reload());
   };
 
-  useEffect(() => {
-    console.log(convertedPrice);
-  }, [convertedPrice]);
-
   return (
     <Box
       display="flex"

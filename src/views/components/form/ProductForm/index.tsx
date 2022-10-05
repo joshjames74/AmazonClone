@@ -22,10 +22,6 @@ export default function ProductForm(): JSX.Element {
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
-  // if (userType !== UserType.admin && userType !== UserType.seller) {
-  //     return null;
-  // }
-
   const defaultCurrency: Currency = {
     currency_id: 1,
     code: "GBP",

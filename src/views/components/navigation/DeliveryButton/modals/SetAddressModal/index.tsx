@@ -55,32 +55,12 @@ export default function SetAddressModal(
       county: "",
     };
 
-    // const useHandler = (state, action: any) => {
-    //   let obj = {}
-    //   obj[action.type] = action.payload.target.value;
-    //   return obj;
-    // };
-
-    // const [state, dispatch] = useReducer(useHandler, initalValues);
-
     return (
       <FormControl
         display="flex"
         flexDirection="column"
         onSubmit={handleSubmit}
       >
-        {/* {Object.keys(initalValues).map((name: string, index) => {
-          return (
-            <InputGroup style={styles.inputGroup} key={index}>
-              <FormLabel for={name} style={styles.label}>{name}</FormLabel>
-              <Input type='text' name={name} style={styles.input} onChange={(event) => dispatch({type: `${name}`, payload: event})}/>
-            </InputGroup>
-          )
-        })} */}
-        {/* <InputGroup style={styles.inputGroup}>
-            <FormLabel for={'name'} style={styles.label}>{'name'}</FormLabel>
-            <Input type='text' name={'name'} style={styles.input} onChange={(event) => dispatch({type: `${'name'}`, payload: event})}/>
-        </InputGroup> */}
         <InputGroup>
           <Select>
             {countries?.length &&
@@ -93,26 +73,6 @@ export default function SetAddressModal(
               })}
           </Select>
         </InputGroup>
-        {/* <InputGroup style={styles.inputGroup}>
-          <FormLabel for='name' style={styles.label}>Name</FormLabel>
-          <Input type='text' name='name' style={styles.input} onChange={(event) => dispatch({type: 'name', payload: event})}/>
-        </InputGroup>
-        <InputGroup style={styles.inputGroup}>
-          <FormLabel for='number' style={styles.label}>Number</FormLabel>
-          <Input type='text' name='number' style={styles.input} />
-        </InputGroup>
-        <InputGroup style={styles.inputGroup}>
-          <FormLabel for='street' style={styles.label}>Street Name</FormLabel>
-          <Input type='text' name='street' style={styles.input} />
-        </InputGroup>
-        <InputGroup style={styles.inputGroup}>
-          <FormLabel for='postcode' style={styles.label}>Post Code</FormLabel>
-          <Input type='text' name='postcode' style={styles.input} />
-        </InputGroup>
-        <InputGroup style={styles.inputGroup}>
-          <FormLabel for='county' style={styles.label}>County</FormLabel>
-          <Input type='text' name='county' style={styles.input} />
-        </InputGroup> */}
         <Input type="submit" onClick={handleSubmit} />
       </FormControl>
     );

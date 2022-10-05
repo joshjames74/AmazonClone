@@ -16,13 +16,6 @@ export class OrderRequest extends RequestHandler {
     this.userService = new UserService();
   }
 
-  get() {
-    // if (this.matches(routes.user.all_orders)) {
-    //   // return this.getUserOrdersViews();
-    //   return this.getUserOrders();
-    // }
-  }
-
   post() {
     if (this.matches(routes.user.get_order)) {
       return this.getOrder();

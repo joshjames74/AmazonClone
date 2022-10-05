@@ -13,11 +13,6 @@ export default function ReviewForm(): JSX.Element {
   const { user } = useContext(AuthContext);
   const { product, onUpdateReview } = useContext(ProductContext);
 
-  // not necessary
-  // if (userType !== UserType.admin && userType !== UserType.seller) {
-  //     return null;
-  // }
-
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [rating, setRating] = useState<number>(0);

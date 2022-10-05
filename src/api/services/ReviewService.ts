@@ -41,10 +41,6 @@ export default class ReviewService extends BaseService {
     const request = await this.repository.save(review);
     return request;
   }
-  // public async postUser(user: User): Promise<number> {
-  //     await this.repository.save(user);
-  //     return user.user_id;
-  // }
 
   public async deleteReview(id: number): Promise<any> {
     id = this.sanitizeId(id);

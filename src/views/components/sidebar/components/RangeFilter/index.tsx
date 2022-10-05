@@ -17,10 +17,8 @@ export default function RangeFilter(props: RangeFilterType): JSX.Element {
       <RangeSlider
         min={Number(props.min)}
         max={Number(props.max)}
-        //max={5}
         step={1}
         defaultValue={[Number(props.min), Number(props.max)]}
-        // onChangeEnd={props.onChange}
       >
         <RangeSliderTrack>
           <RangeSliderFilledTrack />

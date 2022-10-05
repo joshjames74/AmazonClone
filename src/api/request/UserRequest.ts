@@ -99,18 +99,6 @@ export class UserRequest extends RequestHandler {
     return this.sendResponseJSON({ user: user }, 200);
   }
 
-  // async getOrders(): Promise<void> {
-  //   const id = this.getIdFromPath("user");
-  //   const orders = await this.orderService.getOrdersByUserId(id);
-  //   return this.sendResponseJSON({ orders: orders }, 200);
-  // }
-
-  // async getOrders(): Promise<void> {
-  //   const id = this.getIdFromPath("user");
-  //   const orders = await this.orderService.getOrderViewByUserId(id);
-  //   return this.sendResponseJSON({ orders: orders }, 200);
-  // }
-
   async getOrders(): Promise<void> {
     const id = this.getIdFromPath("user");
     const orders = await this.orderService.getOrdersByUserId(id);

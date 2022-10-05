@@ -95,23 +95,6 @@ export const ProductProvider = (props: {
     getProduct();
     getReviews();
     getConvertedPrice();
-    // if (!id) {
-    //     return;
-    // }
-    // const idNumeric = idToNumber(id);
-    // getProductInfoById(idNumeric).then((product: ProductInfo) => {
-    //     if (!product) {
-    //         return
-    //     };
-    //     console.log(product);
-    //     setProductInfo(product);
-    // })
-    // getReviewListByProductId(idNumeric).then((reviews: ReviewType[]) => {
-    //     if (!reviews) {
-    //         return
-    //     }
-    //     setReviewList(reviews);
-    // })
   }, [id]);
 
   useEffect(() => {

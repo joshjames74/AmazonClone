@@ -44,19 +44,6 @@ export default function NavigationSidebar(
   });
 
   const onChangeOption = (categoryIds: number[]): void => {
-    // const value = option.target.defaultValue;
-
-    // if (selectedCategories.includes(value)) {
-    //   setSelectedCategories(
-    //     selectedCategories.filter((v, i) => {
-    //       return v !== value;
-    //     })
-    //   );
-    // }
-    // if (!selectedCategories.includes(value)) {
-    //   setSelectedCategories([...selectedCategories, value]);
-    // }
-    console.log(categories);
     const selectedCategoriesModels = categories.filter(category => {
       return categoryIds.includes(category.category_id);
     })
@@ -88,49 +75,5 @@ export default function NavigationSidebar(
 
   return (
     <></>
-    // <Box
-    //   display="flex"
-    //   flexDirection="column"
-    //   padding="3px"
-    //   border="2px solid black"
-    //   borderRadius="4px"
-    //   margin="3px"
-    //   w="200px"
-    // >
-    //   <Box
-    //     textAlign="center"
-    //     padding="3px"
-    //     border="1px solid gray"
-    //     borderRadius="2px"
-    //     marginY="1px"
-    //   >
-    //     Filters
-    //   </Box>
-    //   <Box
-    //     display="flex"
-    //     flexDirection="column"
-    //     padding="3px"
-    //     border="1px solid gray"
-    //     borderRadius="2px"
-    //     marginY="1px"
-    //   >
-    //     {!!productList.length && <RangeFilter {...rangeFilterProps} />}
-    //     <Box display="flex" flexDirection="row" justifyContent="space-evenly">
-    //       <Box>{props.currencyCode}</Box>
-    //       <Box>
-    //         {priceRange[0]} - {priceRange[1]}
-    //       </Box>
-    //     </Box>
-    //   </Box>
-    //   <Box
-    //     border="1px solid gray"
-    //     borderRadius="2px"
-    //     marginY="1px"
-    //     padding="3px"
-    //   >
-    //     {/* <CheckboxFilter {...checkboxFilterProps} /> */}
-    //   </Box>
-    //   <Button border="2px solid black">Submit</Button>
-    // </Box>
   );
 }

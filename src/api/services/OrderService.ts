@@ -29,9 +29,6 @@ export default class OrderService extends BaseService {
 
   public async getOrdersByUserId(id: number): Promise<Order[]> {
     id = this.sanitizeId(id);
-    // const orders = await this.repository.findBy({
-    //   user: {user_id: id},
-    // });
     const orders = await this.repository.findBy({
       user: {user_id: id}
     });
@@ -46,17 +43,6 @@ export default class OrderService extends BaseService {
       .from(OrderView)
       .where({ user_id: id })
       .execute();
-    // const orderViews = await this.repository.manager.findBy(OrderView, {
-    //   user: {user_id: id}
-    // });
-    // const orders = await this.repository.findBy({
-    //   user: {user_id: id}
-    // });
-    // let orderViews = [];
-    // orders.forEach(order => {
-    //   const orderView = {order: order, orderItems: null}
-    //   orderView.orderItems = await this.
-    // })
     return orderViews;
   }
 
