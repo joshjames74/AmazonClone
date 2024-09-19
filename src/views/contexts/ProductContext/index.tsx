@@ -104,7 +104,7 @@ export const ProductProvider = (props: {
   const onUpdateReview = () => {
     getReviews();
     getProduct();
-  }
+  };
 
   return (
     <ProductContext.Provider

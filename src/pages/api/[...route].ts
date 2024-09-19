@@ -1,13 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { UserRequest } from "../../api/request/UserRequest";
 import { ProductRequest } from "../../api/request/ProductRequest";
-import { api_routes, routes } from "../../api/routes";
+import { routes } from "../../api/routes";
 import { createConnection } from "../../data-source";
 import { convertToRegex } from "../../api/utils/formatting";
 import { CurrencyRequest } from "../../api/request/CurrencyRequest";
 import { CategoryRequest } from "../../api/request/CategoryRequest";
 import { CountryRequest } from "../../api/request/CountryRequest";
-import { setAddresses } from "../../api/helpers/init/setAddresses";
 
 type Route = {
   url: string;
@@ -33,8 +32,6 @@ export default async function handler(
   const route = "http://localhost:3000" + req.url;
   const url = new URL(route);
   const path = url.origin + url.pathname;
-
-  console.log(path);
 
   if (isInRoutes(routes.user, path)) {
     const request = new UserRequest(req, res);

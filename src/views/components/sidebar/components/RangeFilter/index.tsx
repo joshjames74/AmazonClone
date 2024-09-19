@@ -5,20 +5,32 @@ import {
   RangeSliderFilledTrack,
   RangeSliderThumb,
   Box,
+  Button,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 export default function RangeFilter(props: RangeFilterType): JSX.Element {
-  console.log(props);
+  const [display, setDisplay] = useState(true);
+
+  const onClick = () => {
+    setDisplay(!display);
+  };
+
   return (
-    <Box w="100%" h="100%" display="flex" flexDirection="column">
-      <Box w="100%" textAlign="center">
-        {props.title}
-      </Box>
+    <Box w="100%" display="flex" flexDirection="column">
+      <Button w="100%" textAlign="center" onClick={onClick}>
+        <Box display="flex" flexDirection="row" alignItems="end">
+          {props.title}
+          {display ? <ChevronUpIcon /> : <ChevronDownIcon />}
+        </Box>
+      </Button>
       <RangeSlider
         min={Number(props.min)}
         max={Number(props.max)}
         step={1}
         defaultValue={[Number(props.min), Number(props.max)]}
+        display={display ? "" : "none"}
       >
         <RangeSliderTrack>
           <RangeSliderFilledTrack />

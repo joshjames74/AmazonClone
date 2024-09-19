@@ -1,0 +1,12 @@
+{
+    "type": "postgres",
+    "logging": false,
+    "entities": ["src/api/entities/*{.ts, .js}"],
+    "migrations": [],
+    "subscribers": [],
+    "cli": {
+      "entitiesDir": "src/api/entities/*.ts",
+      "migrationsDir": "src/data-source",
+      "subscribersDir": ""
+    }
+  }

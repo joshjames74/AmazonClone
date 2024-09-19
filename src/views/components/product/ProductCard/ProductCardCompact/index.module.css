@@ -1,0 +1,45 @@
+.container {
+    overflow: hidden;
+    padding: 3px;
+    width: 130px; 
+    height: 170px;
+    font-family: Helvetica;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.image {
+    height: 60%;
+    min-height: 60%;
+    min-width: 10vh;
+}
+
+.info_wrapper {
+    height: 50%;
+}
+
+.info_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.price_wrapper {
+    height: 20%;
+    width: 50%;
+    font-size: medium;
+}
+
+.price_review_container {
+    display: flex;
+    flex-direction: row;
+    height: 10%;
+    width: 100%;
+    font-size: x-small;
+}
+
+.product_name_container {
+    font-size: 0.9em;
+    height: 20%;
+}
+

@@ -1,0 +1,26 @@
+.wrapper {
+    width: 50vh;
+    margin-left: 25vw;
+    margin-right: 25vw;
+}
+
+.form_container {
+    width: 100%;
+}
+
+.input_wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.label {
+    width: 30%;
+}
+
+.button_wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    /* border: 1px solid black; */
+}

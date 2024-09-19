@@ -29,9 +29,7 @@ export async function deleteBasketItem(
   return request;
 }
 
-export async function emptyBasket(
-  userId: number
-): Promise<any> {
+export async function emptyBasket(userId: number): Promise<any> {
   const route = insertIdIntoUrl(routes.user.empty_basket, "user", userId);
   const request = await axios(route, {
     method: "DELETE",

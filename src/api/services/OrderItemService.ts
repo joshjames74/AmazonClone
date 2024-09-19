@@ -4,6 +4,7 @@ import { In } from "typeorm";
 import BaseService from "./BaseService";
 import { OrderItem } from "../entities";
 import { Repository } from "typeorm";
+import ProductService from "./ProductService";
 
 @Service()
 export default class OrderItemService extends BaseService {
@@ -14,7 +15,7 @@ export default class OrderItemService extends BaseService {
   public async getOrderItemById(id: number): Promise<Order[]> {
     id = this.sanitizeId(id);
     const order = await this.repository.findBy({
-      order: {order_id: id},
+      order: { order_id: id },
     });
     return order;
   }

@@ -14,8 +14,11 @@ import {
   OrderItem,
   Order,
 } from "../../../api/entities";
-import { OrderView } from "../../../api/entities/OrderView";
 import { getOrderViewByUserId } from "../../../api/helpers/requests/order";
+
+
+export type langType = "en";
+
 
 export const UserContext = React.createContext<{
   user: User;
@@ -27,9 +30,10 @@ export const UserContext = React.createContext<{
   basketCount: number;
   basket: BasketItem[];
   addToBasket: (value: Product[]) => void;
-  orders: {order: Order, orderItems: OrderItem[]}[];
+  orders: { order: Order; orderItems: OrderItem[] }[];
   loading: boolean;
   reload: () => void;
+  language: langType;
 }>({
   user: new User(),
   addresses: [new Address()],
@@ -43,6 +47,7 @@ export const UserContext = React.createContext<{
   orders: null,
   loading: true,
   reload: null,
+  language: "en",
 });
 
 export const UserProvider = (props: { children?: JSX.Element }) => {
@@ -53,6 +58,7 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
   const id = "1";
 
   const [user, setUser] = useState<User>();
+  const [currency, setCurrency] = useState<Currency>();
   const [addresses, setAddresses] = useState<Address[]>();
   const [currentAddressIndex, setCurrentAddressIndex] = useState<number>(0);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -60,7 +66,8 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
   const [basket, setBasket] = useState<BasketItem[]>([] as BasketItem[]);
   const [basketCount, setBasketCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [orders, setOrders] = useState<{order: Order, orderItems: OrderItem[]}[]>();
+  const [orders, setOrders] =
+    useState<{ order: Order; orderItems: OrderItem[] }[]>();
 
   const fetchData = () => {
     if (!id) {
@@ -76,9 +83,9 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
       setBasket(value)
     );
     getOrderViewByUserId(idNumeric).then((value) => {
-      setOrders(value)
+      setOrders(value);
     });
-    setLoading(false);  
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -122,6 +129,7 @@ export const UserProvider = (props: { children?: JSX.Element }) => {
         addToBasket: addToBasket,
         orders: orders,
         reload: fetchData,
+        language: "en",
       }}
     >
       {children}

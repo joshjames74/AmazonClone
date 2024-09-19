@@ -8,6 +8,7 @@ import { CheckboxFilterType, OptionType } from "../../types/CheckboxFilterType";
 export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
   const { parentCategories, loading } = useContext(SettingsContext);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [categoriesTrees] = useContext(SettingsContext);
   const [showChildren, setShowChildren] = useState<number[]>([]);
 
   const getChildrenCategories = (category: Category): Category[] => {
@@ -32,10 +33,10 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
 
   const findIsIndeterminate = (category: Category) => {
     return (
-      category?.children.some((child: Category) => {
+      category?.children?.some((child: Category) => {
         return selectedCategories.includes(child.category_id);
       }) &&
-      category?.children.some((child: Category) => {
+      category?.children?.some((child: Category) => {
         return !selectedCategories.includes(child.category_id);
       })
     );
@@ -45,7 +46,7 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
     if (selectedCategories.includes(category.category_id)) {
       return true;
     }
-    if (category?.children.length) {
+    if (category?.children?.length) {
       return category?.children?.every((value: Category) => {
         return selectedCategories.includes(value.category_id);
       });
@@ -105,7 +106,7 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
 
   useEffect(() => {
     props.onChange(selectedCategories);
-  }, [selectedCategories])
+  }, [selectedCategories]);
 
   const renderCheckbox = (category: Category): JSX.Element => {
     return (
@@ -116,7 +117,12 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
         onChange={(e) => onChange(e)}
         isChecked={findIsChecked(category)}
       >
-        {category.name}
+        {/* {category.name} */}
+        {category.children ? (
+          category.children.map((cat) => renderCheckbox(cat))
+        ) : (
+          <></>
+        )}
       </Checkbox>
     );
   };
@@ -134,9 +140,9 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
             onClick={() => handleSetChild(v)}
           >
             {renderCheckbox(v)}
-            {v?.children.length ? <ChevronDownIcon /> : <></>}
+            {v?.children?.length ? <ChevronDownIcon /> : <></>}
           </Box>
-          {v.children.length ? (
+          {v.children?.length ? (
             <Box
               marginLeft="7px"
               hidden={showChildren.includes(v.category_id)}
@@ -155,8 +161,6 @@ export default function CheckboxFilter(props: CheckboxFilterType): JSX.Element {
       );
     });
   };
-
-  console.log(parentCategories);
 
   return (
     <Box display="flex" flexDirection="column" w="100%">

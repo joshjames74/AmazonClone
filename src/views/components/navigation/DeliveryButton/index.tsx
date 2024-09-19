@@ -1,5 +1,5 @@
 import { InfoIcon } from "@chakra-ui/icons";
-import { Box, Button, ModalContent, propNames } from "@chakra-ui/react";
+import { Box, Button, ModalContent, propNames, Text } from "@chakra-ui/react";
 import { ClassNames } from "@emotion/react";
 import { useState, useContext, useEffect } from "react";
 import { createContext } from "react";
@@ -7,6 +7,7 @@ import { AddressType } from "../../../../types";
 import SelectAddressModal from "./modals/SelectAddressModal";
 import SetAddressModal from "./modals/SetAddressModal";
 import { AuthContext, UserContext } from "../../../contexts";
+import NavigationButton from "../NavigationButton";
 
 export default function DeliveryButton(): JSX.Element {
   const { isLoggedIn } = useContext(AuthContext);
@@ -25,12 +26,23 @@ export default function DeliveryButton(): JSX.Element {
         display="flex"
         flexDirection="column"
         padding="5px"
-        fontSize="10px"
-        bgColor="blackAlpha.200"
         onClick={() => setShowSelectAddressModal(!showSelectAddressModal)}
       >
-        <Box textAlign="left">Deliver to {currentAddress.name}</Box>
-        <Box textAlign="left">{currentAddress.postcode}</Box>
+        <Box
+          display="flex"
+          flexDirection="row"
+          textAlign="left"
+          fontSize="xs"
+          gap="0.3em"
+        >
+          Deliver to
+          <Text overflow="hidden" textOverflow="ellipsis" w="5em">
+            {currentAddress.name}
+          </Text>
+        </Box>
+        <Box fontSize="xs">
+          {currentAddress.county} {currentAddress.postcode}
+        </Box>
       </Button>
     );
   };
@@ -68,17 +80,11 @@ export default function DeliveryButton(): JSX.Element {
   };
 
   return (
-    <Box
-      className="deliver-button"
-      display="flex"
-      flexDirection="row"
-      textColor="whiteAlpha.900"
-      h="100%"
-      w="8%"
-      minW="20vh"
-    >
-      {isLoggedIn ? loggedInButton() : loggedOutButton()}
-      {loading ? <></> : renderAddressModal()}
-    </Box>
+    <NavigationButton>
+      <Box>
+        {isLoggedIn ? loggedInButton() : loggedOutButton()}
+        {loading ? <></> : renderAddressModal()}
+      </Box>
+    </NavigationButton>
   );
 }

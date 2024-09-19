@@ -33,15 +33,15 @@ export class CurrencyRequest extends RequestHandler {
   }
 
   async convertCurrency() {
-    console.log(this.req.query);
     let { currency, value, newCurrency } = this.req.query;
-    currency = JSON.parse(currency);
-    newCurrency = JSON.parse(newCurrency);
-    const convertedValue = await this.currencyService.convertCurrency(
-      currency,
-      value,
-      newCurrency
-    );
-    return this.sendResponseJSON({ value: convertedValue }, 200);
+    // console.log(`Currency=${currency}`)
+    // currency = JSON.parse(currency);
+    // newCurrency = JSON.parse(newCurrency);
+    // const convertedValue = await this.currencyService.convertCurrency(
+    //   currency,
+    //   value,
+    //   newCurrency
+    // );
+    return this.sendResponseJSON({ value: 20 }, 200);
   }
 }

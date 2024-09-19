@@ -9,3 +9,14 @@ export async function getAllCountries(): Promise<Country[]> {
   });
   return request.data.countries;
 }
+
+export async function getCountryById(id): Promise<Country> {
+  const route = routes.country.id;
+  const request = await axios(route, {
+    method: "GET",
+    params: {
+      id: id,
+    },
+  });
+  return request.data.country;
+}

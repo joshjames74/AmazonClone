@@ -10,6 +10,9 @@ class Country {
 
   @Column()
   name: string;
+
+  @Column("text")
+  image_url: string;
 }
 
 export { Country };

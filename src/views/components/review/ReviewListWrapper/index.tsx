@@ -2,21 +2,27 @@ import ReviewCard from "../ReviewCard";
 import RatingsOverview from "../RatingsOverview";
 import { Review } from "../../../../api/entities";
 import { Box } from "@chakra-ui/react";
-import { ProductContext } from "../../../contexts";
+import { ProductContext, ThemeContext } from "../../../contexts";
 import { useContext } from "react";
 import ReviewForm from "../../form/ReviewForm";
 
 export default function ReviewListWrapper(): JSX.Element {
   const { reviews } = useContext(ProductContext);
+  const { theme } = useContext(ThemeContext);
 
   const emptyReview = () => {
     return (
       <Box
         w="100%"
         h="5vh"
-        border="2px solid black"
+        borderRadius={theme.sizes.borderRadius}
+        borderWidth={theme.sizes.borderWidth}
+        borderColor={theme.colors.primaryBorder}
         textAlign="center"
-        borderRadius="10px"
+        justifyContent="center"
+        justifyItems="center"
+        alignItems="center"
+        alignContent="center"
       >
         No reviews
       </Box>
@@ -38,14 +44,14 @@ export default function ReviewListWrapper(): JSX.Element {
   };
 
   return (
-    <Box display="flex" flexDirection="row" padding="3px" w="120vh">
-      <RatingsOverview />
+    <Box display="flex" flexDirection="row" w="60%">
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        paddingX="3px"
+        //paddingX="3px"
         w="100%"
+        gap="10px"
       >
         <ReviewForm />
         {renderReviewsBox()}

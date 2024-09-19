@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import RequestHandler from ".";
+import { QueryParams } from "../../redux/reducers/product";
 import { Currency } from "../entities/Currency";
 import { api_routes, routes } from "../routes";
 import CategoryService from "../services/CategoryService";
@@ -16,8 +17,12 @@ export class CategoryRequest extends RequestHandler {
     if (this.matches(routes.category.all)) {
       return this.getAllCategories();
     }
-    if (this.matches(routes.category.allParents)) {
-      return this.getAllParentCategories();
+    if (this.matches(routes.category.filtered)) {
+      return this.getMostPopularCategories();
+    }
+
+    if (this.matches(routes.category.id)) {
+      return this.getCategoryById();
     }
   }
 
@@ -26,8 +31,17 @@ export class CategoryRequest extends RequestHandler {
     return this.sendResponseJSON({ categories: categories }, 200);
   }
 
-  async getAllParentCategories() {
-    const categories = await this.categoryService.getAllParentCategories();
+  async getMostPopularCategories() {
+    const params = this.req.query;
+    const categories = await this.categoryService.getMostPopularCategories(
+      params
+    );
     return this.sendResponseJSON({ categories: categories }, 200);
+  }
+
+  async getCategoryById() {
+    const { id } = this.req.query;
+    const category = await this.categoryService.getCategoryById(id);
+    return this.sendResponseJSON({ category: category }, 200);
   }
 }

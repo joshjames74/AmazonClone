@@ -38,7 +38,6 @@ export default function CurrencyInputBox(
 
   const renderCurrencies = (): JSX.Element[] => {
     return currencies.map((currency: Currency, index) => {
-      console.log(JSON.stringify(currency));
       return (
         <option key={index} value={JSON.stringify(currency)}>
           {currency.code}
@@ -53,9 +52,7 @@ export default function CurrencyInputBox(
         <FormLabel w="20%">Price</FormLabel>
         <Box display="flex" w="80%" flexDirection="row">
           <InputLeftAddon>
-            <Select onChange={onChangeCurrency}>
-              {renderCurrencies()}
-            </Select>
+            <Select onChange={onChangeCurrency}>{renderCurrencies()}</Select>
           </InputLeftAddon>
           <Input type="number" placeholder="0" onChange={onChangePrice} />
         </Box>

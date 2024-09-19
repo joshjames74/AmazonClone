@@ -1,22 +1,32 @@
+"use-client";
+
 import { Box } from "@chakra-ui/react";
 import Navigation from "../../navigation";
 import ReviewListWrapper from "../../review/ReviewListWrapper";
 import ProductCardFull from "../ProductCardFull";
 import BasketCard from "../../basket/BasketCard";
-import Footer from "../../footer";
+import RatingsOverview from "../../review/RatingsOverview";
+import styles from "./index.module.css";
+
 
 export default function ProductPage(): JSX.Element {
+
   return (
     <Box>
       <Navigation />
-      <Box w="100%" display="flex" flexDirection="column" padding="3px">
-        <Box display="flex" flexDirection="row" h="40vh" w="100%" maxW="120vh">
-          <ProductCardFull />
+      <Box className={styles.wrapper}>
+        <Box className={styles.product_wrapper}>
+          <Box>
+            <ProductCardFull />
+            <Box className={styles.divider} />
+            <Box className={styles.review_container} >
+              <RatingsOverview />
+              <ReviewListWrapper />
+            </Box>
+          </Box>
           <BasketCard />
         </Box>
-        <ReviewListWrapper />
       </Box>
-      {/* <Footer /> */}
     </Box>
   );
 }

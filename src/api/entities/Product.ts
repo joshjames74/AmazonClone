@@ -5,7 +5,11 @@ import {
   OneToOne,
   JoinColumn,
   ManyToOne,
+  ManyToMany,
+  OneToMany,
+  JoinTable,
 } from "typeorm";
+import { Category } from ".";
 import { Currency } from "./Currency";
 import { User } from "./User";
 
@@ -14,7 +18,7 @@ export class Product {
   @PrimaryGeneratedColumn()
   product_id: number;
 
-  @ManyToOne((type) => User, { eager: true, onDelete: "SET NULL" })
+  @ManyToOne(() => User, { eager: true, onDelete: "SET NULL" })
   seller: User;
 
   @Column({ length: 100 })
@@ -52,4 +56,12 @@ export class Product {
     default: 0,
   })
   review_count: number;
+
+  @Column("bigint", {
+    default: 0,
+  })
+  order_count: number;
+
+  @Column("integer", { nullable: true, array: true })
+  category_ids: number[];
 }

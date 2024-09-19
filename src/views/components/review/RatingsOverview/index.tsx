@@ -1,11 +1,12 @@
 import { Box, filter, Text } from "@chakra-ui/react";
 import { useContext } from "react";
-import { ProductContext } from "../../../contexts";
+import { ProductContext, ThemeContext } from "../../../contexts";
 import ReviewStars from "../../product/ProductCard/components/ReviewStars";
 import { Review } from "../../../../api/entities";
 
 export default function RatingsOverview(): JSX.Element {
   const { product, reviews } = useContext(ProductContext);
+  const { theme } = useContext(ThemeContext);
 
   const renderStarGraph = (
     score: number,
@@ -17,21 +18,29 @@ export default function RatingsOverview(): JSX.Element {
         display="flex"
         flexDirection="row"
         key={key}
-        bgColor="gray.300"
         h="4vh"
         w="100%"
         padding="2px"
+        verticalAlign="middle"
+        alignItems="center"
+        justifyContent="space-between"
       >
-        <Box w="30%">
+        <Box w="30%" marginRight="5px">
           <ReviewStars reviewScore={score} />{" "}
         </Box>
         <Box
           w={`${percentage ? percentage : 0}%`}
           bgColor="yellow.300"
-          borderRadius="3px"
+          borderLeftRadius={theme.sizes.borderRadius}
+          height="30%"
         />
-        <Box w={`${percentage ? 100 - percentage : 100}%`} borderRadius="3px" />
-        <Text w="30%" textAlign="right">
+        <Box
+          w={`${percentage ? 100 - percentage : 100}%`}
+          borderRightRadius={theme.sizes.borderRadius}
+          bgColor="gray.200"
+          height="30%"
+        />
+        <Text w="30%" textAlign="right" fontFamily={theme.fonts.primaryFont}>
           {percentage ? percentage : 0}%
         </Text>
       </Box>
@@ -59,25 +68,33 @@ export default function RatingsOverview(): JSX.Element {
     <Box
       display="flex"
       flexDirection="column"
-      w="70%"
+      w="40%"
       h="100%"
-      maxW="50vh"
-      bgColor="gray.200"
-      padding="3px"
-      border="2px solid black"
-      borderRadius="10px"
+      fontFamily={theme.fonts.primaryFont}
     >
-      <Box display="flex" flexDirection="column" w="100%">
-        <Text fontWeight="500">Customer Reviews</Text>
-        <Box display="flex" flexDirection="row" w="100%">
+      <Box display="flex" flexDirection="column">
+        <Text fontWeight="550" fontSize="xl">
+          Customer Reviews
+        </Text>
+        <Box
+          display="flex"
+          flexDirection="row"
+          w="100%"
+          verticalAlign="middle"
+          alignItems="center"
+        >
           <ReviewStars reviewScore={product.review_score} />
-          <Text marginLeft="5px" fontWeight="350">
+          <Text marginLeft="5px" fontWeight="450" fontSize="lg">
             {Math.round(Number(product.review_score))} out of 5
           </Text>
         </Box>
-        <Text fontWeight="400">{product.review_count} global ratings</Text>
+        <Text>{product.review_count} global ratings</Text>
       </Box>
-      <Box h="30%">{renderGraphs()}</Box>
+      <Box
+        h="30%"
+      >
+        {renderGraphs()}
+      </Box>
     </Box>
   );
 }

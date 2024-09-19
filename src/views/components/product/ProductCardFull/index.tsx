@@ -3,57 +3,73 @@ import { ProductContext, ThemeContext, UserContext } from "../../../contexts";
 import { Box, Image, Text } from "@chakra-ui/react";
 import ReviewStars from "../ProductCard/components/ReviewStars";
 import { SettingsContext } from "../../../contexts/SettingsContext";
+import styles from "./index.module.css";
+import { LANG } from "./../../../../lang";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store/store";
+
 
 export default function ProductCardFull(): JSX.Element {
+
+  // define lang
+  const { language } = useContext(UserContext);
+  const lang = LANG[language];
+
+  // fetch redux / state params
   const { product } = useContext(ProductContext);
-  const { getConvertedPrice } = useContext(SettingsContext);
+  const { defaultImageURL } = useContext(SettingsContext);
   const { user } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const [convertedPrice, setConvertedPrice] = useState<number>(0);
+  // convert price
+  const conversionMultiple = useSelector((state: RootState) => state.userReducer.conversionMultiple);
+  const convertedPrice = product.price * conversionMultiple
+  const displayPrice = `${user?.currency?.symbol ? user.currency.symbol : ""}${convertedPrice}`
 
-  useEffect(() => {
-    if (product?.price && product?.currency && user?.currency) {
-      console.log(user);
-      getConvertedPrice(product.currency, product.price, user.currency).then(
-        (res) => setConvertedPrice(res)
+  const fallback = defaultImageURL ? defaultImageURL : "";
+  const image_url = product.image_url ? product.image_url : "";
+
+  // load additional images
+  const renderImages = (): JSX.Element[] => {
+    return [1, 2, 3, 4].map((key: number) => {
+      return (
+        <Image
+          key={key}
+          borderColor={theme.colors.secondaryBorder}
+          borderWidth={theme.sizes.borderWidth}
+          borderRadius={theme.sizes.borderRadius}
+          src={fallback}
+          className={styles.image_option}
+        />
       );
-    }
-  }, [product, user]);
+    })
+  }
+
+  // load description (add spacing)
+  const renderDescription = (): JSX.Element[] => {
+    return product.description.split("|").map((res) => (<Text>{res}</Text>))
+  }
 
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      h="100%"
-      w="100%"
-      maxW="80vh"
-      border={`2px solid ${theme.colors.product.border}`}
-      borderRadius="10px 0 0 10px"
-      overflow="hidden"
-    >
-      <Box w="50%" h="100%" overflow="hidden">
-        <Image src={product.image_url ? product.image_url : ""} h="100%" />
+    <Box className={styles.wrapper}>
+      <Box className={styles.image_container}>
+        <Box className={styles.image_column_container}>{renderImages()}</Box>
+        <Image
+          src={image_url}
+          fallbackSrc={fallback}
+          className={styles.image}
+        />
       </Box>
-      <Box
-        display="flex"
-        flexDirection="column"
-        w="50%"
-        padding="3px"
-        marginLeft="3px"
-      >
-        <Box>
-          <b>{product.title}</b>
-        </Box>
-        <Box display="flex" flexDirection="row">
+      <Box className={styles.info_container}>
+        <Box><Text className={styles.title} noOfLines={2}>{product.title}</Text></Box>
+        <Box className={styles.review_score_container}>
           <ReviewStars reviewScore={product.review_score} />
           &bull;
-          <Box>{product.review_count} reviews</Box>
+          <Box>{product.review_count} {lang.REVIEWS}</Box>
         </Box>
-        <Box fontWeight="500" color={theme.colors.product.border}>
-          {user ? user.currency.code : ""} {convertedPrice}
-        </Box>
-        <Text>{product.description}</Text>
+        <Box className={styles.price_wrapper} color={theme.colors.product.border}>{displayPrice}</Box>
+        <Text className={styles.about_wrapper}>{lang.ABOUT_THIS_PRODUCT}</Text>
+        <Box className={styles.description}>{renderDescription()}</Box>
       </Box>
     </Box>
   );

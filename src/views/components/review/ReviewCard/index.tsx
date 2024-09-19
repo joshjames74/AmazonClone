@@ -4,13 +4,16 @@ import { UserInfo } from "../../../../types/UserInfo";
 import { Review } from "../../../../api/entities";
 import ReviewStars from "../../product/ProductCard/components/ReviewStars";
 import RatingsOverview from "../RatingsOverview";
-import { AuthContext, ProductContext } from "../../../contexts";
+import { AuthContext, ProductContext, ThemeContext } from "../../../contexts";
 import { useContext } from "react";
 import { deleteReview } from "../../../../api/helpers/requests/review";
+import { SettingsContext } from "../../../contexts/SettingsContext";
 
 export default function ReviewCard(review: Review): JSX.Element {
   const { user } = useContext(AuthContext);
+  const { theme } = useContext(ThemeContext);
   const { onUpdateReview } = useContext(ProductContext);
+  const { defaultProfileImageURL } = useContext(SettingsContext);
 
   const reviewStarsProps = {
     onColor: "black",
@@ -50,8 +53,6 @@ export default function ReviewCard(review: Review): JSX.Element {
 
   return (
     <VStack
-      border="2px solid black"
-      borderRadius="10px"
       w="100%"
       maxH="25h"
       marginTop="5px"
@@ -59,6 +60,8 @@ export default function ReviewCard(review: Review): JSX.Element {
       <Box
         display="flex"
         flexDirection="row"
+        alignItems="center"
+        verticalAlign="middle"
         justifyContent="space-around"
         h="30%"
         maxH="10vh"
@@ -66,13 +69,21 @@ export default function ReviewCard(review: Review): JSX.Element {
         borderBottom="1px solid black"
         padding="3px"
       >
-        <Box h="100%" w="100%" display="flex" flexDirection="row">
+        <Box
+          h="100%"
+          w="100%"
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyItems="center"
+        >
           <Image
-            src={review.user.image_url ? review.user.image_url : ""}
-            w="10%"
-            h="100%"
-            borderRadius="100%"
-            bgColor="blue.500"
+            src={
+              review.user.image_url
+                ? review.user.image_url
+                : defaultProfileImageURL
+            }
+            borderRadius={theme.sizes.borderRadius}
             marginRight="3px"
           />
           <Text fontWeight="500">{review.user.user_name}</Text>
@@ -81,9 +92,11 @@ export default function ReviewCard(review: Review): JSX.Element {
       </Box>
       <Box display="flex" flexDirection="row" w="100%" paddingX="5px">
         <ReviewStars {...reviewStarsProps} />
-        <Text fontWeight="400">{review.title}</Text>
+        <Text fontWeight="550" fontSize="md" marginLeft="3px">
+          {review.title}
+        </Text>
       </Box>
-      <Text fontWeight="350" w="100%" paddingX="5px">
+      <Text fontWeight="350" w="100%" paddingX="5px" fontSize="s">
         {review.content}
       </Text>
     </VStack>

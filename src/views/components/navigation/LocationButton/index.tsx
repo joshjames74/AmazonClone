@@ -11,6 +11,8 @@ import { UserContext } from "../../../contexts";
 import { useContext, useState } from "react";
 import ChangeCurrencyModal from "./modals/ChangeCurrencyModal";
 import ChangeCountryModal from "./modals/ChangeCountryModal";
+import Image from "next/image";
+import NavigationButton from "../NavigationButton";
 
 export default function LocationButton(): JSX.Element {
   const { user, loading } = useContext(UserContext);
@@ -19,43 +21,58 @@ export default function LocationButton(): JSX.Element {
   const [showCurrencyModal, setShowCurrencyModal] = useState<boolean>(false);
   const [showCountryModal, setShowCountryModal] = useState<boolean>(false);
 
-  const handleClick = () => {
-    
-  }
+  const handleClick = () => {};
 
   return (
+    <NavigationButton>
       <Menu>
-        <MenuButton
-          as={Button}
-          maxW="10vh"
-          w="10%"
-          fontSize="xs"
-          p="0"
-          marginRight="3px"
-        >
-          <Box display="flex" flexDirection="column" alignItems="center">
-            {user?.country?.code ? user.country.code : defaultCountry}
-            <ChevronDownIcon />
+        <MenuButton as={Button} maxW="12vh" fontSize="xs" p="0.3em">
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            maxW="4em"
+          >
+            <Box display="flex">
+              <Image
+                width="100%"
+                height="100%"
+                objectFit="contain"
+                src={`https://flagsapi.com/${user?.country?.code}/flat/64.png`}
+              />
+            </Box>
+            <Box w="fit-content" minW="1em">
+              <ChevronDownIcon />
+            </Box>
           </Box>
         </MenuButton>
         <MenuList>
           <MenuItem
-          as={Button}
-          onClick={() => setShowCountryModal(!showCountryModal)}>
+            h="50%"
+            textDecoration="underline"
+            _hover={{ textColor: "blue", bgColor: "white" }}
+            onClick={() => setShowCountryModal(!showCountryModal)}
+          >
             Change Location ({user?.country?.code})
           </MenuItem>
-          <ChangeCountryModal 
-          isOpen={showCountryModal}
-          onClose={() => setShowCountryModal(false)}/>
+          <ChangeCountryModal
+            isOpen={showCountryModal}
+            onClose={() => setShowCountryModal(false)}
+          />
           <MenuItem
-          as={Button}
-          onClick={() => setShowCurrencyModal(!showCurrencyModal)}>
+            textDecoration="underline"
+            _hover={{ textColor: "blue", bgColor: "white" }}
+            h="50%"
+            onClick={() => setShowCurrencyModal(!showCurrencyModal)}
+          >
             Change Currency ({user?.currency?.code})
           </MenuItem>
-          <ChangeCurrencyModal 
-          isOpen={showCurrencyModal}
-          onClose={() => setShowCurrencyModal(false)}/>
+          <ChangeCurrencyModal
+            isOpen={showCurrencyModal}
+            onClose={() => setShowCurrencyModal(false)}
+          />
         </MenuList>
       </Menu>
+    </NavigationButton>
   );
 }

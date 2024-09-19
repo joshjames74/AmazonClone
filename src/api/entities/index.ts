@@ -7,7 +7,6 @@ import { Category } from "./Category";
 import { Order } from "./Order";
 import { OrderItem } from "./OrderItem";
 import { Product } from "./Product";
-import { ProductCategory } from "./ProductCategory";
 import { ProductType } from "./ProductType";
 import { Review } from "./Review";
 import { User } from "./User";
@@ -22,7 +21,7 @@ export {
   Order,
   OrderItem,
   Product,
-  ProductCategory,
+  //ProductCategory,
   ProductType,
   Review,
   User,

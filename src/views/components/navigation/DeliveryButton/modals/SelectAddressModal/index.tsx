@@ -45,10 +45,6 @@ export default function SelectAddressModal(
     setCurrentAddressIndex(key);
   };
 
-  useEffect(() => {
-    console.log(addresses);
-  }, []);
-
   const renderCheckBox = (address: Address, key: number): JSX.Element => {
     return (
       <Radio value={key} key={key}>

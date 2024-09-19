@@ -31,10 +31,9 @@ export default function BasketCard(): JSX.Element {
       display="flex"
       flexDirection="column"
       h="100%"
+      maxW="150vh"
       padding="3px"
       border={`2px solid ${theme.colors.product.border}`}
-      borderLeft="none"
-      borderRadius="0 10px 10px 0"
     >
       <Box fontWeight="500">
         {user ? user.currency.code : ""}{" "}

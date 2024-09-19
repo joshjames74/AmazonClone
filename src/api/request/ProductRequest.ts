@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import RequestHandler from ".";
 import { isInRoutes } from "../../pages/api/[...route]";
+import { QueryParams } from "../../redux/reducers/product";
 import { api_routes, routes } from "../routes";
 import ProductService from "../services/ProductService";
 import ReviewService from "../services/ReviewService";
@@ -28,6 +29,9 @@ export class ProductRequest extends RequestHandler {
     }
     if (this.matches(routes.product.search)) {
       return this.getProductBySearch();
+    }
+    if (this.matches(routes.product.count)) {
+      return this.getProductCountBySearch();
     }
   }
 
@@ -63,9 +67,26 @@ export class ProductRequest extends RequestHandler {
   }
 
   async getProductBySearch(): Promise<void> {
-    const { query, categories } = this.req.query;
-    const products = await this.productService.getProductBySearch(query, categories);
-    return this.sendResponseJSON({ products: products }, 200);
+    const params = this.req.query;
+    const product_response = await this.productService.getProductBySearch(
+      params
+    );
+    return this.sendResponseJSON({ product_response: product_response }, 200);
+  }
+
+  async getProductCountBySearch(): Promise<void> {
+    const { query, categories, reviewMin, priceMin, priceMax, start, end } =
+      this.req.query;
+    const productCount = await this.productService.countProductResultsBySearch(
+      query,
+      categories,
+      reviewMin,
+      priceMin,
+      priceMax,
+      start,
+      end
+    );
+    return this.sendResponseJSON({ productCount: productCount }, 200);
   }
 
   // Post methods

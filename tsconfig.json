@@ -6,7 +6,7 @@
       "es6",
       "ES2021.String"
     ],
-    "target": "es5",
+    "target": "ES6",
     "module": "CommonJS",
     "moduleResolution": "node",
     "outDir": "./build",
@@ -15,7 +15,7 @@
     "sourceMap": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "incremental": true,
@@ -26,8 +26,10 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-  ],
+    "**/*.tsx",
+    "tests/**/*",
+    "src/**/*"
+, "jest.setup.ts"  ],
   "exclude": [
     "node_modules"
   ]

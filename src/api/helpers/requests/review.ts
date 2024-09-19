@@ -3,8 +3,6 @@ import { Review } from "../../entities";
 import axios from "axios";
 import { routes } from "../../routes";
 import { insertIdIntoUrl } from "../../utils/formatting";
-import { getUserById } from "./user";
-import { CurrencyCode } from "../../../types";
 
 export async function postReview(review: Review): Promise<any> {
   const route = insertIdIntoUrl(
@@ -12,8 +10,6 @@ export async function postReview(review: Review): Promise<any> {
     "user",
     review.user.user_id
   );
-  console.log(`Route: ${route}`);
-  console.log(review);
   const request = await axios(route, {
     method: "POST",
     data: {
@@ -48,6 +44,5 @@ export async function getReviewsByProductId(id: number): Promise<Review[]> {
   const request = await axios(route, {
     method: "GET",
   });
-  console.log(request);
   return request.data.reviews;
 }

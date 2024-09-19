@@ -18,6 +18,7 @@ export const routes = {
     reviews: base_api + "/product/:id/reviews",
     all: base_api + "/product",
     search: base_api + "/product/search",
+    count: base_api + "/product/count",
   },
   user: {
     user: base_api + "/user/:id",
@@ -43,9 +44,11 @@ export const routes = {
   },
   category: {
     all: base_api + "/categories",
-    allParents: base_api + "/categories/parents",
+    filtered: base_api + "/categories/filtered",
+    id: base_api + "/categories/id",
   },
   country: {
     all: base_api + "/countries",
+    id: base_api + "/id",
   },
 };

@@ -1,46 +1,44 @@
-import { Box, Image } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
+import { Box, Image, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import ReviewStars from "../components/ReviewStars";
-import { ReviewStarsProps } from "../components/ReviewStars";
 import { Product } from "../../../../../api/entities";
+import { SettingsContext } from "../../../../contexts/SettingsContext";
+import { useContext } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store/store";
+import styles from "./index.module.css";
+
 
 export default function ProductCardCompact(product: Product): JSX.Element {
-  const reviewStarsProps: ReviewStarsProps = {
-    reviewScore: product.review_score,
-    onColor: "teal",
-    offColor: "black",
-  };
+
+  // fetch redux parameters
+  const conversionMultiple = useSelector((state: RootState) => state.userReducer.conversionMultiple);
+  const userCurrencySymbol = useSelector((state: RootState) => state.userReducer.userCurrencySymbol);
+
+  const { base_url, defaultImageURL } = useContext(SettingsContext);
+
+  // image parameters
+  const image_url = product.image_url ? product.image_url : "#";
+  const fallback_url = defaultImageURL ? defaultImageURL : "";
+  const alt = product.image_alt ? product.image_alt : "";
+
+  // convert price
+  const convertedPrice = product.price * conversionMultiple;
+  const displayPrice = `${userCurrencySymbol}${convertedPrice}`;
 
   return (
-    <Link href={product.url ? product.url : ""}>
-      <Box
-        overflow="hidden"
-        borderWidth="3px"
-        borderRadius="lg"
-        borderColor="teal.500"
-        padding="3px"
-        width="100px"
-        height="150px"
-        fontFamily="Helvetica"
-        display="flex"
-        flexDirection="column"
-        alignContent="center"
-      >
-        <Image
-          h="50%"
-          src={product.image_url ? product.image_url : "#"}
-          alt={product.image_alt ? product.image_alt : ""}
-        ></Image>
-        <Box h="50%">
-          <Box display="flex" flexDirection="column">
-            <Box textColor="blue" fontSize="xs" h="20%">
-              <a href={product.url ? product.url : "/"}>{product.title}</a>
+
+    <Link href={`${base_url}/product/${product.product_id}`}>
+      <Box className={styles.container}>
+        <Image className={styles.image} src={image_url} fallbackSrc={fallback_url} alt={alt} />
+        <Box className={styles.info_wrapper}>
+          <Box className={styles.info_container}>
+            <Box className={styles.product_name_container}>
+              <Text noOfLines={2}>{product.title}</Text>
             </Box>
-            <Box h="20%">{`${product.currency} ${product.price}`}</Box>
-            <Box display="flex" flexDirection="column" h="25%" w="100%">
-              <ReviewStars {...reviewStarsProps} />
-              <Box>{`${product.review_count} reviews`}</Box>
+            <Box className={styles.price_review_container}>
+              <Box className={styles.price_wrapper} fontWeight={550}>{displayPrice}</Box>
+              <ReviewStars reviewScore={product.review_score} />
             </Box>
           </Box>
         </Box>

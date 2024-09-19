@@ -14,7 +14,7 @@ export default class OrderService extends BaseService {
   public async getOrderById(id: number): Promise<OrderView> {
     id = this.sanitizeId(id);
     const order = await this.repository.manager.findOneBy(OrderView, {
-      user: {user_id: id}
+      user: { user_id: id },
     });
     return order;
   }
@@ -30,7 +30,7 @@ export default class OrderService extends BaseService {
   public async getOrdersByUserId(id: number): Promise<Order[]> {
     id = this.sanitizeId(id);
     const orders = await this.repository.findBy({
-      user: {user_id: id}
+      user: { user_id: id },
     });
     return orders;
   }

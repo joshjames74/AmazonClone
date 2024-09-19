@@ -1,23 +1,25 @@
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { Button, Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
-import { UserContext } from "../../../contexts";
+import NavigationButton from "../NavigationButton";
 
 export default function ReturnsButton(): JSX.Element {
 
   const router = useRouter();
-  const { user } = useContext(UserContext);
+  const { user, error, isLoading } = useUser();
 
-  const url = user && 'http://localhost:3000' + '/user/' + user.user_id.toString() + '/orders'
+  const url =
+    user && user.org_id &&
+    "http://localhost:3000" + "/user/" + user.org_id.toString() + "/orders";
 
   return (
-    <Link href={url ? url : ''}>
-      <Button marginRight="3px">
-        <Box display="flex" flexDirection="column" fontSize="xs">
-          <Box>Orders</Box>
-        </Box>
-      </Button>
-    </Link>
+    <NavigationButton>
+      <Link href={url ? url : ""}>
+        <Button fontSize="xs" padding="0.3em">
+          Orders
+        </Button>
+      </Link>
+    </NavigationButton>
   );
 }

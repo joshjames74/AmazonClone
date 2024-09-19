@@ -15,4 +15,9 @@ export default class CountryService extends BaseService {
     const countries = await this.repository.find({});
     return countries;
   }
+
+  public async getCountryById(id: number): Promise<Country> {
+    const country = await this.repository.findOne({ where: { id: id } });
+    return country;
+  }
 }

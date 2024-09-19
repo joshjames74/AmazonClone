@@ -99,7 +99,7 @@ export default class BasketItemService extends BaseService {
       .createQueryBuilder()
       .delete()
       .from(BasketItem)
-      .where({ basket: {basket_id: basket_id} })
+      .where({ basket: { basket_id: basket_id } })
       .execute();
     return query;
   }

@@ -1,64 +1,63 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 import ReviewStars from "../components/ReviewStars";
-import { ReviewStarsProps } from "../components/ReviewStars";
 import { Product } from "../../../../../api/entities";
 import Link from "next/link";
 import { ThemeContext } from "../../../../contexts/ThemeContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { SettingsContext } from "../../../../contexts/SettingsContext";
-import { ProductContext, UserContext } from "../../../../contexts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store/store";
+import styles from "./index.module.css";
+import { LANG } from "./../../../../../lang";
+import { UserContext } from "../../../../contexts";
+
 
 export default function ProductCardWide(product: Product): JSX.Element {
+
+  // define lang
+  const { language } = useContext(UserContext);
+  const lang = LANG[language];
+
+  // fetch data from contexts
   const { theme } = useContext(ThemeContext);
-  const { base_url, getConvertedPrice } = useContext(SettingsContext);
-  const { user } = useContext(UserContext);
+  const { base_url, defaultImageURL } = useContext(SettingsContext);
 
-  const [convertedPrice, setConvertedPrice] = useState<number>(0);
+  // fetch data from redux
+  const userCurrencySymbol = useSelector((state: RootState) => state.userReducer.userCurrencySymbol);
+  const conversionMultiple = useSelector((state: RootState) => state.userReducer.conversionMultiple);
 
-  useEffect(() => {
-    if (product?.price && product?.currency && user?.currency) {
-      getConvertedPrice(product.currency, product.price, user.currency).then(
-        (res) => setConvertedPrice(res)
-      );
-    }
-  }, [product, user]);
+  // image data
+  const image_url = product.image_url ? product.image_url : "";
+  const fallback = defaultImageURL ? defaultImageURL : "";
+  const alt = product.image_alt ? product.image_alt : "";
 
-  const reviewStarsProps: ReviewStarsProps = {
-    reviewScore: product.review_score,
-    onColor: "teal",
-    offColor: "black",
-  };
+  // convert price
+  const convertedPrice = product.price * conversionMultiple;
+  const displayPrice = `${userCurrencySymbol}${convertedPrice}`
+
+  // review message
+  const displayReview = `(${product.review_count} ${lang.REVIEWS})`
 
   return (
-    <Link href={`${base_url}/product/${product.product_id}`}>
-      <Box
-        display="flex"
-        flexDirection="row"
-        padding="5px"
-        h="100px"
-        borderRadius="lg"
-        border={`2px solid ${theme.colors.product.border}`}
-        fontSize="14px"
-        w="100vh"
-      >
-        <Image
-          src={product.image_url ? product.image_url : ""}
-          alt={product.image_alt ? product.image_alt : ""}
-          w='20vh'
-        />
-        <Box display="flex" flexDirection="column" h="100%" paddingX="3px">
-          <Box h="25%" fontWeight="500">
-            {product.title}
+    <Link href={`${ base_url}/product/${product.product_id}`}>
+      <Box className={styles.container} borderColor={theme.colors.secondaryBorder}>
+        <Image className={styles.image} src={image_url} fallbackSrc={fallback} 
+               alt={alt}  />
+        <Box className={styles.info_container}>
+          <Box className={styles.title_wrapper}>
+            <Text noOfLines={2}>{product.title}</Text>
           </Box>
-          <Box display="flex" flexDirection="row" alignItems="center" h="20%">
-            <ReviewStars {...reviewStarsProps} />({product.review_count}{" "}
-            Reviews)
+          <Box className={styles.price_review_container}>
+            <Text className={styles.price_wrapper} color={theme.colors.primaryAccent}>
+              {displayPrice}
+            </Text>
+            <Box className={styles.review_wrapper}>
+              <ReviewStars reviewScore={product.review_score} />
+              <Text className={styles.review_score}>{displayReview}</Text>
+            </Box>
           </Box>
-          <Box h="20%" fontWeight="500" color="teal.600">
-            {user ? user.currency.code : ""} {convertedPrice}
-          </Box>
-          <Box h="30%" w="100%">
-            <Text fontSize="12px" noOfLines={2}>
+          <Box className={styles.description_container}>
+            <Text className={styles.description} noOfLines={1}>
               {product.description}
             </Text>
           </Box>

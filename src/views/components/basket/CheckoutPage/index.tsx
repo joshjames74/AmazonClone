@@ -138,8 +138,8 @@ export default function CheckoutPage() {
       return orderItem;
     });
     postOrder(order, orderItems).then((res) => {
-      emptyBasket(user.user_id).then(res => console.log(res));
-      router.replace(`http://localhost:3000/user/${user.user_id}/orders`)
+      emptyBasket(user.user_id);
+      router.replace(`http://localhost:3000/user/${user.user_id}/orders`);
     });
   };
 

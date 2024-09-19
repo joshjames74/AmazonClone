@@ -1,21 +1,19 @@
 import { Box, Link, Image } from "@chakra-ui/react";
 import { routes } from "../../../../api/routes";
 import { LogoWrapperType } from "../types/LogoWrapperType";
+import { FaHome } from "react-icons/fa";
 
 export default function LogoWrapper(props: LogoWrapperType): JSX.Element {
   return (
     <Box
       as={Link}
       href={routes.base}
-      overflow={"hidden"}
-      maxW="12vh"
-      w="20%"
-      h="100%"
+      w="fit-content"
+      h="fit-content"
+      paddingX="0.3em"
+      fontSize="5xl"
     >
-      <Image
-        src={props.imageUrl ? props.imageUrl : ""}
-        alt={props.imageAlt ? props.imageAlt : ""}
-      />
+      <FaHome />
     </Box>
   );
 }

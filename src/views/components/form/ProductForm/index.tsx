@@ -2,21 +2,17 @@ import { Box, Button } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../contexts";
 import InputBox from "../InputBox";
-import ImageInputBox from "../ImageInputBox";
 import {
   validatePrice,
   validateTitle,
   validateDescription,
-  validateImage,
   validateCategories,
 } from "./Validation";
 import { postProduct } from "../../../../api/helpers/requests/product";
 import CurrencyInputBox from "../CurrencyInputBox";
 import { Product, Currency } from "../../../../api/entities/index";
 import CategoryInputBox from "../CategoryInputBox";
-import { SettingsContext } from "../../../contexts/SettingsContext";
-import { NextResponse } from 'next/server';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 export default function ProductForm(): JSX.Element {
   const { user } = useContext(AuthContext);
@@ -41,7 +37,7 @@ export default function ProductForm(): JSX.Element {
   useEffect(() => {
     setCanSubmit(
       // split into single function in validation files
-        validateTitle(title) &&
+      validateTitle(title) &&
         validatePrice(price) &&
         validateDescription(description) &&
         validateCategories(selectCategories)

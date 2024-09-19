@@ -4,48 +4,50 @@ import defaultTheme from "../themes/defaultTheme";
 import ProductCardWrapper from "../views/components/product/ProductCardWrapper";
 import { CardType } from "../views/components/product/enums/CardType";
 import Footer from "../views/components/footer";
-import { Box } from "@chakra-ui/react";
-import NavigationSidebar from "../views/components/sidebar/NavigationSidebar";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import { SettingsProvider } from "../views/contexts/SettingsContext";
-import {
-  AuthProvider,
-  ProductListProvider,
-  UserProvider,
-} from "../views/contexts";
+import { AuthProvider, UserProvider } from "../views/contexts";
 import { ModalProvider } from "../views/contexts/ModalContext";
 import { FilterProvider } from "../views/contexts/FilterContext";
-import { useContext } from "react";
-import { ProductListContext } from "../views/contexts";
+import Sidebar from "../views/components/sidebar";
+import { PageProvider } from "../views/contexts/PageContext";
 
 export default function Home() {
-
-  const navigationSidebarProps = {
-    minPrice: 0,
-    maxPrice: 100,
-    priceStep: 1,
-    currencyCode: CurrencyCode.GBP,
-    categories: ["Home", "Outdoor", "Technology", "Clothing"],
-  };
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   return (
     <>
       <SettingsProvider>
         <AuthProvider>
           <UserProvider>
-            <FilterProvider>
-              <ModalProvider>
-                <ProductListProvider>
-                  <>
+            <PageProvider>
+              <FilterProvider>
+                <ModalProvider>
+                  <Box margin="0" padding="0">
                     <Navigation />
-                    <Box display="flex" flexDirection="row">
-                      <NavigationSidebar {...navigationSidebarProps} />
-                      <ProductCardWrapper cardType={CardType.wide} />
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      paddingBottom="50px"
+                    >
+                      <Box
+                        display="flex"
+                        flexDirection={isLargerThan800 ? "row" : "column"}
+                        w="100%"
+                        justifyContent={isLargerThan800 ? "" : "center"}
+                        alignItems={isLargerThan800 ? "" : "center"}
+                        margin="0"
+                        padding="0"
+                      >
+                        <Sidebar />
+                        <ProductCardWrapper />
+                      </Box>
                     </Box>
                     <Footer></Footer>
-                  </>
-                </ProductListProvider>
-              </ModalProvider>
-            </FilterProvider>
+                  </Box>
+                </ModalProvider>
+              </FilterProvider>
+            </PageProvider>
           </UserProvider>
         </AuthProvider>
       </SettingsProvider>

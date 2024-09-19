@@ -32,7 +32,6 @@ export default function SetAddressModal(
 
   const renderAddresses = (): JSX.Element => {
     const handleSubmit = (event) => {
-      console.log(event, "data");
     };
 
     const styles = {

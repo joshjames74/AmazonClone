@@ -4,7 +4,9 @@ import { insertIdIntoUrl } from "../../utils/formatting";
 import axios from "axios";
 import { OrderView } from "../../entities/OrderView";
 
-export async function getOrderViewByUserId(id: number): Promise<{order: Order, orderItems: OrderItem[]}[]> {
+export async function getOrderViewByUserId(
+  id: number
+): Promise<{ order: Order; orderItems: OrderItem[] }[]> {
   const route = insertIdIntoUrl(routes.user.all_orders, "user", id);
   const request = await axios(route, {
     method: "GET",
@@ -21,6 +23,7 @@ export async function postOrder(
     "user",
     order.user.user_id
   );
+
   const request = await axios(route, {
     method: "POST",
     data: {

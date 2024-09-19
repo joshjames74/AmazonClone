@@ -102,11 +102,12 @@ export class UserRequest extends RequestHandler {
   async getOrders(): Promise<void> {
     const id = this.getIdFromPath("user");
     const orders = await this.orderService.getOrdersByUserId(id);
-    console.log(typeof orders);
-    let orderViews = []
+    let orderViews = [];
     for (const order of orders) {
-      const orderView = {order: order, orderItems: null}
-      orderView.orderItems = await this.orderItemService.getOrderItemById(order.order_id);
+      const orderView = { order: order, orderItems: null };
+      orderView.orderItems = await this.orderItemService.getOrderItemById(
+        order.order_id
+      );
       orderViews.push(orderView);
     }
     return this.sendResponseJSON({ order: orderViews }, 200);
@@ -176,13 +177,15 @@ export class UserRequest extends RequestHandler {
     const id = this.getIdFromPath("user");
     const { review } = this.req.body;
     const request = await this.reviewService.postReview(review);
-    const updateReview = await this.productService.putProductReviewById(review.product.product_id, request.score);
+    const updateReview = await this.productService.putProductReviewById(
+      review.product.product_id,
+      request.score
+    );
     return this.sendResponseJSON({ review: request }, 201);
   }
 
   async postBasketItem(): Promise<void> {
     const id = this.getIdFromPath("user");
-    console.log(id);
     let basket = await this.basketService.getBasketByUserId(id);
     const { basketItem } = this.req.body;
     const request = await this.basketItemService.postBasketItem(
@@ -197,13 +200,19 @@ export class UserRequest extends RequestHandler {
     const queryRunner = await this.createTransaction();
 
     try {
+      // save the order
       const orderObj = await this.orderService.postOrder(order);
       await queryRunner.commitTransaction();
+
+      // save the order items
       const newOrderItems = orderItems.map((orderItem: OrderItem) => {
         orderItem.order = orderObj;
         return orderItem;
       });
       await this.orderItemService.postOrderItems(newOrderItems);
+
+      // update the count
+      await this.productService.putProductOrderCountByOrderItem(newOrderItems);
     } catch (error) {
       await queryRunner.rollbackTransaction();
     }
@@ -228,7 +237,11 @@ export class UserRequest extends RequestHandler {
   async deleteReview(): Promise<any> {
     const id = this.getIdFromPath("user");
     const { review } = this.req.body;
-    const updateReview = await this.productService.putProductReviewById(review.product.product_id, review.score, true);
+    const updateReview = await this.productService.putProductReviewById(
+      review.product.product_id,
+      review.score,
+      true
+    );
     await this.reviewService.deleteReview(review.review_id);
     return this.sendResponseJSON({}, 204);
   }

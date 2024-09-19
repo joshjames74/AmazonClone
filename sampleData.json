@@ -1,0 +1,112 @@
+{
+    "product": [
+        {
+            "title": "Echo Dot (4th generation)",
+            "url": "/",
+            "description": "Meet Echo Dot—our most popular smart speaker with Alexa. The sleek, compact design delivers crisp vocals and balanced bass for full sound.",
+            "image_url": "https://m.media-amazon.com/images/I/71Q9d6N7xkL._AC_SL1000_.jpg",
+            "image_alt": "Echo dot",
+            "price": 22.99,
+            "review_score": 4.7,
+            "review_count": 221017
+        }, {
+            "title": "K BASIX 4 Sided Box Grater",
+            "url": "/",
+            "description": "MULTI-PURPOSE GRATER: K Basix Cheese Grater with Handle 4-sided design provides you a variety of customized shred thickness. Grate vegetables like a Pro! You can grate hard/ soft cheeses effortlessly with any surface - Coarse or Fine. Grate breadcrumbs or ginger using finer mesh or easily slice cucumbers.",
+            "image_url": "https://m.media-amazon.com/images/I/71vXiKlochL._AC_SL1500_.jpg",
+            "image_alt": "Box grater",
+            "price": 10.99,
+            "review_score": 4.7,
+            "review_count": 999
+        }, {
+            "title": "Jellycat Ricky Rain Frog Collectable Plush Decoration",
+            "url": "/",
+            "description": "",
+            "image_url": "https://m.media-amazon.com/images/I/6180LXmzm0L._AC_SL1050_.jpg",
+            "image_alt": "Frog",
+            "price": 34.08,
+            "review_score": 4.1,
+            "review_count": 4
+        }
+    ],
+    "address": [
+        {
+            "name": "Joshua",
+            "number": "33",
+            "postcode": "CF23 9BN",
+            "county": "Cardiff"
+        }, {
+            "name": "Brian",
+            "number": "33",
+            "postcode": "CF23 9BN",
+            "county": "Cardiff"
+        }, {
+            "name": "Joshua",
+            "number": "15",
+            "postcode": "BA2 7PD",
+            "county": "Bath"
+        }, {
+            "name": "Joshua work",
+            "number": "31",
+            "postcode": "CF22 ABC",
+            "county": "Cardiff"
+        }
+    ],
+    "currency": [
+        {
+            "code": "GBP",
+            "symbol": "£"
+        }, {
+            "code": "USD",
+            "symbol": "$"
+        }, {
+            "code": "EUR",
+            "symbol": "€"
+        }, {
+            "code": "AUD",
+            "symbol": "$"
+        }, {
+            "code": "ZAR",
+            "symbol": "R"
+        }, {
+            "code": "DKK",
+            "symbol": "kr"
+        }
+    ],
+    "country": [
+        {
+            "code": "GBR",
+            "name": "The United Kingdom of Great Britain and Northern Ireland"   
+        }, {
+            "code": "USA",
+            "name": "The United States of America"
+        }, {
+            "code": "AUS",
+            "name": "Australia"
+        }, {
+            "code": "SWE",
+            "name": "Sweden"
+        }, {
+            "code": "RUS",
+            "name": "The Russian Federation"
+        }
+    ],
+    "user": [
+        {
+            "first_name": "Joshua",
+            "user_name": "joshjames74",
+            "title": "Mr",
+            "image_url": "/"
+        }, {
+            "first_name": "Brian",
+            "user_name": "brianjames80",
+            "title": "Mr",
+            "image_url": "/"
+        }, {
+            "first_name": "Louise",
+            "user_name": "louise33",
+            "title": "Mrs",
+            "image_url": "/"
+        }
+    ]
+}

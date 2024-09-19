@@ -34,7 +34,10 @@ export class ReviewRequest extends RequestHandler {
     const id = this.getIdFromPath("user");
     const { review } = this.req.body;
     const request = await this.reviewService.postReview(review);
-    const updateReview = await this.productService.putProductReviewById(review.product.product_id, review.review_score);
+    const updateReview = await this.productService.putProductReviewById(
+      review.product.product_id,
+      review.review_score
+    );
     return request;
   }
 }

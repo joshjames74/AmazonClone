@@ -7,7 +7,6 @@ import { UserContext } from "../../views/contexts";
 import { postUser } from "../../api/helpers/requests/user";
 
 export default function AddProduct(): JSX.Element {
-
   return (
     <Box display="flex" flexDirection="column">
       <Navigation />

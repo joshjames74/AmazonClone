@@ -1,8 +1,16 @@
 import { routes } from "../../routes";
 import { insertIdIntoUrl } from "../../utils/formatting";
 import axios from "axios";
-import { User, Product, Address, BasketItem, Currency, Country } from "../../entities";
+import {
+  User,
+  Product,
+  Address,
+  BasketItem,
+  Currency,
+  Country,
+} from "../../entities";
 import { BasketView } from "../../entities/BasketView";
+import { getCountryById } from "./countries";
 
 export async function getUserById(id: number): Promise<User> {
   const url = insertIdIntoUrl(routes.user.user, "user", id);
@@ -36,13 +44,30 @@ export async function getAddressesByUserId(id: number): Promise<Address[]> {
   return request.data.addresses;
 }
 
-export async function putUserCurrency(id: number, currency: Currency): Promise<any> {
-  const fieldQuery = {currency: currency};
+export async function putUserCurrency(
+  id: number,
+  currency: Currency
+): Promise<any> {
+  const fieldQuery = { currency: currency };
   return await putUser(id, fieldQuery);
 }
 
-export async function putUserCountry(id: number, country: Country): Promise<any> {
-  const fieldQuery = {country: country};
+export async function putUserCountry(
+  id: number,
+  country: Country
+): Promise<any> {
+  const fieldQuery = { country: country };
+  return await putUser(id, fieldQuery);
+}
+
+export async function putUserCountryByCountryId(
+  id: number,
+  countryId: number
+): Promise<any> {
+  // get country by country id
+
+  const country = await getCountryById(countryId);
+  const fieldQuery = { country: country };
   return await putUser(id, fieldQuery);
 }
 
@@ -51,15 +76,14 @@ export async function putUser(id: number, fieldQuery: any): Promise<any> {
   const request = await axios(url, {
     method: "PUT",
     data: {
-      fieldQuery: fieldQuery
-    }
+      fieldQuery: fieldQuery,
+    },
   });
   return request;
 }
 
 export async function postUser(user: User): Promise<User | void> {
   const url = routes.user.add;
-  console.log(user);
   const request = await axios(url, {
     method: "POST",
     data: {

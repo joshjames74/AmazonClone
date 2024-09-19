@@ -8,6 +8,8 @@ import { deleteBasketItem } from "../../../../api/helpers/requests/basket";
 import Basket from "../../../../pages/user/[id]/basket";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store/store";
 
 export default function BasketCardWrapper(): JSX.Element {
   const { user, basket, loading, reload } = useContext(UserContext);
@@ -22,6 +24,16 @@ export default function BasketCardWrapper(): JSX.Element {
     router.push(`${router.asPath}/checkout`);
   };
 
+  const conversionMultiple = useSelector(
+    (state: RootState) => state.userReducer.conversionMultiple
+  );
+  const userCurrencySymbol = useSelector(
+    (state: RootState) => state.userReducer.userCurrencySymbol
+  );
+  const subtotal = basket
+    .map((item) => item.product.price * item.quantity * conversionMultiple)
+    .reduce((acc, curr) => acc + curr, 0);
+
   const renderBasketProducts = (basket: BasketItem[]): JSX.Element[] => {
     return basket.map((v: BasketItem, i: number) => {
       return (
@@ -30,12 +42,10 @@ export default function BasketCardWrapper(): JSX.Element {
             <ProductCardWide key={i} {...v.product} />
             <Box
               padding="3px"
-              border="2px solid black"
-              borderRadius="10px"
               display="flex"
               flexDirection="column"
               justifyContent="space-evenly"
-              w="30%"
+              w="20%"
             >
               <Box
                 borderRadius="5px"
@@ -74,18 +84,24 @@ export default function BasketCardWrapper(): JSX.Element {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="left" padding="3px">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="left"
+      padding="3px"
+      margin="20px"
+    >
       <Box w="120vh" display="flex" flexDirection="column">
         <Box
           display="flex"
-          justifyContent="center"
           alignItems="center"
-          fontSize="xl"
-          background="gray.100"
+          fontSize="3xl"
           h="10vh"
           margin="3px"
+          paddingLeft="3px"
+          textAlign="left"
         >
-          My Basket
+          Shopping Basket
         </Box>
         {!loading && !!basket.length ? (
           <>{renderBasketProducts(basket)}</>
@@ -95,11 +111,14 @@ export default function BasketCardWrapper(): JSX.Element {
         {!!basket.length && (
           <>
             <Box
-              display="flex"
-              flexDirection="row"
-              justifyContent="space-between"
+              textAlign="right"
               w="100%"
+              fontSize="xl"
+              fontWeight="450"
+              paddingRight="10px"
             >
+              Subtotal: {userCurrencySymbol}
+              {subtotal}
             </Box>
             <Button w="100%" onClick={handleCheckout}>
               Checkout
