@@ -7,11 +7,13 @@ import { convertToRegex } from "../../api/utils/formatting";
 import { CurrencyRequest } from "../../api/request/CurrencyRequest";
 import { CategoryRequest } from "../../api/request/CategoryRequest";
 import { CountryRequest } from "../../api/request/CountryRequest";
+import { logoutHandler, loginHandler, callbackHandler, profileHandler } from "./auth0";
 
 type Route = {
   url: string;
   pattern: string;
 };
+
 
 export function isInRoutes(routes: Object, path: string): boolean {
   const values = Object.values(routes);
@@ -21,6 +23,7 @@ export function isInRoutes(routes: Object, path: string): boolean {
   });
   return match;
 }
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -58,5 +61,20 @@ export default async function handler(
     return request.handler();
   }
 
-  return res.status(200).send({ body: "blank" });
+  if (isInRoutes(routes.auth, path)) {
+    switch (path) {
+      case routes.auth.login:
+        return loginHandler(req, res);
+      case routes.auth.callback:
+        return callbackHandler(req, res);
+      case routes.auth.logout:
+        return logoutHandler(req, res);
+      case routes.auth.profile:
+        return profileHandler(req, res);
+      default:
+        res.status(404).send({ body: "cannot find route" })
+    }
+  }
+
+  return res.status(404).send({ body: "cannot find route" });
 }

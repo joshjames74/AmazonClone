@@ -34,7 +34,7 @@ interface ProductState {
 
 const defaultQueryParams: QueryParams = {
   query: "",
-  categories: [0, 1, 2, 3],
+  categories: [],
   priceMin: 0,
   priceMax: 1000,
   reviewMin: 0,
@@ -57,7 +57,6 @@ const productReducer: Reducer<ProductState, any> = (
   state = initialState,
   action
 ) => {
-  console.log(state);
   switch (action.type) {
     case "SET_PRODUCTS":
       return { ...state, products: action.payload };

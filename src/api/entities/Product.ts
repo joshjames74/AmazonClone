@@ -2,12 +2,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
-  JoinColumn,
   ManyToOne,
-  ManyToMany,
-  OneToMany,
-  JoinTable,
 } from "typeorm";
 import { Category } from ".";
 import { Currency } from "./Currency";

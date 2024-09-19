@@ -2,9 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import RequestHandler from ".";
 import UserService from "../services/UserService";
 import OrderService from "../services/OrderService";
-import { api_routes, routes } from "../routes";
+import { routes } from "../routes";
 import OrderItemService from "../services/OrderItemService";
-import { Order, OrderItem, Product } from "../entities";
 import ProductService from "../services/ProductService";
 
 export class OrderRequest extends RequestHandler {
@@ -17,6 +16,8 @@ export class OrderRequest extends RequestHandler {
     super(req, res);
     this.userService = new UserService();
     this.productService = new ProductService();
+    this.orderService = new OrderService();
+    this.orderItemService = new OrderItemService();
   }
 
   post() {
@@ -67,26 +68,26 @@ export class OrderRequest extends RequestHandler {
     try {
       // save order
       await this.orderService.postOrder(order);
-      //queryRunner.commitTransaction();
+      queryRunner.commitTransaction();
 
       // save order items
-      // await this.orderItemService.postOrderItems(orderItems);
-      // queryRunner.commitTransaction()
+      await this.orderItemService.postOrderItems(orderItems);
+      queryRunner.commitTransaction()
 
-      // console.log("Reached put product order count")
-      // // update order_count for each item
-      // await this.productService.putProductOrderCountByOrderItem(orderItems);
-      // queryRunner.commitTransaction();
+      // update order_count for each item
+      await this.productService.putProductOrderCountByOrderItem(orderItems);
+      queryRunner.commitTransaction();
 
       statusCode = 201;
+      return this.sendResponseJSON({ }, 201);
+
     } catch (error) {
-      console.log(error);
       queryRunner.rollbackTransaction();
-      message = error;
+      let message = error;
       statusCode = 404;
-    } finally {
-      queryRunner.release();
-      return this.sendResponseJSON({ message: message }, statusCode);
-    }
+
+      return this.sendResponseJSON({ }, 400)
+      
+    };
   }
 }

@@ -16,7 +16,6 @@ export interface IRouter {
 export default class Router {
   private routes: Route[];
   private base: string;
-  private url: URL;
 
   constructor() {
     this.routes = [];

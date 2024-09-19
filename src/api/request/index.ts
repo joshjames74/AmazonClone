@@ -91,15 +91,6 @@ export default class RequestHandler implements IRequestHandler {
     return parseInt(id);
   }
 
-  /**
-   * @depreciated Thi method should not be used
-   */
-  public getId() {
-    // const { id } = this.req.query;
-    // const idNumber = this.idToNumber(id);
-    // return idNumber;
-  }
-
   public sendResponseJSON(object: Object, code: number) {
     return this.res.status(code).json(object);
   }

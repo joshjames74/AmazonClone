@@ -21,7 +21,6 @@ export {
   Order,
   OrderItem,
   Product,
-  //ProductCategory,
   ProductType,
   Review,
   User,

@@ -6,6 +6,9 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ["en.wikipedia.org", "flagsapi.com", "lh3.googleusercontent.com"]
+  }
 }
 
 module.exports = nextConfig

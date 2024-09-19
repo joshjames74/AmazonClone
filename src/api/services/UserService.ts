@@ -9,6 +9,20 @@ export default class UserService extends BaseService {
     super(User);
   }
 
+  public async getUserBySub(sub: string): Promise<User> {
+    const user = await this.repository.findOneBy({
+      sub: sub
+    });
+    return user;
+  }
+
+  public async getUserByUsername(username: string): Promise<User> {
+    const user = await this.repository.findOneBy({
+      user_name: username,
+    });
+    return user;
+  }
+
   public async getUserById(id: number): Promise<User> {
     id = this.sanitizeId(id);
     const user = await this.repository.findOneBy({

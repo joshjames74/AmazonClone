@@ -34,14 +34,16 @@ export class CurrencyRequest extends RequestHandler {
 
   async convertCurrency() {
     let { currency, value, newCurrency } = this.req.query;
-    // console.log(`Currency=${currency}`)
-    // currency = JSON.parse(currency);
-    // newCurrency = JSON.parse(newCurrency);
-    // const convertedValue = await this.currencyService.convertCurrency(
-    //   currency,
-    //   value,
-    //   newCurrency
-    // );
-    return this.sendResponseJSON({ value: 20 }, 200);
+    if (!currency || !newCurrency || Array.isArray(currency) || Array.isArray(newCurrency)) {
+      return this.sendResponseJSON({ }, 422);
+    }
+    currency = JSON.parse(currency);
+    newCurrency = JSON.parse(newCurrency);
+    const convertedValue = await this.currencyService.convertCurrency(
+      currency,
+      value,
+      newCurrency
+    );
+    return this.sendResponseJSON({ value: convertedValue }, 200);
   }
 }

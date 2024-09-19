@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import RequestHandler from ".";
-import { isInRoutes } from "../../pages/api/[...route]";
-import { QueryParams } from "../../redux/reducers/product";
+import RequestHandler from ".";;
 import { api_routes, routes } from "../routes";
 import ProductService from "../services/ProductService";
 import ReviewService from "../services/ReviewService";
-import { getIdFromUrl } from "../utils/idFromUrl";
 
 export class ProductRequest extends RequestHandler {
   private productService: ProductService;
@@ -74,6 +71,10 @@ export class ProductRequest extends RequestHandler {
     return this.sendResponseJSON({ product_response: product_response }, 200);
   }
 
+  
+  /**
+   * @deprecated getProductBySearch returns product count
+   */
   async getProductCountBySearch(): Promise<void> {
     const { query, categories, reviewMin, priceMin, priceMax, start, end } =
       this.req.query;

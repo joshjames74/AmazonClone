@@ -12,6 +12,12 @@ const base_api = "http://localhost:3000/api";
 
 export const routes = {
   base: "http://localhost:3000",
+  auth: {
+    login: base_api + "/auth/login",
+    logout: base_api + "/auth/logout",
+    callback: base_api + "/auth/callback",
+    profile: base_api + "/auth/me",
+  },
   product: {
     post: base_api + "/product",
     product: base_api + "/product/:id",
@@ -22,6 +28,8 @@ export const routes = {
   },
   user: {
     user: base_api + "/user/:id",
+    sub: base_api + "/user/sub",
+    username: base_api + "/user/username",
     currency: base_api + "/user/:id/currency",
     basket: base_api + "/user/:id/basket",
     get_full_basket: base_api + "/user/:id/fullbasket",

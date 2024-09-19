@@ -5,6 +5,7 @@ import { Currency } from "../entities/Currency";
 import { api_routes, routes } from "../routes";
 import CategoryService from "../services/CategoryService";
 
+
 export class CategoryRequest extends RequestHandler {
   private categoryService: CategoryService;
 

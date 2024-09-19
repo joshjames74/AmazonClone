@@ -5,8 +5,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { SettingsProvider } from "../views/contexts/SettingsContext";
 import {
   AuthProvider,
-  ProductListProvider,
-  UserProvider,
 } from "../views/contexts";
 import { FilterProvider } from "../views/contexts/FilterContext";
 import { ModalProvider } from "../views/contexts/ModalContext";
@@ -15,6 +13,7 @@ import { PageContext } from "../views/contexts/PageContext";
 import { useContext } from "react";
 import { store } from "../redux/store/store";
 import { Provider } from "react-redux";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { loading } = useContext(PageContext);
@@ -27,13 +26,11 @@ function MyApp({ Component, pageProps }: AppProps) {
             <SettingsProvider>
               <AuthProvider>
                 <UserProvider>
-                  <ProductListProvider>
                     <FilterProvider>
                       <ModalProvider>
                         <Component {...pageProps} />
                       </ModalProvider>
                     </FilterProvider>
-                  </ProductListProvider>
                 </UserProvider>
               </AuthProvider>
             </SettingsProvider>

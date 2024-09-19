@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { Product } from ".";
 
 @Entity()
 export class ProductType {

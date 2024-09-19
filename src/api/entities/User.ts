@@ -13,7 +13,10 @@ export class User {
   @Column({ length: 100 })
   user_name: string;
 
-  @Column()
+  @Column({ length: 200, nullable: true })
+  sub: string
+
+  @Column({ nullable: true })
   title: string;
 
   @ManyToOne((type) => Country, { eager: true, onDelete: "SET NULL" })

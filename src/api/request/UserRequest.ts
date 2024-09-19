@@ -40,6 +40,12 @@ export class UserRequest extends RequestHandler {
     if (this.matches(routes.user.user)) {
       return this.getUser();
     }
+    if (this.matches(routes.user.username)) {
+      return this.getUserByUsername();
+    }
+    if (this.matches(routes.user.sub)) {
+      return this.getUserBySub();
+    }
     if (this.matches(routes.user.get_all_orders)) {
       return this.getOrders();
     }
@@ -96,6 +102,18 @@ export class UserRequest extends RequestHandler {
   async getUser(): Promise<void> {
     const id = this.getIdFromPath("user");
     const user = await this.userService.getUserById(id);
+    return this.sendResponseJSON({ user: user }, 200);
+  }
+
+  async getUserBySub(): Promise<void> {
+    const { sub } = this.req.query;
+    const user = await this.userService.getUserBySub(sub);
+    return this.sendResponseJSON({ user: user }, 200);
+  }
+
+  async getUserByUsername(): Promise<void> {
+    const { username } = this.req.query;
+    const user = await this.userService.getUserByUsername(username);
     return this.sendResponseJSON({ user: user }, 200);
   }
 

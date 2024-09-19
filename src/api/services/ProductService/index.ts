@@ -33,25 +33,43 @@ export default class ProductService extends BaseService {
 
   public createQuery(params: QueryParams): SelectQueryBuilder<Product> {
 
+    // parse params
+    const categories = JSON.parse(`${params.categories}`)
+    const priceMin = parseFloat(`${params.priceMin}`);
+    const priceMax = parseFloat(`${params.priceMax}`);
+    const title = `${params.query ? params.query.toLowerCase() : ""}`
+    const reviewMin = parseFloat(`${params.reviewMin}`);
+
     // create raw query object. does not order, offset, or limit
-    return this.repository
-      .createQueryBuilder()
-      .where("review_score >= :reviewMin",
-        { reviewMin: params.reviewMin }
-      )
-      .andWhere("title ILIKE :title", {
-        title: `%${params.query ? params.query.toLowerCase() : ""}%`,
-      })
-      .andWhere("price >= :priceMin",
-        {
-          priceMin: params.priceMin
-        })
-      .andWhere("price <= :priceMax", {
-        priceMax: params.priceMax
-      })
-      .andWhere('"Product"."category_ids" && :categoryIds', {
-        categoryIds: JSON.parse(`${params.categories}`)
-      });
+    let query =  this.repository.createQueryBuilder()
+
+    // filter if review min is greater than zero
+    if (reviewMin && reviewMin > 0) {
+      query = query.andWhere("review_score >= :reviewMin", {reviewMin: reviewMin});
+    }
+
+    // filter if title is not blank string
+    if (title && title.length > 0) {
+      query = query.andWhere("title ILIKE :title", {title: `%${title}%`});
+    }
+
+    // only filter if price max is non-zero
+    if (priceMax  && priceMax > 0) {
+      query = query.andWhere("price <= :priceMax", {priceMax: priceMax});
+    }
+
+    // only filter price min is non-zero
+    if (priceMin && priceMin > 0) {
+      query = query.andWhere("price >= :priceMin", {priceMin: priceMin}
+    )};
+
+    // only filter by categories if any are selected
+    if (categories && categories.length > 0) {
+      query = query.andWhere('"Product"."category_ids" && :categoryIds', {categoryIds: categories }
+    )};
+
+    // finally
+    return query;
   }
 
   public async getProductById(id: number): Promise<Product> {
@@ -67,6 +85,8 @@ export default class ProductService extends BaseService {
     return products;
   }
 
+
+  // WARNING: Need to change to category service
   public async getProductCategoriesBySearch(
     params: QueryParams
   ): Promise<CategoryResponse[]> {

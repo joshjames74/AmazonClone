@@ -18,21 +18,24 @@ import {
 import { BasketView } from "./api/entities/BasketView";
 import { OrderView } from "./api/entities/OrderView";
 import dotenv from 'dotenv'
+import pg from "pg";
 
 export { Product, Address, Currency, Country, Review, User };
 
-dotenv.config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'})
+dotenv.config({ path: process.env.NODE_ENV === 'test' ? 'fnjnf' : '.env'});
 
+let AppDataSource: DataSource;
 
-const AppDataSource = new DataSource({
-  type: process.env.PGSQL_TYPE,
-  host: process.env.PGSQL_HOST,
-  port: process.env.PGSQL_PORT,
-  username: process.env.PGSQL_USER,
-  password: process.env.PGSQL_PASSWORD,
-  database: process.env.PGSQL_DATABASE,
-  synchronize: process.env.PGSQL_SYNCHRONIZE === 'true',
-  logging: process.env.PGSQL_LOGGING === 'true',
+AppDataSource = new DataSource({
+  type: "postgres",
+  host: process.env.PGSQL_HOST || "localhost",
+  port: parseInt(process.env.PGSQL_PORT || "5432"), 
+  username: process.env.PGSQL_USER || "postgres",
+  password: process.env.PGSQL_PASSWORD || "postgres",
+  database: process.env.PGSQL_DATABASE || "amazon-clone",
+  driver: pg,
+  synchronize: true, 
+  logging: false,
   entities: [
     Product,
     User,
@@ -53,8 +56,10 @@ const AppDataSource = new DataSource({
   subscribers: [],
 });
 
+console.log(AppDataSource)
+
 async function createConnection() {
-  if (!AppDataSource.isInitialized) {
+  if (!AppDataSource || !AppDataSource.isInitialized) {
     await AppDataSource.initialize()
       .then(() => {})
       .catch((error) => console.log(error));
