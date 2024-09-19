@@ -1,14 +1,12 @@
-##
+# Overview
 
-## Architecture
+This project implements features of an e-commerce platform including: products, ordering, currencies, search with filtering, reviews and ratings. It is implemented using NextJS and TypeScript. 
 
-### Overview
+## Frontend:
 
-This project was designed to leverage the flexibility of NextJS with Typescript while experimenting with a microservices-based architecture for the backend. 
+The frontend of this ecommerce platform is built using NextJS, leveraging its built-in page-based routing system to dynamically render content. The design is driven by components, with multiple providers to handle global states such as user authentication, product data, and UI filters.
 
-### Frontend:
-
-- The frontend is developed using NextJS
+Each page is defined as a .tsx file inside the pages directory. Most pages are wrapped in several context providers. The structure demonstrates a clean separation of concerns, ensuring that data and logic are provided at the appropriate scope. 
 
 
 ## Backend
