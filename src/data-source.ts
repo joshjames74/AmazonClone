@@ -22,7 +22,7 @@ import pg from "pg";
 
 export { Product, Address, Currency, Country, Review, User };
 
-dotenv.config({ path: process.env.NODE_ENV === 'test' ? 'fnjnf' : '.env'});
+dotenv.config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'});
 
 let AppDataSource: DataSource;
 
